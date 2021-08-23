@@ -1,0 +1,8 @@
+---
+- hosts: orbitgraph
+  become: true
+  roles:
+    - basic
+    - docker
+    - kafka
+...

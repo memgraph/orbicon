@@ -1,0 +1,14 @@
+---
+- name: Update YUM package cache
+  become: yes
+  yum:
+    update_cache: yes
+
+- name: Install basic packages on RedHat systems
+  become: yes
+  dnf:
+    name:
+    - git
+    - python3
+    - python3-pip
+...
