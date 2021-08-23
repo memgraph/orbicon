@@ -28,6 +28,7 @@ docopt = "^0.6.2"
 black = "^20.8b1"
 pytest-black = "^0.3.12"
 pymgclient = "^1.0.0"
+Flask = "^2.0.1"
 [tool.poetry.dev-dependencies]
 pytest = "^5.4"
 flake8 = "^3.7.9"

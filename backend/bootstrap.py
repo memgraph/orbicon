@@ -93,7 +93,7 @@ def validate_name(name: str) -> str:
     return name
 
 
-def main(args: dict[str, Any]):
+def main(args: Dict[str, Any]):
     name = validate_name(args["NAME"])
     directory_name = name.replace("_", "-")
     directory = args.get("DIRECTORY") or Path(__file__).parent.joinpath("..").resolve()

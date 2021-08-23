@@ -12,8 +12,13 @@ Arguments:
 """
 
 import logging
-import re
-from typing import Any
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return _hello("Memgraph!")
 
 logging.basicConfig(format="%(asctime)-15s [%(levelname)s]: %(message)s")
 logger = logging.getLogger("orbit_graph")
@@ -23,7 +28,7 @@ logger.setLevel(logging.INFO)
 def _hello(name: str) -> None:
     from orbit_graph import hello
 
-    print(hello(name))
+    return hello(name)
 
 
 def _query(command: str) -> None:
@@ -33,16 +38,3 @@ def _query(command: str) -> None:
         print(result)
 
 
-def main(args: dict[str, Any]) -> None:
-    if args["hello"]:
-        return _hello(args["NAME"])
-
-    if args["query"]:
-        return _query(args["CYPHER"])
-
-
-if __name__ == "__main__":
-    from docopt import docopt
-
-    args = docopt(__doc__)
-    main(args)

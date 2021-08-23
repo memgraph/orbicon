@@ -42,7 +42,7 @@ def _get_file_line_count(filename: str) -> int:
         return sum(1 for _ in f)
 
 
-def main(args: dict[str, Any]) -> None:
+def main(args: Dict[str, Any]) -> None:
     filename = args["CYPHER_FILE"]
     line_count = _get_file_line_count(filename)
 

@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from collections.abc import Iterator
-from typing import Any
+from typing import Any, Dict, Iterator
 
 import mgclient
 from orbit_graph.database.models import Node, Relationship
@@ -22,7 +21,7 @@ class Connection(ABC):
         pass
 
     @abstractmethod
-    def execute_and_fetch(self, query: str) -> Iterator[dict[str, Any]]:
+    def execute_and_fetch(self, query: str) -> Iterator[Dict[str, Any]]:
         """Executes Cypher query and returns iterator of results."""
         pass
 
@@ -48,7 +47,7 @@ class MemgraphConnection(Connection):
         cursor.execute(query)
         cursor.fetchall()
 
-    def execute_and_fetch(self, query: str) -> Iterator[dict[str, Any]]:
+    def execute_and_fetch(self, query: str) -> Iterator[Dict[str, Any]]:
         """Executes Cypher query and returns iterator of results."""
         cursor = self._connection.cursor()
         cursor.execute(query)

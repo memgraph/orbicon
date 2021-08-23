@@ -1,6 +1,5 @@
 import os
-from collections.abc import Iterator
-from typing import Any, Optional, Union
+from typing import Any, Dict, Iterator, List, Optional, Union
 
 from orbit_graph.database.connection import Connection
 from orbit_graph.database.models import (
@@ -39,7 +38,7 @@ class Memgraph:
         self._encrypted = encrypted if encrypted is not None else MG_ENCRYPTED
         self._cached_connection: Optional[Connection] = None
 
-    def execute_and_fetch(self, query: str, connection: Optional[Connection] = None) -> Iterator[dict[str, Any]]:
+    def execute_and_fetch(self, query: str, connection: Optional[Connection] = None) -> Iterator[Dict[str, Any]]:
         """Executes Cypher query and returns iterator of results."""
         connection = connection or self._get_cached_connection()
         return connection.execute_and_fetch(query)
@@ -59,14 +58,14 @@ class Memgraph:
         query = f"DROP INDEX ON {index.to_cypher()}"
         self.execute_query(query)
 
-    def get_indexes(self) -> list[MemgraphIndex]:
+    def get_indexes(self) -> List[MemgraphIndex]:
         """Returns a list of all database indexes (label and label-property types)"""
         indexes = []
         for result in self.execute_and_fetch("SHOW INDEX INFO"):
             indexes.append(MemgraphIndex(result["label"], result["property"]))
         return indexes
 
-    def ensure_indexes(self, indexes: list[MemgraphIndex]) -> None:
+    def ensure_indexes(self, indexes: List[MemgraphIndex]) -> None:
         """Ensures that database indexes match input indexes"""
         old_indexes = set(self.get_indexes())
         new_indexes = set(indexes)
@@ -85,9 +84,9 @@ class Memgraph:
         query = f"DROP CONSTRAINT ON {index.to_cypher()}"
         self.execute_query(query)
 
-    def get_constraints(self) -> list[Union[MemgraphConstraintExists, MemgraphConstraintUnique]]:
+    def get_constraints(self) -> List[Union[MemgraphConstraintExists, MemgraphConstraintUnique]]:
         """Returns a list of all database constraints (label and label-property types)"""
-        constraints: list[Union[MemgraphConstraintExists, MemgraphConstraintUnique]] = []
+        constraints: List[Union[MemgraphConstraintExists, MemgraphConstraintUnique]] = []
         for result in self.execute_and_fetch("SHOW CONSTRAINT INFO"):
             if result[MemgraphConstants.CONSTRAINT_TYPE] == MemgraphConstants.CONSTRAINT_TYPE_UNIQUE:
                 constraints.append(
@@ -101,7 +100,7 @@ class Memgraph:
                 )
         return constraints
 
-    def ensure_constraints(self, constraints: list[Union[MemgraphConstraintExists, MemgraphConstraintUnique]]) -> None:
+    def ensure_constraints(self, constraints: List[Union[MemgraphConstraintExists, MemgraphConstraintUnique]]) -> None:
         """Ensures that database constraints match input constraints"""
         old_constraints = set(self.get_constraints())
         new_constraints = set(constraints)

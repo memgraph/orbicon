@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any, Dict, Iterable, Optional, Set, Tuple
 
 
 @dataclass(frozen=True, eq=True)
@@ -47,7 +46,7 @@ class MemgraphIndex:
 
 
 class GraphObject:
-    def __init__(self, object_id: Any, properties: dict[str, Any] = None):
+    def __init__(self, object_id: Any, properties: Dict[str, Any] = None):
         self._id = object_id
         self._properties = properties or dict()
 
@@ -56,7 +55,7 @@ class GraphObject:
         return self._id
 
     @property
-    def properties(self) -> dict[str, Any]:
+    def properties(self) -> Dict[str, Any]:
         return self._properties
 
     def __str__(self) -> str:
@@ -67,12 +66,12 @@ class GraphObject:
 
 
 class Node(GraphObject):
-    def __init__(self, node_id: Any, labels: Iterable[str] = None, properties: dict[str, Any] = None):
+    def __init__(self, node_id: Any, labels: Iterable[str] = None, properties: Dict[str, Any] = None):
         super().__init__(node_id, properties)
         self._labels = set(labels) if labels else set()
 
     @property
-    def labels(self) -> set[str]:
+    def labels(self) -> Set[str]:
         return self._labels
 
     def __str__(self) -> str:
@@ -80,7 +79,7 @@ class Node(GraphObject):
 
 
 class Relationship(GraphObject):
-    def __init__(self, rel_id: Any, rel_type: str, start_node: Node, end_node: Node, properties: dict[str, Any] = None):
+    def __init__(self, rel_id: Any, rel_type: str, start_node: Node, end_node: Node, properties: Dict[str, Any] = None):
         super().__init__(rel_id, properties)
         self._type = rel_type
         self._start_node = start_node
@@ -99,7 +98,7 @@ class Relationship(GraphObject):
         return self._end_node
 
     @property
-    def nodes(self) -> tuple[Node, Node]:
+    def nodes(self) -> Tuple[Node, Node]:
         return (self.start_node, self.end_node)
 
     def __str__(self) -> str:
