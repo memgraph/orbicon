@@ -1,0 +1,18 @@
+version: '3'
+services:
+  orbit_graph:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./orbit_graph:/app/orbit_graph
+    environment:
+      MG_HOST: memgraph
+      MG_PORT: 7687
+    depends_on:
+      - memgraph
+  memgraph:
+    image: "memgraph:1.6.1-community"
+    entrypoint: ["/usr/lib/memgraph/memgraph", "--telemetry-enabled=false"]
+    ports:
+      - "7687:7687"
