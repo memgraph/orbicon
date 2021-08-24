@@ -32,4 +32,10 @@
     url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
     dest: "{{ docker_compose_path }}"
     mode: 0755
+
+- name: Add ubuntu user to the docker group
+  user:
+    name: ubuntu
+    groups: docker
+    append: yes # If no append:yes, user will be removed from all other groups.
 ...
