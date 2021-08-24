@@ -1,7 +1,7 @@
 ---
-- name: Start Zookeeper and Kafka
+- name: Start Orbit Graph Services
   community.docker.docker_compose:
-    project_name: kafka
+    project_name: orbit_graph
     definition:
       version: "3"
       services:
@@ -11,6 +11,8 @@
             - '2181:2181'
           environment:
             - ALLOW_ANONYMOUS_LOGIN=yes
+          networks:
+            - orbit-graph
         kafka:
           image: 'bitnami/kafka:2.8.0-debian-10-r49'
           ports:
@@ -23,4 +25,17 @@
             - ALLOW_PLAINTEXT_LISTENER=yes
           depends_on:
             - zookeeper
+          networks:
+            - orbit-graph
+        memgraph:
+          image: 'memgraph/memgraph:1.6.0-community'
+          entrypoint: ['/usr/lib/memgraph/memgraph', '--telemetry-enabled=false', '--kafka-bootstrap-servers=kafka:9092', '--log-level=TRACE']
+          ports:
+            - '7687:7687'
+          networks:
+            - orbit-graph
+      networks:
+        orbit-graph:
+          name: custom
+          driver: bridge
 ...
