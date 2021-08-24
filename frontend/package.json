@@ -11,8 +11,11 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "msw": "^0.35.0",
+    "vis-data": "^7.1.2",
+    "vis-network": "^9.0.5",
+    "vis-util": "^5.0.2",
     "vue": "^2.6.11",
-    "vue-d3-network": "^0.1.28",
+    "vue-vis-network": "^1.0.2",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
