@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "vue-d3-network": "^0.1.28",
-    "vuex": "^3.6.2"
-  }
-}

@@ -7,5 +7,12 @@ export default [
         message: 'Mock data works! :)'
       })
     )
-  })
+  }),
+  rest.get('/network', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        message: 'Mock network works! :)'
+      })
+    )
+  }),
 ]
