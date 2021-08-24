@@ -1,0 +1,6 @@
+---
+- hosts: orbitgraph
+  become: true
+  roles:
+    - orbit_graph
+...
