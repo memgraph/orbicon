@@ -1,8 +1,11 @@
+import os
 import simplejson as json
-from pathlib import Path
+
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 def get_orbit_json_events():
-  data_path = Path("./backend/data/memgraph_orbit_events.json")
-  with open(data_path, 'r') as fp:
-    data = json.load(fp)
-  return data
+    data_path = os.path.join(SCRIPT_DIR, "memgraph_orbit_events.json")
+    with open(data_path, "r") as fp:
+        data = json.load(fp)
+    return data
