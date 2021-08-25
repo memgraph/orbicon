@@ -16,6 +16,7 @@ const state = {
   usernames: [],
   userDetails: {},
   activities: [],
+  showUserDetails: false,
 }
 
 const mutations = {
@@ -30,6 +31,12 @@ const mutations = {
   },
   SET_ACTIVITIES(state, activities) {
     state.activities = activities;
+  },
+  SHOW_USER_DETAILS(state) {
+    state.showUserDetails = true;
+  },
+  DISPOSE_USER_DETAILS(state) {
+    state.showUserDetails = false;
   }
 }
 
@@ -57,6 +64,12 @@ const actions = {
       .then((resp) => {
         context.commit(MUTATION_CONSTANTS.SET_ACTIVITIES, resp.data.activities);
       })
+  },
+  showUserDetails(context) {
+    context.commit(MUTATION_CONSTANTS.SHOW_USER_DETAILS)
+  },
+  disposeUserDetails(context) {
+    context.commit(MUTATION_CONSTANTS.DISPOSE_USER_DETAILS)
   }
 }
 
@@ -65,6 +78,7 @@ const getters = {
   usernames: state => state.usernames,
   userDetails: state => state.userDetails,
   activities: state => state.activities,
+  showUserDetails: state => state.showUserDetails,
 }
 
 

@@ -19,7 +19,7 @@
         ></v-list-item-avatar>
       </v-list-item>
       <v-list-item one-line>
-        <v-btn align="left">Find more!</v-btn>
+        <v-btn align="left" @click="onBtnClick">Find more!</v-btn>
         <v-card-text align="right">
           {{ activity.date }}
         </v-card-text>
@@ -38,8 +38,16 @@
 
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "ActivityComponent",
   props: ["activity"],
+  methods: {
+    ...mapActions(["showUserDetails"]),
+    onBtnClick() {
+      this.$store.dispatch("showUserDetails");
+    },
+  },
 };
 </script>

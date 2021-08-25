@@ -18,6 +18,12 @@
         :options="options"
       ></network>
     </div>
+    <div v-if="showUserDetails" class="user-details">
+      <v-card class="user-card" elevation="2">
+        <v-card-text>Hello</v-card-text>
+        <v-btn @click="onXClick">X</v-btn>
+      </v-card>
+    </div>
   </div>
 </template>
 
@@ -26,10 +32,14 @@
   margin: 0;
   padding: 0;
   width: 400px;
-  background-color: #f1f1f1;
+  color: #f1f1f1;
   position: fixed;
   height: 100%;
   overflow: auto;
+}
+
+.sidebar p {
+  color: #555;
 }
 
 .network-bar {
@@ -46,6 +56,23 @@
 .activities-title {
   font-weight: 700;
   font-size: 20px;
+}
+
+.user-details {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(22, 22, 22, 0.8);
+}
+
+.user-card {
+  width: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
 }
 </style>
 
@@ -69,7 +96,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberGraph", "usernames", "userDetails", "activities"]),
+    ...mapGetters(["memberGraph", "usernames", "userDetails", "activities", "showUserDetails"]),
   },
   mounted() {
     try {
@@ -82,5 +109,10 @@ export default {
       console.log(error);
     }
   },
+  methods: {
+    onXClick() {
+      this.$store.dispatch("disposeUserDetails");
+    }
+  }
 };
 </script>
