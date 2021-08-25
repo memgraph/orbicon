@@ -6,14 +6,17 @@ from string import Template
 import requests
 from typing import List
 
+from simplejson import JSONDecodeError
+
 from backend.scripts.load_event_history_data import ActivityHistoryItem
 
 edge_twitter_cypher_template = Template(
     'MATCH (n:twitter {id: "$source"}), (m:twitter {id: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
 
-OAUTH_TOKEN = "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"
+BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAA0lTAEAAAAANrpndxI81KFXLjieXcj0ZjxhbVQ%3DrMUx9pSfeiNOW3vJbaMYkxaUMkhYsozzlYJdpw0bLx8BXqpM5v"
 
 TWITTER_FILE_NAME = "memgraph_orbit_twitter_accounts.json"
+MAX_FOLLOWING_ACCOUNTS_ON_REQUEST = 20
 
 
 ###############################################
@@ -27,7 +30,7 @@ class TwitterAccount:
         self.profile_image_url = profile_image_url
         self.id = id
         self.is_processed = False
-        self.following:List[str] = []
+        self.following: List[str] = []
 
     def __str__(self):
         return "id={id}," \
@@ -44,22 +47,28 @@ class TwitterAccount:
 
 
 def send_twitter_users_by_usernames_request(usernames: List[str]):
-    headers = {'Authorization': 'token %s' % OAUTH_TOKEN}
-    url = 'https://api.twitter.com/2/users/by?usernames={usernames}&user.fields=id,name,username,profile_image_url'.format(usernames=",".join(usernames))
+    headers = {'Authorization': 'Bearer %s' % BEARER_TOKEN}
+
+    url = 'https://api.twitter.com/2/users/by?usernames={usernames}&user.fields=id,name,username,profile_image_url'.format(
+        usernames=",".join(usernames))
+
     response = requests.get(url, headers=headers)
     if not response.ok:
-        print("name:", name, ",response content:", response.content)
+        print("names:", ",".join(usernames), ",response content:", response.content)
         return None
+
 
     return response.json()
 
 
 def send_twitter_users_following_request(id):
-    headers = {'Authorization': 'token %s' % OAUTH_TOKEN}
-    url = 'https://api.twitter.com/2/users/{id}/following&user.fields=id,name,username,profile_image_url'.format(
-        id=id)
+    headers = {'Authorization': 'Bearer %s' % BEARER_TOKEN}
+    url = 'https://api.twitter.com/2/users/{id}/following?max_results={n}&user.fields=id,name,username,profile_image_url'.format(
+        n=MAX_FOLLOWING_ACCOUNTS_ON_REQUEST, id=id)
+
     response = requests.get(url, headers=headers)
     if not response.ok:
+        print(response.content)
         return None
 
     return response.json()
@@ -76,32 +85,32 @@ def parse_twitter_account(twitter_account_json) -> TwitterAccount:
                           id=parse_key(twitter_account_json, "id"))
 
 
-def create_twitter_accounts_obj(names:List[str]):
+def create_twitter_accounts_obj_batch(names: List[str]):
     twitter_dict = {}
-    twitter_user_response = send_twitter_users_request(name)
+    twitter_users_response = send_twitter_users_by_usernames_request(names)
 
-    if twitter_user_response is None:
+    if twitter_users_response is None:
         return twitter_dict
 
-    twitter_user_following_response = send_twitter_users_following_request(name)
+    twitter_users_json = twitter_users_response["data"]
 
-    # get main account
-    twitter_main_account = parse_twitter_account(twitter_user_response)
-    twitter_main_account.is_processed = True
+    for twitter_user_json in twitter_users_json:
+        twitter_main_account = parse_twitter_account(twitter_user_json)
+        twitter_dict[twitter_main_account.username] = twitter_main_account
+        twitter_following_users_response = send_twitter_users_following_request(twitter_main_account.id)
 
-    twitter_dict[name] = twitter_main_account
+        if twitter_following_users_response is None:
+            twitter_main_account.is_processed = False
+            continue
 
-    if twitter_user_following_response is None:
-        twitter_main_account.is_processed = False
-        return twitter_dict
+        twitter_following_users_json = twitter_following_users_response["data"]
 
-    # get accounts that main follows
-    twitter_following_accounts = list(map(parse_twitter_account, twitter_user_following_response))
+        for twitter_following_user_json in twitter_following_users_json:
+            twitter_following_user_account = parse_twitter_account(twitter_following_user_json)
+            twitter_dict[twitter_following_user_account.username] = twitter_following_user_account
+            twitter_main_account.following.append(twitter_following_user_account.username)
 
-    # expand the dictionary with new accounts to process
-    for twitter_following_account in twitter_following_accounts:
-        twitter_main_account.following.append(twitter_following_account.login)
-        twitter_dict[twitter_following_account.login] = twitter_following_account
+        twitter_main_account.is_processed = True
 
     return twitter_dict
 
@@ -114,13 +123,20 @@ def get_twitter_recursive_following(twitter_dict: {}, depth_following_level=1):
     """
     for i in range(depth_following_level):
         new_twitter_dict = {}
+        batch_twitter_names = []
         for name, twitter_account in twitter_dict.items():
-
             if twitter_account is not None and twitter_account.is_processed:
                 continue
 
-            new_twitter_account_dict = create_twitter_account_obj(name)
+            batch_twitter_names.append(name)
+            if len(batch_twitter_names) != 10:  # twitter magic number for number of accounts you are allowed in one pull to get
+                continue
+
+            new_twitter_account_dict = create_twitter_accounts_obj_batch(batch_twitter_names)
+
             new_twitter_dict = {**new_twitter_dict, **new_twitter_account_dict}
+
+            batch_twitter_names = []
 
         twitter_dict = {**twitter_dict, **new_twitter_dict}
 
@@ -136,12 +152,14 @@ def get_twitter_members(orbit_events: List[ActivityHistoryItem]):
 
 def load_twitter_already_processed():
     data_dir = "../data"
-
     filename = f"{data_dir}/{TWITTER_FILE_NAME}"
-    with open(filename) as json_file:
-        twitter_accounts_json: List[TwitterAccount] = json.load(json_file)
 
     twitter_dict_processed = {}
+    with open(filename) as json_file:
+        try:
+            twitter_accounts_json: List[TwitterAccount] = json.load(json_file)
+        except JSONDecodeError:
+            return twitter_dict_processed
 
     for twitter_key in twitter_accounts_json:
         twitter_account_json = twitter_accounts_json[twitter_key]
@@ -165,12 +183,11 @@ def process_twitter(orbit_events_json: List[ActivityHistoryItem]):
     for twitter_name in twitter_members_names:
         twitter_dict[twitter_name] = None
 
-    #twitter_dict_processed = load_twitter_already_processed()
+    twitter_dict_processed = load_twitter_already_processed()
 
-    #twitter_dict = {**twitter_dict, **twitter_dict_processed}
+    twitter_dict = {**twitter_dict, **twitter_dict_processed}
     print(twitter_dict)
 
-    return
     twitter_dict = get_twitter_recursive_following(twitter_dict, depth_following_level=1)
 
     twitter_json_dict = {}
