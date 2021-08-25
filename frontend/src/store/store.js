@@ -37,7 +37,7 @@ const actions = {
   getMemberGraph(context) {
     apiClient.getMemberGraph()
       .then((resp) => {
-        context.commit(MUTATION_CONSTANTS.SET_MEMBER_GRAPH, resp.data.memberGraph);
+        context.commit(MUTATION_CONSTANTS.SET_MEMBER_GRAPH, resp.data);
       })
   },
   getUsernames(context) {

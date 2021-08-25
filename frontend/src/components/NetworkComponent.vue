@@ -3,8 +3,8 @@
     <p>{{ msg }}</p>
     <network
       ref="network"
-      :nodes="nodes"
-      :edges="links"
+      :nodes="memberGraph.nodes"
+      :edges="memberGraph.edges"
       :options="options"
     ></network>
   </div>
@@ -13,21 +13,24 @@
 
 <script>
 import { Network } from "vue-vis-network";
+import { mapGetters } from "vuex";
 
 export default {
   name: "NetworkComponent",
   components: {
-    Network
+    Network,
   },
   data: function () {
     return {
       msg: "All good!",
-      memberGraph: {},
       options: {
         height: "1000px",
-        width: "1000px"
+        width: "1000px",
       },
     };
+  },
+  computed: {
+    ...mapGetters(["memberGraph"]),
   },
   mounted() {
     try {
