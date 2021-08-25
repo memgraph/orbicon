@@ -1,4 +1,4 @@
-from types import SimpleNamespace
+import collections
 
 import simplejson as json
 from string import Template
@@ -8,12 +8,14 @@ from typing import List
 
 from abc import ABC, abstractmethod
 
+from simplejson import JSONDecodeError
+
 from backend.scripts.load_event_history_data import ActivityHistoryItem
 
 edge_github_cypher_template = Template(
     'MATCH (n:Github {id: "$source"}), (m:Github {id: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
 
-OAUTH_TOKEN = ""
+OAUTH_TOKEN = "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"
 
 GITHUB_FILE_NAME = "memgraph_orbit_github_accounts.json"
 
@@ -82,7 +84,8 @@ class GithubAccount:
                "login={login}," \
                "hireable:{hireable}," \
                "following:{following}".format(id=self.id, company=self.company, login=self.login, avatar=self.avatar,
-                                              hireable=self.hireable, following=",".join(self.following), is_processed=self.is_processed)
+                                              hireable=self.hireable, following=",".join(self.following),
+                                              is_processed=self.is_processed)
 
 
 def send_github_users_request(name):
@@ -90,7 +93,7 @@ def send_github_users_request(name):
     response = requests.get("https://api.github.com/users/{name}".format(name=name),
                             params={"accept": "application/vnd.github.v3+json"}, headers=headers)
     if not response.ok:
-        print(response.content)
+        print("name:", name, ",response content:", response.content)
         return None
 
     return response.json()
@@ -141,6 +144,7 @@ def create_github_account_obj(name):
     # get accounts that main follows
     github_following_accounts = list(map(parse_github_account, github_user_following_response))
 
+    # expand the dictionary with new accounts to process
     for github_following_account in github_following_accounts:
         github_main_account.following.append(github_following_account.login)
         github_dict[github_following_account.login] = github_following_account
@@ -151,9 +155,8 @@ def create_github_account_obj(name):
 def get_github_recursive_following(github_dict: {}, depth_following_level=1):
     """
     github_dict :
-    if value is None - not processed yet
-    else if empty - processed but following no one
-    else - following accounts - add them into dict for processing
+    if value is None or is_processed=False - not processed yet
+    processing - get main account + add accounts it follows in dict for further processing (level+1)
     """
     for i in range(depth_following_level):
         new_github_dict = {}
@@ -162,23 +165,8 @@ def get_github_recursive_following(github_dict: {}, depth_following_level=1):
             if github_account is not None and github_account.is_processed:
                 continue
 
-            ##processing first time
-            if github_account is None:
-                new_github_account_dict = create_github_account_obj(name)
-
-                if len(new_github_account_dict) == 0:
-                    continue
-
-                new_github_dict = {**new_github_dict, **new_github_account_dict}
-                continue
-
-            for github_name in github_account.following:
-                new_github_account_dict = create_github_account_obj(github_name)
-
-                if len(new_github_account_dict) == 0:
-                    continue
-
-                new_github_dict = {**new_github_dict, **new_github_account_dict}
+            new_github_account_dict = create_github_account_obj(name)
+            new_github_dict = {**new_github_dict, **new_github_account_dict}
 
         github_dict = {**github_dict, **new_github_dict}
 
@@ -194,12 +182,16 @@ def get_github_members(orbit_events: List[ActivityHistoryItem]):
 
 def load_github_already_processed():
     data_dir = "../data"
-
     filename = f"{data_dir}/{GITHUB_FILE_NAME}"
-    with open(filename) as json_file:
-        github_accounts_json: List[GithubAccount] = json.load(json_file)
 
     github_dict_processed = {}
+    with open(filename) as json_file:
+        try:
+            github_accounts_json: List[GithubAccount] = json.load(json_file)
+        except JSONDecodeError:
+            return github_dict_processed
+
+
 
     for github_key in github_accounts_json:
         github_account_json = github_accounts_json[github_key]
@@ -213,13 +205,10 @@ def load_github_already_processed():
                                        login=github_account_json["login"],
                                        id=github_account_json["id"])
         github_account.following = github_account_json["following"]
-        github_account.is_processed=github_account_json["is_processed"]
+        github_account.is_processed = github_account_json["is_processed"]
 
         github_dict_processed[github_account.login] = github_account
 
-        # print(github_account.following)
-    for key, value in github_dict_processed.items():
-        print(key, value)
     return github_dict_processed
 
 
@@ -243,7 +232,7 @@ def process_github(orbit_events_json: List[ActivityHistoryItem]):
     with open(f"{data_dir}/{GITHUB_FILE_NAME}", "w") as jsonFile:
         jsonFile.write(json.dumps(github_json_dict, indent=4, ignore_nan=True))
 
-    print(len(github_dict))
+    print(len(github_json_dict))
 
 
 def create_members_cypher_queries(nodes: List[NodeAbstract]):
@@ -261,5 +250,3 @@ if __name__ == "__main__":
         orbit_events_json: List[ActivityHistoryItem] = json.load(json_file)
 
     process_github(orbit_events_json)
-
-    print(type(orbit_events_json))
