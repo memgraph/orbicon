@@ -18,9 +18,12 @@
           ></v-img
         ></v-list-item-avatar>
       </v-list-item>
-      <v-card-text align="right">
-        {{ activity.date }}
-      </v-card-text>
+      <v-list-item one-line>
+        <v-btn align="left">Find more!</v-btn>
+        <v-card-text align="right">
+          {{ activity.date }}
+        </v-card-text>
+      </v-list-item>
     </v-card>
   </div>
 </template>
