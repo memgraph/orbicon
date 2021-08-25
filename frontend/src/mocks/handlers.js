@@ -84,6 +84,60 @@ const activities = {
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
     },
+    {
+      username: "Gitbuda",
+      action: "PR_MAKE",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda2",
+      action: "PR_MAKE2",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda3",
+      action: "PR_MAKE3",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda",
+      action: "PR_MAKE",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda2",
+      action: "PR_MAKE2",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda3",
+      action: "PR_MAKE3",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda",
+      action: "PR_MAKE",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda2",
+      action: "PR_MAKE2",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda3",
+      action: "PR_MAKE3",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
   ]
 }
 
