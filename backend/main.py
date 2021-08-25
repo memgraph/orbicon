@@ -1,40 +1,33 @@
 """
 orbit_graph
-
-Usage:
-    main.py hello NAME
-    main.py query CYPHER
-    main.py -h | --help
-
-Arguments:
-    -h --help   Shows this screen.
-    NAME        Set name to print out
 """
 
-import logging
-from flask import Flask
+import json
+from flask import Flask, jsonify, request
+from kafka import KafkaProducer
+
+from orbit_graph.kafka_stream.config import TOPIC_NAME
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def hello_world():
-    return _hello("Memgraph!")
-
-logging.basicConfig(format="%(asctime)-15s [%(levelname)s]: %(message)s")
-logger = logging.getLogger("orbit_graph")
-logger.setLevel(logging.INFO)
+    return jsonify({"name": "Orbit Graph API"})
 
 
-def _hello(name: str) -> None:
-    from orbit_graph import hello
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    # TODO(gitbuda): Orbit will use the secret token (the current tokern is
+    # testtesttesttesttest as a HMAC-SHA256 key and generate an HMAC hex digest
+    # of the HTTP request body. Read more
+    # https://docs.orbit.love/docs/webhooks#headers + check the digest from
+    # request.headers.
+    producer = KafkaProducer(bootstrap_servers=["kafka:9092"], value_serializer=lambda v: json.dumps(v).encode("utf-8"))
+    producer.send(TOPIC_NAME, value=request.get_json())
+    producer.flush()
+    return jsonify({})
 
-    return hello(name)
 
-
-def _query(command: str) -> None:
-    from orbit_graph import query
-
-    for result in query(command):
-        print(result)
-
-
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=3000)

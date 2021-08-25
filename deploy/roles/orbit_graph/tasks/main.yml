@@ -38,4 +38,20 @@
         orbit-graph:
           name: custom
           driver: bridge
+
+- name: Copy backend code
+  synchronize:
+    src: ../backend/
+    dest: /home/{{ ansible_user }}/backend
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=ve3"
+      - "--exclude=__pycache__"
+      - "--exclude=htmlcov"
+
+- name: Start backend service
+  community.docker.docker_compose:
+    project_name: orbit_graph
+    project_src: /home/{{ ansible_user }}/backend
+    build: yes
 ...
