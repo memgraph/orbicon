@@ -1,13 +1,6 @@
 import { rest } from 'msw'
 
 export default [
-  rest.get('/message', (req, res, ctx) => {
-    return res(
-      ctx.json({
-        message: 'Mock data works! :)'
-      })
-    )
-  }),
   rest.get('/network', (req, res, ctx) => {
     return res(
       ctx.json({
@@ -15,16 +8,12 @@ export default [
       })
     )
   }),
-  rest.get('/nodes', (req, res, ctx) => {
-    return res(ctx.json(nodes))
-  }),
-  rest.get('/links', (req, res, ctx) => {
-    return res(ctx.json(links))
+  rest.get('/memberGraph', (req, res, ctx) => {
+    return res(ctx.json(memberGraph))
   }),
 ]
 
-
-const nodes = {
+const memberGraph = {
   nodes: [
     { id: 1,  label: 'njonjo',  shape: 'image', image: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4", borderWidth: 10, color: { border: 'green' }, },
     { id: 2,  label: 'ellipse', shape: 'ellipse', borderWidth: 5, color: { border: 'green' } },
@@ -34,11 +23,8 @@ const nodes = {
     { id: 6,  label: 'dot',     shape: 'dot' },
     { id: 7,  label: 'square',  shape: 'square' },
     { id: 8,  label: 'triangle',shape: 'triangle' },
-  ]
-}
-
-const links = { 
-  links: [
+  ],
+  edges: [
     {from: 1, to: 2},
     {from: 2, to: 3},
     {from: 2, to: 4},

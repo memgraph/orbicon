@@ -22,20 +22,17 @@ export default {
   },
   data: function () {
     return {
-      msg: "Loading...",
-      nodes: [],
-      links: [],
+      msg: "All good!",
+      memberGraph: {},
       options: {
         height: "1000px",
         width: "1000px"
       },
     };
   },
-  async created() {
+  mounted() {
     try {
-      this.msg = await fetchNetwork();
-      this.nodes = await fetchNodes();
-      this.links = await fetchLinks();
+      this.$store.dispatch("getMemberGraph");
     } catch (error) {
       this.msg = "Server error :(";
     }

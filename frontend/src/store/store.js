@@ -13,48 +13,58 @@ const state = {
     nodes: [],
     edges: []
   },
-  twitterGraph: {},
-  githubGraph: {},
-
+  searchUsernames: [],
+  userDetails: {},
+  activities: [],
 }
 
 const mutations = {
   SET_MEMBER_GRAPH(state, memberGraph) {
     state.memberGraph = memberGraph;
   },
-  SET_TWITTER_GRAPH(state, twitterGraph) {
-    state.twitterGraph = twitterGraph
+  SET_USERNAMES(state, usernames) {
+    state.memberGraph = usernames
   },
-  SET_GITHUB_GRAPH(state, githubGraph) {
-    state.githubGraph = githubGraph
+  SET_USER_DETAILS(state, userDetails) {
+    state.userDetails = userDetails
+  },
+  SET_ACTIVITIES(state, activities) {
+    state.activities = activities;
   }
 }
 
 const actions = {
-  loadMemberGraph(context) {
+  getMemberGraph(context) {
     apiClient.getMemberGraph()
       .then((resp) => {
         context.commit(MUTATION_CONSTANTS.SET_MEMBER_GRAPH, resp.data.memberGraph);
       })
   },
-  loadTwitterGraph(context) {
-    apiClient.getTwitterGraph()
+  getUsernames(context) {
+    apiClient.getUsernames()
       .then((resp) => {
-        context.commit(MUTATION_CONSTANTS.SET_TWITTER_GRAPH, resp.data.twitterGraph);
+        context.commit(MUTATION_CONSTANTS.SET_USERNAMES, resp.data.usernames);
       })
   },
-  loadGithubGraph(context) {
-    apiClient.getGithubGraph()
+  getUserDetails(context) {
+    apiClient.getUserDetails()
       .then((resp) => {
-        context.commit(MUTATION_CONSTANTS.SET_GITHUB_GRAPH, resp.data.githubGraph);
+        context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data.userDetails);
+      })
+  },
+  getActivities(context) {
+    apiClient.getActivities()
+      .then((resp) => {
+        context.commit(MUTATION_CONSTANTS.SET_ACTIVITIES, resp.data.activities);
       })
   }
 }
 
 const getters = {
   memberGraph: state => state.memberGraph,
-  githubGraph: state => state.githubGraph,
-  twitterGraph: state => state.twitterGraph,
+  usernames: state => state.usernames,
+  userDetails: state => state.userDetails,
+  activities: state => state.activities,
 }
 
 
