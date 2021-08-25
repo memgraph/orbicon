@@ -15,7 +15,7 @@ from backend.scripts.load_event_history_data import ActivityHistoryItem
 edge_github_cypher_template = Template(
     'MATCH (n:Github {id: "$source"}), (m:Github {id: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
 
-OAUTH_TOKEN = "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"
+OAUTH_TOKEN = ""
 
 GITHUB_FILE_NAME = "memgraph_orbit_github_accounts.json"
 

@@ -13,7 +13,7 @@ from backend.scripts.load_event_history_data import ActivityHistoryItem
 edge_twitter_cypher_template = Template(
     'MATCH (n:twitter {id: "$source"}), (m:twitter {id: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
 
-BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAA0lTAEAAAAANrpndxI81KFXLjieXcj0ZjxhbVQ%3DrMUx9pSfeiNOW3vJbaMYkxaUMkhYsozzlYJdpw0bLx8BXqpM5v"
+BEARER_TOKEN = ""
 
 TWITTER_FILE_NAME = "memgraph_orbit_twitter_accounts.json"
 MAX_FOLLOWING_ACCOUNTS_ON_REQUEST = 20
