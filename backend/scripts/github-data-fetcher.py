@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 
 from simplejson import JSONDecodeError
 
-from backend.scripts.load_event_history_data import ActivityHistoryItem
+from scripts.load_event_history_data import ActivityHistoryItem
 
 edge_github_cypher_template = Template(
     'MATCH (n:Github {id: "$source"}), (m:Github {id: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
@@ -164,6 +164,8 @@ def get_github_recursive_following(github_dict: {}, depth_following_level=1):
 
             if github_account is not None and github_account.is_processed:
                 continue
+
+            print("Print processing %s" % name)
 
             new_github_account_dict = create_github_account_obj(name)
             new_github_dict = {**new_github_dict, **new_github_account_dict}

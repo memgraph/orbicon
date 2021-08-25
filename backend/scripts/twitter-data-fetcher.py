@@ -8,7 +8,7 @@ from typing import List
 
 from simplejson import JSONDecodeError
 
-from backend.scripts.load_event_history_data import ActivityHistoryItem
+from scripts.load_event_history_data import ActivityHistoryItem
 
 edge_twitter_cypher_template = Template(
     'MATCH (n:twitter {id: "$source"}), (m:twitter {id: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
