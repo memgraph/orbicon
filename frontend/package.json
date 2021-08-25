@@ -15,7 +15,9 @@
     "vis-network": "^9.0.5",
     "vis-util": "^5.0.2",
     "vue": "^2.6.11",
+    "vue-axios": "^3.2.5",
     "vue-vis-network": "^1.0.2",
+    "vuetify": "^2.5.8",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -25,6 +27,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "sass": "~1.32.0",
+    "sass-loader": "^10.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

@@ -12,7 +12,6 @@
 
 
 <script>
-import { fetchNetwork, fetchNodes, fetchLinks } from "@/api/apiClient";
 import { Network } from "vue-vis-network";
 
 export default {
