@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 import simplejson as json
 from string import Template
 
@@ -11,7 +13,10 @@ from backend.scripts.load_event_history_data import ActivityHistoryItem
 edge_github_cypher_template = Template(
     'MATCH (n:Github {id: "$source"}), (m:Github {id: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
 
-OAUTH_TOKEN="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"
+OAUTH_TOKEN = "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"
+
+GITHUB_FILE_NAME = "memgraph_orbit_github_accounts.json"
+
 
 class NodeAbstract(ABC):
 
@@ -71,12 +76,13 @@ class GithubAccount:
 
     def __str__(self):
         return "id={id}," \
+               "is_processed={is_processed}," \
                "avatar={avatar}," \
                "company={company}," \
                "login={login}," \
                "hireable:{hireable}," \
                "following:{following}".format(id=self.id, company=self.company, login=self.login, avatar=self.avatar,
-                                              hireable=self.hireable, following=",".join(self.following))
+                                              hireable=self.hireable, following=",".join(self.following), is_processed=self.is_processed)
 
 
 def send_github_users_request(name):
@@ -129,14 +135,13 @@ def create_github_account_obj(name):
     github_dict[name] = github_main_account
 
     if github_user_following_response is None:
-        github_main_account.is_processed=False
+        github_main_account.is_processed = False
         return github_dict
 
     # get accounts that main follows
     github_following_accounts = list(map(parse_github_account, github_user_following_response))
 
     for github_following_account in github_following_accounts:
-        print(github_following_account)
         github_main_account.following.append(github_following_account.login)
         github_dict[github_following_account.login] = github_following_account
 
@@ -153,7 +158,8 @@ def get_github_recursive_following(github_dict: {}, depth_following_level=1):
     for i in range(depth_following_level):
         new_github_dict = {}
         for name, github_account in github_dict.items():
-            if github_account is not None and github_account.is_proccesed:
+
+            if github_account is not None and github_account.is_processed:
                 continue
 
             ##processing first time
@@ -176,9 +182,6 @@ def get_github_recursive_following(github_dict: {}, depth_following_level=1):
 
         github_dict = {**github_dict, **new_github_dict}
 
-
-
-
     return github_dict
 
 
@@ -192,16 +195,31 @@ def get_github_members(orbit_events: List[ActivityHistoryItem]):
 def load_github_already_processed():
     data_dir = "../data"
 
-    filename = f"{data_dir}/memgraph_orbit_github_accounts.json"
+    filename = f"{data_dir}/{GITHUB_FILE_NAME}"
     with open(filename) as json_file:
         github_accounts_json: List[GithubAccount] = json.load(json_file)
 
     github_dict_processed = {}
 
-    for github_account in github_accounts_json:
-        github_dict_processed[github_account.login] = github_account
-        print(github_account.following)
+    for github_key in github_accounts_json:
+        github_account_json = github_accounts_json[github_key]
+        if len(github_account_json) == 0:
+            github_dict_processed[github_key] = None
+            continue
+        github_account = GithubAccount(avatar=github_account_json["avatar"],
+                                       company=github_account_json["company"],
+                                       bio=github_account_json["bio"],
+                                       hireable=github_account_json["hireable"],
+                                       login=github_account_json["login"],
+                                       id=github_account_json["id"])
+        github_account.following = github_account_json["following"]
+        github_account.is_processed=github_account_json["is_processed"]
 
+        github_dict_processed[github_account.login] = github_account
+
+        # print(github_account.following)
+    for key, value in github_dict_processed.items():
+        print(key, value)
     return github_dict_processed
 
 
@@ -212,7 +230,9 @@ def process_github(orbit_events_json: List[ActivityHistoryItem]):
     for github_name in github_members_names:
         github_dict[github_name] = None
 
-    # github_dict_processed = load_github_already_processed()
+    github_dict_processed = load_github_already_processed()
+
+    github_dict = {**github_dict, **github_dict_processed}
 
     github_dict = get_github_recursive_following(github_dict, depth_following_level=1)
 
@@ -220,8 +240,7 @@ def process_github(orbit_events_json: List[ActivityHistoryItem]):
     for key, value in github_dict.items():
         github_json_dict[key] = vars(value) if value is not None else ""
 
-    print(github_json_dict)
-    with open(f"{data_dir}/memgraph_orbit_github_accounts.json", "w") as jsonFile:
+    with open(f"{data_dir}/{GITHUB_FILE_NAME}", "w") as jsonFile:
         jsonFile.write(json.dumps(github_json_dict, indent=4, ignore_nan=True))
 
     print(len(github_dict))
