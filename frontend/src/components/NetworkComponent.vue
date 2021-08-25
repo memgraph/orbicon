@@ -2,7 +2,7 @@
   <div>
     <div class="sidebar">
       <SearchBarComponent />
-      <a v-for="(activity, i) in activities" :key="i">{{activity.username}}</a>
+      <ActivityComponent v-for="(activity, i) in activities" :key="i" :activity="activity" />
     </div>
     <div class="network-bar">
       <network class="wrapper"
@@ -26,20 +26,6 @@
   overflow: auto;
 }
 
-/* Sidebar links */
-.sidebar a {
-  display: block;
-  color: black;
-  padding: 16px;
-  text-decoration: none;
-}
-
-/* Links on mouse-over */
-a:hover {
-  background-color: #555;
-  color: white;
-}
-
 .network-bar {
   margin-left: 400px;
   padding: 1px 16px;
@@ -56,12 +42,14 @@ a:hover {
 import { Network } from "vue-vis-network";
 import { mapGetters } from "vuex";
 import SearchBarComponent from "./SearchBarComponent";
+import ActivityComponent from "./ActivityComponent";
 
 export default {
   name: "NetworkComponent",
   components: {
     Network,
     SearchBarComponent,
+    ActivityComponent,
   },
   data: function () {
     return {
