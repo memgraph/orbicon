@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
     <p>{{ msg }}</p>
+    <p>{{ usernames }}</p>
+    <p>{{ userDetails.firstName }}</p>
+    <p>{{ activities[1].username }}</p>
     <network
       ref="network"
       :nodes="memberGraph.nodes"
@@ -30,13 +33,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberGraph"]),
+    ...mapGetters(["memberGraph", "usernames", "userDetails", "activities"]),
   },
   mounted() {
     try {
       this.$store.dispatch("getMemberGraph");
+      this.$store.dispatch("getUsernames");
+      this.$store.dispatch("getUserDetails");
+      this.$store.dispatch("getActivities");
     } catch (error) {
       this.msg = "Server error :(";
+      console.log(error);
     }
   },
 };

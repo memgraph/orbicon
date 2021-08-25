@@ -13,7 +13,7 @@ const state = {
     nodes: [],
     edges: []
   },
-  searchUsernames: [],
+  usernames: [],
   userDetails: {},
   activities: [],
 }
@@ -23,7 +23,7 @@ const mutations = {
     state.memberGraph = memberGraph;
   },
   SET_USERNAMES(state, usernames) {
-    state.memberGraph = usernames
+    state.usernames = usernames;
   },
   SET_USER_DETAILS(state, userDetails) {
     state.userDetails = userDetails
@@ -47,9 +47,9 @@ const actions = {
       })
   },
   getUserDetails(context) {
-    apiClient.getUserDetails()
+    apiClient.getUserDetails("Buda")
       .then((resp) => {
-        context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data.userDetails);
+        context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data);
       })
   },
   getActivities(context) {

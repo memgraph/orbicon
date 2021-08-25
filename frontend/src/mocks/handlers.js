@@ -11,6 +11,15 @@ export default [
   rest.get('/memberGraph', (req, res, ctx) => {
     return res(ctx.json(memberGraph))
   }),
+  rest.get('/usernames', (req, res, ctx) => {
+    return res(ctx.json(usernames))
+  }),
+  rest.get('/userDetails/:username', (req, res, ctx) => {
+    return res(ctx.json(userDetails))
+  }),
+  rest.get('/activities', (req, res, ctx) => {
+    return res(ctx.json(activities))
+  }),
 ]
 
 const memberGraph = {
@@ -34,3 +43,47 @@ const memberGraph = {
     {from: 6, to: 8}
   ]
 }
+
+const usernames = {
+  usernames: [
+    "Gitbuda",
+    "afico",
+    "jmrden",
+    "jmatak",
+  ]
+}
+
+const userDetails = {
+  username: "Gitbuda",
+  firstName: "Marko",
+  lastname: "Budiselic",
+  love: 10.2,
+  avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
+  community: "Feature, not bug",
+  importance: 50.5,
+  company: "Memgraph"
+}
+
+const activities = {
+  activities: [
+    {
+      username: "Gitbuda",
+      action: "PR_MAKE",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda2",
+      action: "PR_MAKE2",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+    {
+      username: "Gitbuda3",
+      action: "PR_MAKE3",
+      description: "This guy made a PR!",
+      date: "2020-01-01T08:00:00",
+    },
+  ]
+}
+
