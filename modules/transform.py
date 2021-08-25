@@ -45,6 +45,7 @@ def kafka2graph_transform(
         accessor = JsonDataAccessor(payload)
         member_id = accessor.take_n("data", "relationships", "member", "data", "id")
         included = accessor.take_n("included")
+        # TODO(gitbuda): If something fails stream is stopped.
         print(member_id)
         print(take_type_from_array(included, "member"))
         print(dumps_utf8(take_type_from_array(included, "twitter_identity")))
