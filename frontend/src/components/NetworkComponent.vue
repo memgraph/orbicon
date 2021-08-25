@@ -2,10 +2,16 @@
   <div>
     <div class="sidebar">
       <SearchBarComponent />
-      <ActivityComponent v-for="(activity, i) in activities" :key="i" :activity="activity" />
+      <p class="activities-title">ACTIVITIES</p>
+      <ActivityComponent
+        v-for="(activity, i) in activities"
+        :key="i"
+        :activity="activity"
+      />
     </div>
     <div class="network-bar">
-      <network class="wrapper"
+      <network
+        class="wrapper"
         ref="network"
         :nodes="memberGraph.nodes"
         :edges="memberGraph.edges"
@@ -35,6 +41,11 @@
   min-height: 100vh;
   padding: 10px;
   height: 100vh;
+}
+
+.activities-title {
+  font-weight: 700;
+  font-size: 20px;
 }
 </style>
 
