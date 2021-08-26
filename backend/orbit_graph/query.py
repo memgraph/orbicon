@@ -3,7 +3,13 @@ from typing import Any, Dict, Iterator
 from orbit_graph.database import Memgraph
 from orbit_graph.database.config import MG_PORT, MG_HOST, MG_ENCRYPTED, MG_USERNAME, MG_PASSWORD
 
-from orbit_graph.database.orbit_models import create_member, create_github, create_twitter
+from orbit_graph.database.orbit_models import (
+    create_member,
+    create_github,
+    create_twitter,
+    create_empty_github,
+    create_empty_twitter,
+)
 
 db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASSWORD, encrypted=MG_ENCRYPTED)
 
@@ -35,11 +41,15 @@ def dbUserDetails(username):
 
     twitterQuery = f'MATCH (n:Member)-[:HAS]->(m:Twitter) WHERE n.username = "{username}" RETURN m'
     twitter_results = list(db.execute_and_fetch(twitterQuery))
-    twitter_model = create_twitter(twitter_results[0]["m"]._properties) if len(twitter_results) > 0 else None
+    twitter_model = (
+        create_twitter(twitter_results[0]["m"]._properties) if len(twitter_results) > 0 else create_empty_twitter()
+    )
 
     githubQuery = f'MATCH (n:Member)-[:HAS]->(m:Github) WHERE n.username = "{username}" RETURN m'
     github_results = list(db.execute_and_fetch(githubQuery))
-    github_model = create_github(github_results[0]["m"]._properties) if len(github_results) > 0 else None
+    github_model = (
+        create_github(github_results[0]["m"]._properties) if len(github_results) > 0 else create_empty_github()
+    )
 
     return UserDetails(member_model, github_model, twitter_model)
 
@@ -55,13 +65,23 @@ class UserDetails:
             else twitter.profile_image_url
         )
         self.name = member.name if member.name is not None else twitter.name
+        self.name = self.name if self.name is not None else "Unknown"
+
         self.love = member.love
+        self.love = self.love if self.love is not None else "Unknown"
+
         self.importance = member.love
+        self.importance = self.importance if self.importance is not None else "Unknown"
+
         self.location = member.location if member.location is not None else "Unknown"
+
         self.company = github.company if github.company is not None else "Unknown"
+
         self.hireable = github.hireable if github.hireable is not None else False
+
         self.githubAccount = "https://github.com/gitbuda"
         self.twitterAccount = "https://twitter.com/mbudiselicbuda"
+
         self.githubUsername = github.username if github.username is not None else member.username
         self.twitterUsername = twitter.username if twitter.username is not None else member.username
 

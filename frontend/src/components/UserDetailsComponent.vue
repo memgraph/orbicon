@@ -17,16 +17,7 @@
       <v-list class="transparent">
         <v-list-item>
           <v-list-item-title>Name </v-list-item-title>
-          <v-list-item-subtitle
-            >{{ userDetails.firstName }}
-            {{ userDetails.lastName }}</v-list-item-subtitle
-          >
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title>Community</v-list-item-title>
-          <v-list-item-subtitle
-            >{{ userDetails.community }}
-          </v-list-item-subtitle>
+          <v-list-item-subtitle>{{ userDetails.name }}</v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title>Company</v-list-item-title>

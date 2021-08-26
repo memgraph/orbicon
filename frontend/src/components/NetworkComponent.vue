@@ -2,16 +2,26 @@
   <div>
     <div class="sidebar">
       <SearchBarComponent />
-      <p class="activities-title">ACTIVITIES</p>
-      <ActivityComponent
-        v-for="(activity, i) in activities"
-        :key="i"
-        :activity="activity"
-      />
+      <div v-if="activities.length">
+        <p class="activities-title">ACTIVITIES</p>
+        <ActivityComponent
+          v-for="(activity, i) in activities"
+          :key="i"
+          :activity="activity"
+        />
+      </div>
+      <div v-else>
+        <v-progress-circular
+          :size="50"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+        <p class="loading-bar-text">Loading activities...</p>
+      </div>
     </div>
     <div class="network-bar">
       <network
-        v-if="memberGraph.nodes.length == 0"
+        v-if="memberGraph.nodes.length"
         class="wrapper"
         ref="network"
         :nodes="memberGraph.nodes"
@@ -20,12 +30,14 @@
         @double-click="onDoubleClick($event)"
       ></network>
       <div class="loading-container" v-else>
-        <v-progress-circular
-          class="loading-bar"
-          :size="200"
-          color="primary"
-          indeterminate
-        ></v-progress-circular>
+        <div class="loading-bar">
+          <v-progress-circular
+            :size="200"
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+          <p class="loading-bar-text big-text">Loading member graph...</p>
+        </div>
       </div>
     </div>
     <div v-if="showUserDetails">
@@ -79,6 +91,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.loading-bar-text {
+  margin-top: 20px;
+}
+
+.big-text {
+  font-weight: 500;
+  font-size: 30px;
+}
 </style>
 
 <script>
@@ -115,7 +136,6 @@ export default {
     try {
       this.$store.dispatch("getMemberGraph");
       this.$store.dispatch("getUsernames");
-      this.$store.dispatch("getUserDetails");
       this.$store.dispatch("getActivities");
     } catch (error) {
       this.msg = "Server error :(";

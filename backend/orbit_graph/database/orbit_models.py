@@ -26,6 +26,14 @@ def create_member(props):
     return Member(props["username"], props["name"], props["love"], props["location"], props["avatar"])
 
 
+def create_empty_twitter():
+    return Twitter(None, None, None)
+
+
+def create_empty_github():
+    return Github(None, None, None, None)
+
+
 def create_twitter(props):
     return Twitter(props["username"], props["name"], props["profile_image_url"])
 

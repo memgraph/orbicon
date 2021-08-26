@@ -65,7 +65,11 @@ const actions = {
         context.commit(MUTATION_CONSTANTS.SET_ACTIVITIES, resp.data.activities);
       })
   },
-  showUserDetails(context) {
+  showUserDetails(context, usernameInput) {
+    apiClient.getUserDetails(usernameInput)
+      .then((resp) => {
+        context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data);
+      })
     context.commit(MUTATION_CONSTANTS.SHOW_USER_DETAILS)
   },
   disposeUserDetails(context) {

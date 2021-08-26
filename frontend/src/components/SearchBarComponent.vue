@@ -57,7 +57,7 @@ export default {
         return;
       }
 
-      this.$store.dispatch("showUserDetails");
+      this.$store.dispatch("showUserDetails", this.usernameInput);
     },
     updateSearchBarWithSuggestion(value) {
       this.usernameInput = value;
