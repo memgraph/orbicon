@@ -35,7 +35,7 @@ def _dbUsernamesExecution(query):
     usernames = []
     for result in usernamesResults:
         usernames.append(Username(result["n.username"]))
-        if len(usernames) > 10:
+        if len(usernames) > 5:
             break
 
     return Usernames(usernames)

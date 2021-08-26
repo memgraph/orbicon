@@ -66,7 +66,7 @@ def get_usernames():
 
 @app.route("/usernames/<prefix>")
 @cross_origin()
-def get_usernames(prefix):
+def get_usernames_with_prefix(prefix):
     return json.dumps(dbUsernamesPrefix(prefix), cls=MyEncoder)
 
 
