@@ -9,6 +9,7 @@ from orbit_graph.database.orbit_models import (
     create_twitter,
     create_empty_github,
     create_empty_twitter,
+    create_activity,
 )
 
 db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASSWORD, encrypted=MG_ENCRYPTED)
@@ -17,6 +18,17 @@ db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASS
 def query(command: str) -> Iterator[Dict[str, Any]]:
     """Queries Memgraph database and returns iterator of results"""
     yield from db.execute_and_fetch(command)
+
+
+def dbActivities():
+    activity_query = f"MATCH (n:Activity) RETURN n ORDER BY n.date DESC LIMIT 10;"
+    results = list(db.execute_and_fetch(activity_query))
+
+    activities = []
+    for result in results:
+        activities.append(create_activity(result["n"]._properties))
+
+    return Activities(activities)
 
 
 def dbUsernames():
@@ -138,9 +150,6 @@ class MemberGraphEdge:
         return {"from": self.from_edge, "to": self.to_edge}
 
 
-class Activity:
-    def __init__(self, username, action, description, date):
-        self.username = username
-        self.action = action
-        self.description = description
-        self.date = date
+class Activities:
+    def __init__(self, activities):
+        self.activities = activities

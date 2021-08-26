@@ -11,7 +11,7 @@ from kafka import KafkaProducer
 from orbit_graph.kafka_stream.config import TOPIC_NAME
 
 from data.mocks import usernames, userDetails, memberGraph, activities
-from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix
+from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -50,7 +50,7 @@ def get_member_graph():
 @app.route("/activities")
 @cross_origin()
 def get_activities():
-    return json.dumps(activities())
+    return json.dumps(dbActivities(), cls=MyEncoder)
 
 
 @app.route("/userDetails/<username>")

@@ -25,6 +25,23 @@ class Github:
         self.url = url if url not in [None, "None"] else None
 
 
+class Activity:
+    def __init__(self, id, action, date, url, username):
+        self.id = id
+        self.action = action
+        self.date = date
+        self.url = url
+        self.username = username
+
+
+class ActivityConstants:
+    ID = "id"
+    ACTION = "action"
+    DATE = "date"
+    URL = "url"
+    USERNAME = "username"
+
+
 class MemberConstants:
     USERNAME = "username"
     NAME = "name"
@@ -84,4 +101,14 @@ def create_github(props):
         props[GithubConstants.HIREABLE],
         props[GithubConstants.AVATAR],
         props[GithubConstants.URL],
+    )
+
+
+def create_activity(props):
+    return Activity(
+        props[ActivityConstants.ID],
+        props[ActivityConstants.ACTION],
+        props[ActivityConstants.DATE].replace("UTC", ""),
+        props[ActivityConstants.URL],
+        props[ActivityConstants.USERNAME],
     )

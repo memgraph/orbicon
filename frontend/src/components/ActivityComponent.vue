@@ -7,9 +7,9 @@
           <v-list-item-title class="text-h5 mb-1">
             {{ activity.username }}
           </v-list-item-title>
-          <v-list-item-subtitle>{{
-            activity.description
-          }}</v-list-item-subtitle>
+          <v-btn :href="activity.url" target="_blank">
+            Check out activity!
+          </v-btn>
         </v-list-item-content>
 
         <v-list-item-avatar size="80" color="grey"
@@ -19,7 +19,7 @@
         ></v-list-item-avatar>
       </v-list-item>
       <v-list-item one-line>
-        <v-btn align="left" @click="onBtnClick">Find more!</v-btn>
+        <v-btn align="left" @click="onBtnClick">Check user!</v-btn>
         <v-card-text align="right">
           {{ activity.date }}
         </v-card-text>
