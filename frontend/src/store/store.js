@@ -53,10 +53,10 @@ const actions = {
         context.commit(MUTATION_CONSTANTS.SET_USERNAMES, resp.data.usernames);
       })
   },
-  getUserDetails(context) {
-    apiClient.getUserDetails("Buda")
+  async getUsernamesWithPrefix(context, prefix) {
+    apiClient.getUsernamesWithPrefix(prefix)
       .then((resp) => {
-        context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data);
+        context.commit(MUTATION_CONSTANTS.SET_USERNAMES, resp.data.usernames);
       })
   },
   getActivities(context) {

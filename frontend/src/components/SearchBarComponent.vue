@@ -7,6 +7,7 @@
           hide-details
           prepend-icon="mdi-magnify"
           single-line
+          @keyup="search($event)"
           @keyup.enter.native="onEnterClicked"
         ></v-text-field>
       </v-toolbar>
@@ -48,6 +49,7 @@ export default {
   data: () => {
     return {
       usernameInput: "",
+      timeout: null,
     };
   },
   methods: {
@@ -62,13 +64,24 @@ export default {
     updateSearchBarWithSuggestion(value) {
       this.usernameInput = value;
     },
+    search(event) {
+      if (event.keyCode === 13) {
+        return;
+      }
+
+      clearTimeout(this.timeout);
+      var self = this;
+      this.timeout = setTimeout(function () {
+        console.log("searching:", self.usernameInput);
+      }, 1000);
+    },
   },
   computed: {
     ...mapGetters(["usernames"]),
     sortedUsernames() {
-      const filtered = this.usernames.filter((x) =>
-        x.toLowerCase().startsWith(this.usernameInput)
-      ).slice(0, 5);
+      const filtered = this.usernames
+        .filter((x) => x.toLowerCase().startsWith(this.usernameInput))
+        .slice(0, 5);
 
       return filtered;
     },

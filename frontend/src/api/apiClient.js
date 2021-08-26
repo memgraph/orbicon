@@ -9,6 +9,9 @@ export const apiClient = {
   getUsernames: () => {
     return Vue.axios.get(`${API_URL}/usernames`);
   },
+  getUsernamesWithPrefix: (prefix) => {
+    return Vue.axios.get(`${API_URL}/usernames/${prefix}`);
+  },
   getUserDetails: (username) => {
     return Vue.axios.get(`${API_URL}/userDetails/${username}`);
   },
