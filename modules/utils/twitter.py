@@ -83,6 +83,14 @@ def parse_twitter_account(twitter_account_json) -> TwitterAccount:
                           id=parse_key(twitter_account_json, "id"))
 
 
+def merge_dicts(dict_1, dict_2):
+    for key, value in dict_2.items():
+        if key in dict_1 and dict_1[key] is not None and dict_1[key].is_processed:
+            continue
+        dict_1[key] = value
+    return dict_1
+
+
 def create_twitter_accounts_obj_batch(names: List[str]):
     twitter_dict = {}
     twitter_users_response = send_twitter_users_by_usernames_request(names)
@@ -132,11 +140,11 @@ def get_twitter_recursive_following(twitter_dict: {}, depth_following_level=1):
 
             new_twitter_account_dict = create_twitter_accounts_obj_batch(batch_twitter_names)
 
-            new_twitter_dict = {**new_twitter_dict, **new_twitter_account_dict}
+            new_twitter_dict = merge_dicts(new_twitter_dict, new_twitter_account_dict)
 
             batch_twitter_names = []
 
-        twitter_dict = {**twitter_dict, **new_twitter_dict}
+        twitter_dict = merge_dicts(twitter_dict, new_twitter_dict)
 
     return twitter_dict
 
@@ -180,7 +188,7 @@ def process_twitter(orbit_events_json: List[ActivityHistoryItem]):
 
     twitter_dict_processed = load_twitter_already_processed()
 
-    twitter_dict = {**twitter_dict, **twitter_dict_processed}
+    twitter_dict = merge_dicts(twitter_dict, twitter_dict_processed)
     print(twitter_dict)
 
     twitter_dict = get_twitter_recursive_following(twitter_dict, depth_following_level=1)
