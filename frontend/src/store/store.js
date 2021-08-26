@@ -72,6 +72,7 @@ const actions = {
   async showUserDetails(context, usernameInput) {
     apiClient.getUserDetails(usernameInput)
       .then((resp) => {
+        console.log(resp);
         context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data);
       })
       .then(() => {

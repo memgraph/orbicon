@@ -7,9 +7,7 @@
     >
       <v-list-item three-line>
         <v-list-item-avatar size="80" color="grey"
-          ><v-img
-            src="https://avatars.githubusercontent.com/u/4950251?s=88&v=4"
-          ></v-img
+          ><v-img :src="userDetails.avatar"></v-img
         ></v-list-item-avatar>
         <v-list-item-content>
           <v-card-title class="text-h5">{{
@@ -30,13 +28,27 @@
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
+          <v-list-item-title>Hireable</v-list-item-title>
+          <v-list-item-subtitle
+            >{{ userDetails.hireable }}
+          </v-list-item-subtitle>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>Location</v-list-item-title>
+          <v-list-item-subtitle
+            >{{ userDetails.location }}
+          </v-list-item-subtitle>
+        </v-list-item>
+        <v-list-item>
           <v-list-item-title
-            >Memgraph Love<v-icon>mdi-cards-heart</v-icon></v-list-item-title
+            ><v-icon>mdi-cards-heart</v-icon>Memgraph Love</v-list-item-title
           >
           <v-list-item-subtitle>{{ userDetails.love }} </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>Importance</v-list-item-title>
+          <v-list-item-title
+            ><v-icon>mdi-star</v-icon>PageRank Score</v-list-item-title
+          >
           <v-list-item-subtitle
             >{{ userDetails.importance }}
           </v-list-item-subtitle>
@@ -44,17 +56,27 @@
         <v-list-item>
           <v-list-item-title> Github </v-list-item-title>
           <v-list-item-subtitle>
-            <v-btn :href="userDetails.githubAccount" target="_blank">
+            <v-btn
+              v-if="userDetails.githubAccount !== null"
+              :href="userDetails.githubAccount"
+              target="_blank"
+            >
               {{ userDetails.githubUsername }}
             </v-btn>
+            <div v-else>Unknown</div>
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title> Twitter </v-list-item-title>
           <v-list-item-subtitle>
-            <v-btn :href="userDetails.twitterAccount" target="_blank">
+            <v-btn
+              v-if="userDetails.twitterAccount !== null"
+              :href="userDetails.twitterAccount"
+              target="_blank"
+            >
               {{ userDetails.twitterUsername }}
             </v-btn>
+            <div v-else>Unknown</div>
           </v-list-item-subtitle>
         </v-list-item>
       </v-list>

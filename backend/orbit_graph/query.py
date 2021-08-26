@@ -84,8 +84,7 @@ class UserDetails:
         self.love = member.love
         self.love = self.love if self.love is not None else "Unknown"
 
-        self.importance = member.love
-        self.importance = self.importance if self.importance is not None else "Unknown"
+        self.importance = member.importance
 
         self.location = member.location if member.location not in UserDetails.NOT_ACCEPTED_DETAILS else "Unknown"
 
@@ -93,8 +92,8 @@ class UserDetails:
 
         self.hireable = github.hireable if github.hireable not in UserDetails.NOT_ACCEPTED_DETAILS else False
 
-        self.githubAccount = "https://github.com/gitbuda"
-        self.twitterAccount = "https://twitter.com/mbudiselicbuda"
+        self.githubAccount = github.url
+        self.twitterAccount = twitter.url
 
         self.githubUsername = (
             github.username if github.username not in UserDetails.NOT_ACCEPTED_DETAILS else member.username
