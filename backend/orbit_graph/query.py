@@ -74,3 +74,36 @@ class Usernames:
 class Username:
     def __init__(self, username):
         self.username = username
+
+
+class MemberGraph:
+    def __init__(self, nodes, edges):
+        self.nodes = nodes
+        self.edges = edges
+
+
+class MemberGraphNode:
+    def __init__(self, id, importance, community_id, love, username, avatar):
+        self.id = id
+        self.importance = importance
+        self.communityId = community_id
+        self.love = love
+        self.username = username
+        self.avatar = avatar
+
+
+class MemberGraphEdge:
+    def __init__(self, from_edge, to_edge):
+        self.from_edge = from_edge
+        self.to_edge = to_edge
+
+    def __dict__(self):
+        return {"from": self.from_edge, "to": self.to_edge}
+
+
+class Activity:
+    def __init__(self, username, action, description, date):
+        self.username = username
+        self.action = action
+        self.description = description
+        self.date = date
