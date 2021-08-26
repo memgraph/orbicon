@@ -12,7 +12,7 @@
           }}</v-list-item-subtitle>
         </v-list-item-content>
 
-        <v-list-item-avatar tile size="80" color="grey"
+        <v-list-item-avatar size="80" color="grey"
           ><v-img
             src="https://avatars.githubusercontent.com/u/4950251?s=88&v=4"
           ></v-img

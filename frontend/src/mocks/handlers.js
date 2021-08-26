@@ -56,12 +56,16 @@ const usernames = {
 const userDetails = {
   username: "Gitbuda",
   firstName: "Marko",
-  lastname: "Budiselic",
+  lastName: "Budiselic",
   love: 10.2,
   avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
   community: "Feature, not bug",
   importance: 50.5,
-  company: "Memgraph"
+  company: "Memgraph",
+  githubAccount: "https://github.com/gitbuda",
+  twitterAccount: "https://twitter.com/mbudiselicbuda",
+  twitterUsername: "twitterBuda",
+  githubUsername: "gitBuda"
 }
 
 const activities = {

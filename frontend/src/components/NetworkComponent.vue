@@ -18,11 +18,8 @@
         :options="options"
       ></network>
     </div>
-    <div v-if="showUserDetails" class="user-details">
-      <v-card class="user-card" elevation="2">
-        <v-card-text>Hello</v-card-text>
-        <v-btn @click="onXClick">X</v-btn>
-      </v-card>
+    <div v-if="showUserDetails">
+      <UserDetailsComponent />
     </div>
   </div>
 </template>
@@ -57,23 +54,6 @@
   font-weight: 700;
   font-size: 20px;
 }
-
-.user-details {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background-color: rgba(22, 22, 22, 0.8);
-}
-
-.user-card {
-  width: 500px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 1;
-}
 </style>
 
 <script>
@@ -81,6 +61,7 @@ import { Network } from "vue-vis-network";
 import { mapGetters } from "vuex";
 import SearchBarComponent from "./SearchBarComponent";
 import ActivityComponent from "./ActivityComponent";
+import UserDetailsComponent from "./UserDetailsComponent";
 
 export default {
   name: "NetworkComponent",
@@ -88,6 +69,7 @@ export default {
     Network,
     SearchBarComponent,
     ActivityComponent,
+    UserDetailsComponent,
   },
   data: function () {
     return {
@@ -107,11 +89,6 @@ export default {
     } catch (error) {
       this.msg = "Server error :(";
       console.log(error);
-    }
-  },
-  methods: {
-    onXClick() {
-      this.$store.dispatch("disposeUserDetails");
     }
   }
 };
