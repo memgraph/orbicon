@@ -3,7 +3,7 @@ from string import Template
 from utils.data_provider import get_orbit_json_events
 
 
-class MemberNode:
+class MemberAccount:
     CYP_CREATE_NODE = Template(
         """
         CREATE (n:Member {love: "$love",
@@ -46,7 +46,7 @@ class MemberNode:
         self.twitter = twitter
 
     def cyp_create_node(self):
-        return MemberNode.CYP_CREATE_NODE.substitute(
+        return MemberAccount.CYP_CREATE_NODE.substitute(
             love=self.love,
             name=self.name,
             username=self.slug,
@@ -55,7 +55,7 @@ class MemberNode:
         )
 
     def cyp_merge_node(self):
-        return MemberNode.CYP_MERGE_NODE.substitute(
+        return MemberAccount.CYP_MERGE_NODE.substitute(
             love=self.love,
             name=self.name,
             username=self.slug,
@@ -64,13 +64,13 @@ class MemberNode:
         )
 
     def cyp_has_github(self, username):
-        return MemberNode.CYP_HAS_GITHUB.substitute(source=self.slug, target=username)
+        return MemberAccount.CYP_HAS_GITHUB.substitute(source=self.slug, target=username)
 
     def cyp_has_twitter(self, username):
-        return MemberNode.CYP_HAS_TWITTER.substitute(source=self.slug, target=username)
+        return MemberAccount.CYP_HAS_TWITTER.substitute(source=self.slug, target=username)
 
     def cyp_follows(self, other):
-        return MemberNode.CYP_FOLLOWS.substitute(source=self.slug, target=other)
+        return MemberAccount.CYP_FOLLOWS.substitute(source=self.slug, target=other)
 
 
 def load_orbit_already_processed():
