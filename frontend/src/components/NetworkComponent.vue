@@ -11,6 +11,7 @@
     </div>
     <div class="network-bar">
       <network
+        v-if="memberGraph.nodes.length == 0"
         class="wrapper"
         ref="network"
         :nodes="memberGraph.nodes"
@@ -18,6 +19,14 @@
         :options="options"
         @double-click="onDoubleClick($event)"
       ></network>
+      <div class="loading-container" v-else>
+        <v-progress-circular
+          class="loading-bar"
+          :size="200"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+      </div>
     </div>
     <div v-if="showUserDetails">
       <UserDetailsComponent />
@@ -54,6 +63,21 @@
 .activities-title {
   font-weight: 700;
   font-size: 20px;
+}
+
+.loading-container {
+  position: absolute;
+  left: 400px;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+}
+
+.loading-bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
 

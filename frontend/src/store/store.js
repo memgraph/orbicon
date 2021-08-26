@@ -41,13 +41,13 @@ const mutations = {
 }
 
 const actions = {
-  getMemberGraph(context) {
+  async getMemberGraph(context) {
     apiClient.getMemberGraph()
       .then((resp) => {
         context.commit(MUTATION_CONSTANTS.SET_MEMBER_GRAPH, resp.data);
       })
   },
-  getUsernames(context) {
+  async getUsernames(context) {
     apiClient.getUsernames()
       .then((resp) => {
         context.commit(MUTATION_CONSTANTS.SET_USERNAMES, resp.data.usernames);
