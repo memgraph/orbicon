@@ -1,0 +1,5 @@
+---
+docker_image_control_node_path: image.tar
+docker_image_host_path: image.tar
+docker_image_name: image
+...

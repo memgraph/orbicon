@@ -1,5 +1,8 @@
+import os
 import pandas as pd
 import simplejson as json
+
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 class ActivityHistoryItemConstants:
@@ -90,10 +93,10 @@ class ActivityHistoryItem:
 
 
 if __name__ == "__main__":
-    data_dir = "../data"
+    data_dir = os.path.join(SCRIPT_DIR, "..", "data")
 
-    df = pd.read_csv(f"{data_dir}/memgraph_orbit_events_2021_08_23.txt")
-
+    input_path = os.path.join(data_dir, "memgraph_orbit_events_2021_08_23.txt")
+    df = pd.read_csv(input_path)
     events = []
     for index, row in df.iterrows():
         data_item = ActivityHistoryItem(
@@ -124,8 +127,8 @@ if __name__ == "__main__":
             custom_title=row[ActivityHistoryItemConstants.CustomTitle],
             custom_type=row[ActivityHistoryItemConstants.CustomType],
         )
-
         events.append(vars(data_item))
 
-    with open(f"{data_dir}/memgraph_orbit_events.json", "w") as jsonFile:
+    output_path = os.path.join(data_dir, "memgraph_orbit_events.json")
+    with open(output_path, "w") as jsonFile:
         jsonFile.write(json.dumps(events, indent=4, ignore_nan=True))

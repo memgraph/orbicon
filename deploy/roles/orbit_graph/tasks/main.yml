@@ -28,8 +28,21 @@
           networks:
             - orbit-graph
         memgraph:
-          image: 'memgraph/memgraph:1.6.0-community'
-          entrypoint: ['/usr/lib/memgraph/memgraph', '--telemetry-enabled=false', '--kafka-bootstrap-servers=kafka:9092', '--log-level=TRACE']
+          image: 'memgraph-1.6.1-orbit'
+          volumes:
+            - '/home/{{ ansible_user }}/modules:/query_modules'
+          entrypoint: [
+            '/usr/lib/memgraph/memgraph',
+            '--telemetry-enabled=false',
+            '--query-modules-directory=/usr/lib/memgraph/query_modules,/query_modules',
+            '--kafka-bootstrap-servers=kafka:9092',
+            '--log-level=TRACE',
+            '--also-log-to-stderr'
+          ]
+          # TODO(gitbuda): Figure out how to pass these environment variables into the query module.
+          # environment:
+          #   - ORBIT_GRAPH_GITHUB_TOKEN=
+          #   - ORBIT_GRAPH_TWITTER_TOKEN=
           ports:
             - '7687:7687'
           networks:
@@ -48,6 +61,18 @@
       - "--exclude=ve3"
       - "--exclude=__pycache__"
       - "--exclude=htmlcov"
+
+- name: Copy modules code
+  synchronize:
+    src: ../modules/
+    dest: /home/{{ ansible_user }}/modules
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=ve3"
+      - "--exclude=__pycache__"
+      - "--exclude=htmlcov"
+
+# TODO(gitbuda): Ensure right permissions for the modules/data directory.
 
 - name: Start backend service
   community.docker.docker_compose:
