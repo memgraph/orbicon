@@ -6,12 +6,14 @@ from typing import List
 from simplejson import JSONDecodeError
 
 from utils.abstract import NodeAbstract
+from utils.util import merge_dicts
 from utils.load_event_history_data import ActivityHistoryItem
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, "..", "data")
 GITHUB_FILE_NAME = "memgraph_orbit_github_accounts.json"
 GITHUB_FILE_PATH = os.path.join(DATA_DIR, GITHUB_FILE_NAME)
+# TODO(gitbuda): Figure out how to pass these environment variables into the query module.
 OAUTH_TOKEN = "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"
 
 
@@ -110,14 +112,6 @@ def create_github_account_obj(name):
     return github_dict
 
 
-def merge_dicts(dict_1, dict_2):
-    for key, value in dict_2.items():
-        if key in dict_1 and dict_1[key] is not None and dict_1[key].is_processed:
-            continue
-        dict_1[key] = value
-    return dict_1
-
-
 def get_github_recursive_following(github_dict, depth_following_level=1):
     """
     github_dict :
@@ -185,7 +179,7 @@ def process_github(users):
     github_dict = {}
     for github_name in users:
         github_dict[github_name] = None
-    github_dict = get_github_recursive_following(github_dict, depth_following_level=2)
+    github_dict = get_github_recursive_following(github_dict, depth_following_level=1)
 
     github_dict_processed = load_github_already_processed()
     github_dict = merge_dicts(github_dict_processed, github_dict)
@@ -198,13 +192,6 @@ def process_github(users):
         jsonFile.write(json.dumps(github_json_dict, indent=4, ignore_nan=True))
 
     return {username: github_dict[username] for username in users}
-
-
-def create_members_cypher_queries(nodes: List[NodeAbstract]):
-    nodes_cypher = []
-    for node in nodes:
-        nodes_cypher.append(node.get_node_cypher())
-    print(nodes_cypher)
 
 
 if __name__ == "__main__":

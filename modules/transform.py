@@ -97,7 +97,7 @@ def kafka2graph_transform(
                     for username, account in github_accounts.items():
                         print(account.following)
                     # TODO(gitbuda): Create Github account node and followers.
-                    queries.append(create_record(merge_member_query(username)))
+                    queries.append(create_record(merge_github_query(username)))
                 twitter_data = take_type_from_array(included, "twitter_identity")
                 if twitter_data:
                     twitter_accessor = JsonDataAccessor(twitter_data)
@@ -106,7 +106,7 @@ def kafka2graph_transform(
                     for username, account in twitter_accounts.items():
                         print(account.following)
                     # TODO(gitbuda): Create Twitter account node and followers.
-                    queries.append(create_record(merge_member_query(username)))
+                    queries.append(create_record(merge_twitter_query(username)))
         except Exception as e:
             print("Failed to process message %s" % i)
             print(e)

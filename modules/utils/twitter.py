@@ -6,6 +6,7 @@ from typing import List
 from simplejson import JSONDecodeError
 
 from utils.abstract import NodeAbstract
+from utils.util import merge_dicts
 from utils.load_event_history_data import ActivityHistoryItem
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -13,7 +14,8 @@ DATA_DIR = os.path.join(SCRIPT_DIR, "..", "data")
 TWITTER_FILE_NAME = "memgraph_orbit_twitter_accounts.json"
 TWITTER_FILE_PATH = os.path.join(DATA_DIR, TWITTER_FILE_NAME)
 MAX_FOLLOWING_ACCOUNTS_ON_REQUEST = 20
-BEARER_TOKEN = ""
+# TODO(gitbuda): Figure out how to pass these environment variables into the query module.
+BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAA0lTAEAAAAANrpndxI81KFXLjieXcj0ZjxhbVQ%3DrMUx9pSfeiNOW3vJbaMYkxaUMkhYsozzlYJdpw0bLx8BXqpM5v"
 
 
 class TwitterAccount(NodeAbstract):
@@ -81,14 +83,6 @@ def parse_twitter_account(twitter_account_json) -> TwitterAccount:
                           username=parse_key(twitter_account_json, "username"),
                           profile_image_url=parse_key(twitter_account_json, "profile_image_url"),
                           id=parse_key(twitter_account_json, "id"))
-
-
-def merge_dicts(dict_1, dict_2):
-    for key, value in dict_2.items():
-        if key in dict_1 and dict_1[key] is not None and dict_1[key].is_processed:
-            continue
-        dict_1[key] = value
-    return dict_1
 
 
 def create_twitter_accounts_obj_batch(names: List[str]):
@@ -191,11 +185,7 @@ def process_twitter(users):
     twitter_dict = get_twitter_recursive_following(twitter_dict, depth_following_level=1)
 
     twitter_dict_processed = load_twitter_already_processed()
-
     twitter_dict = merge_dicts(twitter_dict, twitter_dict_processed)
-    print(twitter_dict)
-
-    twitter_dict = get_twitter_recursive_following(twitter_dict, depth_following_level=1)
 
     twitter_json_dict = {}
     for key, value in twitter_dict.items():

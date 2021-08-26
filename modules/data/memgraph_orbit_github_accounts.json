@@ -1,13 +1,22 @@
 {
     "gitbuda": {
-        "hireable": "",
+        "hireable": null,
         "avatar": "https://avatars.githubusercontent.com/u/4950251?v=4",
-        "company": "",
-        "bio": "",
+        "company": null,
+        "bio": null,
         "login": "gitbuda",
         "id": 4950251,
-        "following": [],
-        "is_processed": false
+        "following": [
+            "lemire",
+            "cor3ntin",
+            "akosenkov",
+            "tonilastre",
+            "dtomicevic",
+            "rusty1s",
+            "007vasy",
+            "MasterMedo"
+        ],
+        "is_processed": true
     },
     "lemire": {
         "hireable": true,
