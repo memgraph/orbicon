@@ -20,12 +20,13 @@ def query(command: str) -> Iterator[Dict[str, Any]]:
 
 
 def dbUsernames():
-    usernamesQuery = f'MATCH (n:Member) RETURN n.username'
+    usernamesQuery = f"MATCH (n:Member) RETURN n.username"
     return _dbUsernamesExecution(usernamesQuery)
 
 
 def dbUsernamesPrefix(prefix):
-    usernamesQuery = f'MATCH (n:Member) WHERE STARTSWITH(n.username, "{prefix}") RETURN n.username'
+    lower_prefix = prefix.lower()
+    usernamesQuery = f'MATCH (n:Member) WHERE STARTSWITH(TOLOWER(n.username), "{lower_prefix}") RETURN n.username'
     return _dbUsernamesExecution(usernamesQuery)
 
 
@@ -66,6 +67,8 @@ def dbUserDetails(username):
 
 
 class UserDetails:
+    NOT_ACCEPTED_DETAILS = ["", "None", None]
+
     def __init__(self, member, github, twitter):
         self.username = member.username
         self.avatar = (
@@ -76,7 +79,7 @@ class UserDetails:
             else twitter.profile_image_url
         )
         self.name = member.name if member.name is not None else twitter.name
-        self.name = self.name if self.name is not None else "Unknown"
+        self.name = self.name if self.name not in UserDetails.NOT_ACCEPTED_DETAILS else "Unknown"
 
         self.love = member.love
         self.love = self.love if self.love is not None else "Unknown"
@@ -84,17 +87,21 @@ class UserDetails:
         self.importance = member.love
         self.importance = self.importance if self.importance is not None else "Unknown"
 
-        self.location = member.location if member.location is not None else "Unknown"
+        self.location = member.location if member.location not in UserDetails.NOT_ACCEPTED_DETAILS else "Unknown"
 
-        self.company = github.company if github.company is not None else "Unknown"
+        self.company = github.company if github.company not in UserDetails.NOT_ACCEPTED_DETAILS else "Unknown"
 
-        self.hireable = github.hireable if github.hireable is not None else False
+        self.hireable = github.hireable if github.hireable not in UserDetails.NOT_ACCEPTED_DETAILS else False
 
         self.githubAccount = "https://github.com/gitbuda"
         self.twitterAccount = "https://twitter.com/mbudiselicbuda"
 
-        self.githubUsername = github.username if github.username is not None else member.username
-        self.twitterUsername = twitter.username if twitter.username is not None else member.username
+        self.githubUsername = (
+            github.username if github.username not in UserDetails.NOT_ACCEPTED_DETAILS else member.username
+        )
+        self.twitterUsername = (
+            twitter.username if twitter.username not in UserDetails.NOT_ACCEPTED_DETAILS else member.username
+        )
 
 
 class Usernames:

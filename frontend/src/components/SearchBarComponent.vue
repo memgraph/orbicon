@@ -14,7 +14,7 @@
     </div>
     <div v-if="showSuggestions" class="suggestions">
       <SuggestionItemComponent
-        v-for="(username, i) in sortedUsernames"
+        v-for="(username, i) in usernames"
         :key="i"
         :username="username"
         @suggestionClicked="updateSearchBarWithSuggestion"
@@ -54,7 +54,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["showUserDetails"]),
+    ...mapActions(["showUserDetails", "getUsernamesWithPrefix"]),
     onEnterClicked() {
       if (this.usernameInput.length === 0) {
         return;
@@ -75,19 +75,12 @@ export default {
       clearTimeout(this.timeout);
       var self = this;
       this.timeout = setTimeout(function () {
-        console.log("searching:", self.usernameInput);
-      }, 1000);
+        self.$store.dispatch("getUsernamesWithPrefix", self.usernameInput);
+      }, 500);
     },
   },
   computed: {
     ...mapGetters(["usernames"]),
-    sortedUsernames() {
-      const filtered = this.usernames
-        .filter((x) => x.toLowerCase().startsWith(this.usernameInput))
-        .slice(0, 5);
-
-      return filtered;
-    },
   },
 };
 </script>
