@@ -1,4 +1,6 @@
-# Explore Your Community 🧑
+# 🔍 Explore Your Community 🧑
+
+![orbit_and_memgraph](https://user-images.githubusercontent.com/4950251/131040062-d2df128e-423b-490d-b357-0c95004587c7.png)
 
 **Orbit Graph** is a centralized place where you can find anything about your developer community. [Orbit](https://orbit.love) aggregates all sorts of different events comming from the community, while [Memgraph](https://memgraph.com) enriches data and provides advanced insights based on incremental graph algorithms.
 
