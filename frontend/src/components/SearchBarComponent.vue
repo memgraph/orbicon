@@ -12,7 +12,7 @@
         ></v-text-field>
       </v-toolbar>
     </div>
-    <div v-if="usernameInput.length !== 0" class="suggestions">
+    <div v-if="showSuggestions" class="suggestions">
       <SuggestionItemComponent
         v-for="(username, i) in sortedUsernames"
         :key="i"
@@ -49,6 +49,7 @@ export default {
   data: () => {
     return {
       usernameInput: "",
+      showSuggestions: false,
       timeout: null,
     };
   },
@@ -63,11 +64,13 @@ export default {
     },
     updateSearchBarWithSuggestion(value) {
       this.usernameInput = value;
+      this.showSuggestions = false;
     },
     search(event) {
       if (event.keyCode === 13) {
         return;
       }
+      this.showSuggestions = true;
 
       clearTimeout(this.timeout);
       var self = this;
