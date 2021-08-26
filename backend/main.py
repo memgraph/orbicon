@@ -6,7 +6,10 @@ import json
 from flask import Flask, jsonify, request
 from kafka import KafkaProducer
 
+
 from orbit_graph.kafka_stream.config import TOPIC_NAME
+
+from data.mocks import usernames, userDetails, memberGraph, activities
 
 app = Flask(__name__)
 
@@ -28,6 +31,25 @@ def webhook():
     producer.flush()
     return jsonify({})
 
+
+@app.route("/memberGraph")
+def get_member_graph():
+    return json.dumps(memberGraph())
+
+
+@app.route("/activities")
+def get_activities():
+    return json.dumps(activities())
+
+
+@app.route("/userDetails")
+def get_user_details():
+    return json.dumps(userDetails())
+
+
+@app.route("/usernames")
+def get_usernames():
+    return json.dumps(usernames())
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
