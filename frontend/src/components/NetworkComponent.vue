@@ -16,6 +16,7 @@
         :nodes="memberGraph.nodes"
         :edges="memberGraph.edges"
         :options="options"
+        @double-click="onDoubleClick($event)"
       ></network>
     </div>
     <div v-if="showUserDetails">
@@ -78,7 +79,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberGraph", "usernames", "userDetails", "activities", "showUserDetails"]),
+    ...mapGetters([
+      "memberGraph",
+      "usernames",
+      "userDetails",
+      "activities",
+      "showUserDetails",
+    ]),
   },
   mounted() {
     try {
@@ -90,6 +97,16 @@ export default {
       this.msg = "Server error :(";
       console.log(error);
     }
-  }
+  },
+  methods: {
+    onDoubleClick(event) {
+      if (event.nodes.length !== 1) {
+        return;
+      }
+      const nodeId = event.nodes[0];
+      console.log(nodeId);
+      this.$store.dispatch("showUserDetails");
+    },
+  },
 };
 </script>

@@ -24,7 +24,7 @@ export default [
 
 const memberGraph = {
   nodes: [
-    { id: 1,  label: 'njonjo',  shape: 'image', image: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4", borderWidth: 10, color: { border: 'green' }, },
+    { id: 1,  label: 'njonjo',  shape: 'circularImage', image: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4", title: "Ovo je njonjo", size: 100, borderWidth: 10, color: { border: 'green' }, },
     { id: 2,  label: 'ellipse', shape: 'ellipse', borderWidth: 5, color: { border: 'green' } },
     { id: 3,  label: 'database', shape: 'database' },
     { id: 4,  label: 'njonjo2', image: 'https://avatars.githubusercontent.com/u/4950251?s=88&v=4' },
@@ -35,7 +35,8 @@ const memberGraph = {
   ],
   edges: [
     {from: 1, to: 2},
-    {from: 2, to: 3},
+    {from: 2, to: 3, arrows: 'to'},
+    {from: 3, to: 2, arrows: 'to'},
     {from: 2, to: 4},
     {from: 2, to: 5}, 
     {from: 5, to: 6},

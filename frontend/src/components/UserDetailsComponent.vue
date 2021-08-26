@@ -76,6 +76,7 @@
 
 <style scoped>
 .user-details {
+  z-index: 6;
   position: absolute;
   top: 0;
   right: 0;
