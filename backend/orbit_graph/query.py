@@ -20,12 +20,23 @@ def query(command: str) -> Iterator[Dict[str, Any]]:
 
 
 def dbUsernames():
-    usernamesQuery = f"MATCH (n:Member) RETURN n.username"
-    usernamesResults = db.execute_and_fetch(usernamesQuery)
+    usernamesQuery = f'MATCH (n:Member) RETURN n.username'
+    return _dbUsernamesExecution(usernamesQuery)
+
+
+def dbUsernamesPrefix(prefix):
+    usernamesQuery = f'MATCH (n:Member) WHERE STARTSWITH(n.username, "{prefix}") RETURN n.username'
+    return _dbUsernamesExecution(usernamesQuery)
+
+
+def _dbUsernamesExecution(query):
+    usernamesResults = db.execute_and_fetch(query)
 
     usernames = []
     for result in usernamesResults:
         usernames.append(Username(result["n.username"]))
+        if len(usernames) > 10:
+            break
 
     return Usernames(usernames)
 
