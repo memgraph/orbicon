@@ -35,24 +35,19 @@
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Memgraph Love</v-item-title>
-            <v-icon>mdi-cards-heart</v-icon>
-          </v-list-item-title>
+          <v-list-item-title
+            >Memgraph Love<v-icon>mdi-cards-heart</v-icon></v-list-item-title
+          >
           <v-list-item-subtitle>{{ userDetails.love }} </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Importance</v-item-title>
-          </v-list-item-title>
+          <v-list-item-title>Importance</v-list-item-title>
           <v-list-item-subtitle
             >{{ userDetails.importance }}
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Github</v-item-title>
-          </v-list-item-title>
+          <v-list-item-title> Github </v-list-item-title>
           <v-list-item-subtitle>
             <v-btn :href="userDetails.githubAccount" target="_blank">
               {{ userDetails.githubUsername }}
@@ -60,9 +55,7 @@
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Twitter</v-item-title>
-          </v-list-item-title>
+          <v-list-item-title> Twitter </v-list-item-title>
           <v-list-item-subtitle>
             <v-btn :href="userDetails.twitterAccount" target="_blank">
               {{ userDetails.twitterUsername }}

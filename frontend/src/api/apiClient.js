@@ -10,8 +10,7 @@ export const apiClient = {
     return Vue.axios.get(`${API_URL}/usernames`);
   },
   getUserDetails: (username) => {
-    console.log(username)
-    return Vue.axios.get(`${API_URL}/userDetails`);
+    return Vue.axios.get(`${API_URL}/userDetails/${username}`);
   },
   getActivities: () => {
     return Vue.axios.get(`${API_URL}/activities`);
