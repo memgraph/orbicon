@@ -16,7 +16,7 @@ edge_orbit_twitter_template = Template(
 edge_orbit_cypher_template = Template(
     'MATCH (n:Member {username: "$source"}), (m:Member {username: "$target"}) MERGE (n)-[:FOLLOWS]->(m);')
 
-conn = mgclient.connect(host='ec2-34-241-136-34.eu-west-1.compute.amazonaws.com', port=7687)
+conn = mgclient.connect(host='localhost', port=7687)
 conn.autocommit = True
 conn.cursor().execute("CREATE INDEX ON :Github(username);")
 conn.cursor().execute("CREATE INDEX ON :Member(username);")
