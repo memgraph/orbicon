@@ -1,4 +1,158 @@
 {
+    "gitbuda": {
+        "hireable": "",
+        "avatar": "https://avatars.githubusercontent.com/u/4950251?v=4",
+        "company": "",
+        "bio": "",
+        "login": "gitbuda",
+        "id": 4950251,
+        "following": [],
+        "is_processed": false
+    },
+    "lemire": {
+        "hireable": true,
+        "avatar": "https://avatars.githubusercontent.com/u/391987?v=4",
+        "company": "Universit\u00e9 du Qu\u00e9bec (TELUQ)",
+        "bio": "\r\n    Daniel Lemire is a computer science professor. His research is  on software performance in data engineering. \r\n",
+        "login": "lemire",
+        "id": 391987,
+        "following": [
+            "hosh",
+            "jgm",
+            "maciej",
+            "timbray",
+            "ltratt",
+            "skeeto",
+            "willf",
+            "ciaranj",
+            "schani",
+            "squito",
+            "tokenrove",
+            "maxdemarzi",
+            "henryr",
+            "interstar",
+            "evachon",
+            "cruppstahl",
+            "lintool",
+            "techninja",
+            "jeffplaisance",
+            "Preko",
+            "ccmaymay",
+            "cjauvin",
+            "maropu",
+            "regehr",
+            "edvelezg",
+            "jvns",
+            "searchivarius",
+            "vgururao",
+            "dmbarbour",
+            "culurciello"
+        ],
+        "is_processed": true
+    },
+    "cor3ntin": {
+        "hireable": true,
+        "avatar": "https://avatars.githubusercontent.com/u/1409019?v=4",
+        "company": null,
+        "bio": null,
+        "login": "cor3ntin",
+        "id": 1409019,
+        "following": [
+            "pr1csynth",
+            "jepicoco",
+            "pasnox",
+            "TartanLlama",
+            "mfuntowicz",
+            "sanecz",
+            "cchafer"
+        ],
+        "is_processed": true
+    },
+    "akosenkov": {
+        "hireable": null,
+        "avatar": "https://avatars.githubusercontent.com/u/1645649?v=4",
+        "company": null,
+        "bio": "https://medium.com/@akosenkov",
+        "login": "akosenkov",
+        "id": 1645649,
+        "following": [
+            "DenisKolodin",
+            "etano",
+            "tstep",
+            "gitbuda",
+            "goldsborough",
+            "samholt",
+            "kwuenscher",
+            "GangSirius"
+        ],
+        "is_processed": true
+    },
+    "tonilastre": {
+        "hireable": null,
+        "avatar": "https://avatars.githubusercontent.com/u/2602830?v=4",
+        "company": null,
+        "bio": null,
+        "login": "tonilastre",
+        "id": 2602830,
+        "following": [],
+        "is_processed": true
+    },
+    "dtomicevic": {
+        "hireable": null,
+        "avatar": "https://avatars.githubusercontent.com/u/3899768?v=4",
+        "company": "@memgraph ",
+        "bio": "Founder @memgraph",
+        "login": "dtomicevic",
+        "id": 3899768,
+        "following": [
+            "sdiehl",
+            "etano",
+            "Th30n",
+            "gitbuda",
+            "florijanstamenkovic",
+            "iborko"
+        ],
+        "is_processed": true
+    },
+    "rusty1s": {
+        "hireable": null,
+        "avatar": "https://avatars.githubusercontent.com/u/6945922?v=4",
+        "company": null,
+        "bio": "PhD student @ TU Dortmund University - Interested in Representation Learning on Graphs and Manifolds; PyTorch, CUDA, Vim and macOS Enthusiast",
+        "login": "rusty1s",
+        "id": 6945922,
+        "following": [],
+        "is_processed": true
+    },
+    "007vasy": {
+        "hireable": true,
+        "avatar": "https://avatars.githubusercontent.com/u/12837887?v=4",
+        "company": "ApexAI O\u00dc",
+        "bio": "I am doing DataScience, Network Science (BAL)\r\nSharemind solutions, Big Data and etc.",
+        "login": "007vasy",
+        "id": 12837887,
+        "following": [
+            "lexfridman",
+            "torvalds",
+            "johnymontana",
+            "mrGacsi",
+            "antaljanosbenjamin",
+            "nicolewhite",
+            "forestWalker",
+            "ARKInvest"
+        ],
+        "is_processed": true
+    },
+    "MasterMedo": {
+        "hireable": true,
+        "avatar": "https://avatars.githubusercontent.com/u/16375100?v=4",
+        "company": "University of Zagreb, Faculty of Electrical Engineering and Computing",
+        "bio": "math, programming, and exercise!",
+        "login": "MasterMedo",
+        "id": 16375100,
+        "following": [],
+        "is_processed": true
+    },
     "arnamak": {
         "hireable": null,
         "avatar": "https://avatars.githubusercontent.com/u/7730180?v=4",
@@ -248,16 +402,6 @@
         "following": [],
         "is_processed": false
     },
-    "tonilastre": {
-        "hireable": "",
-        "avatar": "https://avatars.githubusercontent.com/u/2602830?v=4",
-        "company": "",
-        "bio": "",
-        "login": "tonilastre",
-        "id": 2602830,
-        "following": [],
-        "is_processed": false
-    },
     "matejbasic": {
         "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/4060253?v=4",
@@ -341,16 +485,6 @@
         "following": [],
         "is_processed": false
     },
-    "gitbuda": {
-        "hireable": "",
-        "avatar": "https://avatars.githubusercontent.com/u/4950251?v=4",
-        "company": "",
-        "bio": "",
-        "login": "gitbuda",
-        "id": 4950251,
-        "following": [],
-        "is_processed": false
-    },
     "mferencevic": {
         "hireable": null,
         "avatar": "https://avatars.githubusercontent.com/u/9316533?v=4",
@@ -411,16 +545,6 @@
             "shyamupa"
         ],
         "is_processed": true
-    },
-    "dtomicevic": {
-        "hireable": "",
-        "avatar": "https://avatars.githubusercontent.com/u/3899768?v=4",
-        "company": "",
-        "bio": "",
-        "login": "dtomicevic",
-        "id": 3899768,
-        "following": [],
-        "is_processed": false
     },
     "mihaeljaic": {
         "hireable": null,
@@ -511,16 +635,6 @@
         "id": 26723631,
         "following": [],
         "is_processed": false
-    },
-    "MasterMedo": {
-        "hireable": true,
-        "avatar": "https://avatars.githubusercontent.com/u/16375100?v=4",
-        "company": "University of Zagreb, Faculty of Electrical Engineering and Computing",
-        "bio": "math, programming, and exercise!",
-        "login": "MasterMedo",
-        "id": 16375100,
-        "following": [],
-        "is_processed": true
     },
     "mfrancekovic": {
         "hireable": null,
@@ -648,29 +762,15 @@
         "following": [],
         "is_processed": false
     },
-    "AndreyRisukhin": {
-        "hireable": true,
+    "andreyrisukhin": {
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/49879793?v=4",
-        "company": null,
-        "bio": "UW Undergraduate | Machine Learning\r\n",
+        "company": "",
+        "bio": "",
         "login": "andreyrisukhin",
         "id": 49879793,
-        "following": [
-            "adamtowerz",
-            "rigved",
-            "PetrochukM",
-            "jpcanright",
-            "DrDongSi",
-            "JstnMcBrd",
-            "sierralee51",
-            "JEElsner",
-            "drashevsky",
-            "christopherkang",
-            "albertklam",
-            "juliuscecilia33",
-            "ChloeHoegger"
-        ],
-        "is_processed": true
+        "following": [],
+        "is_processed": false
     },
     "plison": {
         "hireable": null,
@@ -842,16 +942,6 @@
         "id": 66055333,
         "following": [],
         "is_processed": true
-    },
-    "007vasy": {
-        "hireable": "",
-        "avatar": "https://avatars.githubusercontent.com/u/12837887?v=4",
-        "company": "",
-        "bio": "",
-        "login": "007vasy",
-        "id": 12837887,
-        "following": [],
-        "is_processed": false
     },
     "RoydenCarneiro": {
         "hireable": null,
@@ -1133,16 +1223,6 @@
         "following": [],
         "is_processed": false
     },
-    "andreyrisukhin": {
-        "hireable": "",
-        "avatar": "https://avatars.githubusercontent.com/u/49879793?v=4",
-        "company": "",
-        "bio": "",
-        "login": "andreyrisukhin",
-        "id": 49879793,
-        "following": [],
-        "is_processed": false
-    },
     "sdiehl": {
         "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/236767?v=4",
@@ -1174,20 +1254,14 @@
         "is_processed": false
     },
     "iborko": {
-        "hireable": null,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/9485939?v=4",
-        "company": null,
-        "bio": null,
+        "company": "",
+        "bio": "",
         "login": "iborko",
         "id": 9485939,
-        "following": [
-            "dtomicevic",
-            "Th30n",
-            "giavjeko",
-            "florijanstamenkovic",
-            "mculinovic"
-        ],
-        "is_processed": true
+        "following": [],
+        "is_processed": false
     },
     "hadley": {
         "hireable": "",
@@ -4048,14 +4122,14 @@
         "is_processed": true
     },
     "lexfridman": {
-        "hireable": null,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/536621?v=4",
-        "company": "MIT",
-        "bio": "AI researcher working on autonomous vehicles, human-robot interaction, and machine learning at MIT and beyond.",
+        "company": "",
+        "bio": "",
         "login": "lexfridman",
         "id": 536621,
         "following": [],
-        "is_processed": true
+        "is_processed": false
     },
     "lukekarrys": {
         "hireable": null,
@@ -5047,45 +5121,14 @@
         "is_processed": false
     },
     "johnymontana": {
-        "hireable": true,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/1222454?v=4",
-        "company": "@neo4j ",
-        "bio": "Code Cowboy @neo4j",
+        "company": "",
+        "bio": "",
         "login": "johnymontana",
         "id": 1222454,
-        "following": [
-            "dwillis",
-            "ybakos",
-            "peterneubauer",
-            "steveluscher",
-            "mourner",
-            "coffeemug",
-            "jmdeldin",
-            "leebyron",
-            "akollegger",
-            "mxcl",
-            "jexp",
-            "svidela",
-            "apcj",
-            "thobe",
-            "craigtaverner",
-            "dannguyen",
-            "shalstvedt",
-            "wcooley",
-            "glesica",
-            "syrusakbary",
-            "JasonSanford",
-            "anvaka",
-            "mbostock",
-            "wesm",
-            "kevinoid",
-            "pckujawa",
-            "systay",
-            "pcbje",
-            "stubailo",
-            "pirhoo"
-        ],
-        "is_processed": true
+        "following": [],
+        "is_processed": false
     },
     "catarak": {
         "hireable": "",
@@ -6521,63 +6564,6 @@
             "lukaomi",
             "markanr"
         ],
-        "is_processed": true
-    },
-    "lemire": {
-        "hireable": "",
-        "avatar": "https://avatars.githubusercontent.com/u/391987?v=4",
-        "company": "",
-        "bio": "",
-        "login": "lemire",
-        "id": 391987,
-        "following": [],
-        "is_processed": false
-    },
-    "cor3ntin": {
-        "hireable": true,
-        "avatar": "https://avatars.githubusercontent.com/u/1409019?v=4",
-        "company": null,
-        "bio": null,
-        "login": "cor3ntin",
-        "id": 1409019,
-        "following": [
-            "pr1csynth",
-            "jepicoco",
-            "pasnox",
-            "TartanLlama",
-            "mfuntowicz",
-            "sanecz",
-            "cchafer"
-        ],
-        "is_processed": true
-    },
-    "akosenkov": {
-        "hireable": null,
-        "avatar": "https://avatars.githubusercontent.com/u/1645649?v=4",
-        "company": null,
-        "bio": "https://medium.com/@akosenkov",
-        "login": "akosenkov",
-        "id": 1645649,
-        "following": [
-            "DenisKolodin",
-            "etano",
-            "tstep",
-            "gitbuda",
-            "goldsborough",
-            "samholt",
-            "kwuenscher",
-            "GangSirius"
-        ],
-        "is_processed": true
-    },
-    "rusty1s": {
-        "hireable": null,
-        "avatar": "https://avatars.githubusercontent.com/u/6945922?v=4",
-        "company": null,
-        "bio": "PhD student @ TU Dortmund University - Interested in Representation Learning on Graphs and Manifolds; PyTorch, CUDA, Vim and macOS Enthusiast",
-        "login": "rusty1s",
-        "id": 6945922,
-        "following": [],
         "is_processed": true
     },
     "yihui": {
@@ -14420,73 +14406,54 @@
         "is_processed": true
     },
     "torvalds": {
-        "hireable": null,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/1024025?v=4",
-        "company": "Linux Foundation",
-        "bio": null,
+        "company": "",
+        "bio": "",
         "login": "torvalds",
         "id": 1024025,
         "following": [],
-        "is_processed": true
+        "is_processed": false
     },
     "mrGacsi": {
-        "hireable": null,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/5780077?v=4",
-        "company": "BME",
-        "bio": null,
+        "company": "",
+        "bio": "",
         "login": "mrGacsi",
         "id": 5780077,
-        "following": [
-            "szuperaz",
-            "007vasy"
-        ],
-        "is_processed": true
+        "following": [],
+        "is_processed": false
     },
     "nicolewhite": {
-        "hireable": null,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/7498009?v=4",
-        "company": null,
-        "bio": null,
+        "company": "",
+        "bio": "",
         "login": "nicolewhite",
         "id": 7498009,
-        "following": [
-            "hadley",
-            "mneedham",
-            "maxdemarzi",
-            "jakewins",
-            "technige",
-            "jennybc",
-            "freeeve",
-            "dhimmel",
-            "richfitz",
-            "kbastani",
-            "danielkrizian",
-            "szeitlin",
-            "laeg",
-            "donquxiote",
-            "m-rcd"
-        ],
-        "is_processed": true
+        "following": [],
+        "is_processed": false
     },
     "forestWalker": {
-        "hireable": null,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/12122136?v=4",
-        "company": null,
-        "bio": null,
+        "company": "",
+        "bio": "",
         "login": "forestWalker",
         "id": 12122136,
         "following": [],
-        "is_processed": true
+        "is_processed": false
     },
     "ARKInvest": {
-        "hireable": null,
+        "hireable": "",
         "avatar": "https://avatars.githubusercontent.com/u/49050316?v=4",
-        "company": null,
-        "bio": null,
+        "company": "",
+        "bio": "",
         "login": "ARKInvest",
         "id": 49050316,
         "following": [],
-        "is_processed": true
+        "is_processed": false
     },
     "dag": {
         "hireable": "",

@@ -93,6 +93,10 @@ def kafka2graph_transform(
                 if github_data:
                     github_accessor = JsonDataAccessor(github_data)
                     username = github_accessor.take_n("attributes", "username")
+                    github_accounts = github.process_github([username])
+                    for username, account in github_accounts.items():
+                        print(account.following)
+                    # TODO(gitbuda):
                     queries.append(create_record(merge_member_query(username)))
                 twitter_data = take_type_from_array(included, "twitter_identity")
                 if twitter_data:

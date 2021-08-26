@@ -13,7 +13,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, "..", "data")
 GITHUB_FILE_NAME = "memgraph_orbit_github_accounts.json"
 GITHUB_FILE_PATH = os.path.join(DATA_DIR, GITHUB_FILE_NAME)
-OAUTH_TOKEN = ""
+OAUTH_TOKEN = "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"
 
 
 class GithubAccount(NodeAbstract):
@@ -110,13 +110,13 @@ def create_github_account_obj(name):
     return github_dict
 
 
-def get_github_recursive_following(github_dict: {}, depth_following_level=1):
+def get_github_recursive_following(github_dict, depth_following_level=1):
     """
     github_dict :
     if value is None or is_processed=False - not processed yet
     processing - get main account + add accounts it follows in dict for further processing (level+1)
     """
-    for i in range(depth_following_level):
+    for _ in range(depth_following_level):
         new_github_dict = {}
         for name, github_account in github_dict.items():
 
@@ -167,18 +167,19 @@ def load_github_already_processed():
     return github_dict_processed
 
 
-def process_github(orbit_events_json: List[ActivityHistoryItem]):
+def process_github_history(orbit_events_json: List[ActivityHistoryItem]):
     github_members_names = get_github_members(orbit_events_json)
+    process_github(github_members_names)
 
+
+def process_github(users):
     github_dict = {}
-    for github_name in github_members_names:
+    for github_name in users:
         github_dict[github_name] = None
+    github_dict = get_github_recursive_following(github_dict, depth_following_level=2)
 
     github_dict_processed = load_github_already_processed()
-
-    github_dict = {**github_dict, **github_dict_processed}
-
-    github_dict = get_github_recursive_following(github_dict, depth_following_level=1)
+    github_dict = {**github_dict_processed, **github_dict}
 
     github_json_dict = {}
     for key, value in github_dict.items():
@@ -187,7 +188,7 @@ def process_github(orbit_events_json: List[ActivityHistoryItem]):
     with open(GITHUB_FILE_PATH, "w") as jsonFile:
         jsonFile.write(json.dumps(github_json_dict, indent=4, ignore_nan=True))
 
-    print(len(github_json_dict))
+    return {username: github_dict[username] for username in users}
 
 
 def create_members_cypher_queries(nodes: List[NodeAbstract]):
@@ -200,5 +201,4 @@ def create_members_cypher_queries(nodes: List[NodeAbstract]):
 if __name__ == "__main__":
     with open(os.path.join(DATA_DIR, "memgraph_orbit_events.json")) as json_file:
         orbit_events_json: List[ActivityHistoryItem] = json.load(json_file)
-
-    process_github(orbit_events_json)
+    process_github_history(orbit_events_json)

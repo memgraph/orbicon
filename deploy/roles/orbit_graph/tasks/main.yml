@@ -59,6 +59,8 @@
       - "--exclude=__pycache__"
       - "--exclude=htmlcov"
 
+# TODO(gitbuda): Ensure right permissions for the modules/data directory.
+
 - name: Start backend service
   community.docker.docker_compose:
     project_name: orbit_graph
