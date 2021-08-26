@@ -19,14 +19,20 @@ OAUTH_TOKEN = "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"
 class GithubAccount:
     CYP_CREATE_NODE = Template(
         """
-        CREATE (n:Github {username: "$username", avatar: "$avatar", company:"$company", hireable:"$hireable"});
+        CREATE (n:Github {
+            username: "$username",
+            avatar: "$avatar",
+            company:"$company",
+            hireable:"$hireable",
+            url: "$url"
+        });
     """
     )
     CYP_MERGE_NODE = Template(
         """
         MERGE (n:Github {username: "$username"})
-        ON CREATE SET n += {avatar: "$avatar", company:"$company", hireable:"$hireable"}
-        ON MATCH SET n += {avatar: "$avatar", company:"$company", hireable:"$hireable"};
+        ON CREATE SET n += {avatar: "$avatar", company:"$company", hireable:"$hireable", url: "$url"}
+        ON MATCH SET n += {avatar: "$avatar", company:"$company", hireable:"$hireable", url: "$url"};
     """
     )
     CYP_FOLLOWS = Template(
@@ -35,7 +41,7 @@ class GithubAccount:
     """
     )
 
-    def __init__(self, avatar, company, bio, hireable, login, id):
+    def __init__(self, avatar, company, bio, hireable, login, id, url):
         self.hireable = hireable
         self.avatar = avatar
         self.company = company
@@ -43,6 +49,7 @@ class GithubAccount:
         self.bio = bio
         self.login = login
         self.id = id
+        self.url = "https://github.com/%s" % login if not url else url
         self.following: List[str] = []
         self.is_processed: bool = False
 
@@ -71,6 +78,7 @@ class GithubAccount:
             company=self.company,
             hireable=self.hireable,
             username=self.login,
+            url=self.url,
         )
 
     def cyp_merge_node(self):
@@ -79,6 +87,7 @@ class GithubAccount:
             company=self.company,
             hireable=self.hireable,
             username=self.login,
+            url=self.url,
         )
 
     def cyp_follows(self, other):
@@ -124,6 +133,7 @@ def parse_github_account(github_account_json) -> GithubAccount:
         hireable=parse_key(github_account_json, "hireable"),
         login=parse_key(github_account_json, "login"),
         id=parse_key(github_account_json, "id"),
+        url=parse_key(github_account_json, "html_url"),
     )
 
 
@@ -173,8 +183,6 @@ def get_github_recursive_following(github_dict, depth_following_level=1):
             if github_account is not None and github_account.is_processed:
                 continue
 
-            print("Print processing %s" % name)
-
             new_github_account_dict = create_github_account_obj(name)
             new_github_dict = merge_dicts(new_github_dict, new_github_account_dict)
 
@@ -210,6 +218,7 @@ def load_github_already_processed():
             hireable=github_account_json["hireable"],
             login=github_account_json["login"],
             id=github_account_json["id"],
+            url=parse_key(github_account_json, "url"),
         )
         github_account.following = github_account_json["following"]
         github_account.is_processed = github_account_json["is_processed"]

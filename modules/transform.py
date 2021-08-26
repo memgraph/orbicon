@@ -110,6 +110,7 @@ def kafka2graph_transform(
                     github_accessor = JsonDataAccessor(github_data)
                     print(dumps_utf8(github_accessor._data))
                     username = github_accessor.take_n("attributes", "username")
+                    source_host = github_accessor.take_n("attributes", "source_host")
                     github_account = github.GithubAccount(
                         avatar=None,
                         company=None,
@@ -117,6 +118,7 @@ def kafka2graph_transform(
                         hireable=None,
                         login=username,
                         id=None,
+                        url="https://%s/%s" % (source_host, username),
                     )
                     queries.append(create_record(github_account.cyp_merge_node()))
                     github_accounts = github.process_github([username])
@@ -135,7 +137,7 @@ def kafka2graph_transform(
                         name=None, username=username, profile_image_url=None, id=None
                     )
                     queries.append(create_record(twitter_account.cyp_merge_node()))
-                    twitter_accounts = twitter.process_twitter([username])
+                    twitter_accounts = twitter.process_twitter([username], single_request=True)
                     for username, account in twitter_accounts.items():
                         print("TWITTER:", username, "FOLLOWS:", account.following)
                         queries.append(create_record(account.cyp_merge_node()))

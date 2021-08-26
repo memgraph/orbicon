@@ -6,18 +6,23 @@ from utils.data_provider import get_orbit_json_events
 class MemberAccount:
     CYP_CREATE_NODE = Template(
         """
-        CREATE (n:Member {love: "$love",
-                          name: "$name",
-                          username: "$username",
-                          avatar: "$avatar",
-                          location: "$location"});
+        CREATE (n:Member {
+            love: "$love",
+            name: "$name",
+            username: "$username",
+            avatar: "$avatar",
+            location: "$location",
+            importance: $importance
+        });
     """
     )
     CYP_MERGE_NODE = Template(
         """
         MERGE (n:Member {username: "$username"})
-        ON CREATE SET n += {love: "$love", name: "$name", avatar: "$avatar", location: "$location"}
-        ON MATCH SET n += {love: "$love", name: "$name", avatar: "$avatar", location: "$location"};
+        ON CREATE SET n += {love: "$love", name: "$name", avatar: "$avatar", location: "$location",
+                            importance: $importance}
+        ON MATCH SET n += {love: "$love", name: "$name", avatar: "$avatar", location: "$location",
+                           importance: $importance};
     """
     )
     CYP_HAS_GITHUB = Template(
@@ -42,6 +47,7 @@ class MemberAccount:
         self.slug = slug
         self.avatar = avatar
         self.location = location
+        self.importance = 0.0
         self.github = github
         self.twitter = twitter
 
@@ -52,6 +58,7 @@ class MemberAccount:
             username=self.slug,
             avatar=self.avatar,
             location=self.location,
+            importance=self.importance,
         )
 
     def cyp_merge_node(self):
@@ -61,6 +68,7 @@ class MemberAccount:
             username=self.slug,
             avatar=self.avatar,
             location=self.location,
+            importance=self.importance,
         )
 
     def cyp_has_github(self, username):

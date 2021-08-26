@@ -4,6 +4,208 @@
         "username": "mbudiselicbuda",
         "profile_image_url": "https://pbs.twimg.com/profile_images/774612318927876096/FJmXlrvh_normal.jpg",
         "id": "252715892",
+        "is_processed": true,
+        "following": [
+            "MarioRajn",
+            "BarabasiLab",
+            "BenFerrum",
+            "sirvioville",
+            "mmbronstein",
+            "NeuralAlpha",
+            "TheOrbifold",
+            "st3llasia",
+            "MarcJBrooker",
+            "kelseyhightower",
+            "DanielleMorrill",
+            "farnamstreet",
+            "AlexOmeyer",
+            "mikebutcher",
+            "marinsmiljanic",
+            "budabudimir",
+            "business",
+            "CMUDB",
+            "NenadMalic",
+            "akotarac"
+        ]
+    },
+    "MarioRajn": {
+        "name": "Mario Rajn",
+        "username": "MarioRajn",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/852569935612137472/VxlQg-iG_normal.jpg",
+        "id": "935561725",
+        "is_processed": false,
+        "following": []
+    },
+    "BarabasiLab": {
+        "name": "BarabasiLab",
+        "username": "BarabasiLab",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1391486813685047298/o8mi7HG2_normal.jpg",
+        "id": "1380047384898584577",
+        "is_processed": false,
+        "following": []
+    },
+    "BenFerrum": {
+        "name": "benferrum.crypto",
+        "username": "BenFerrum",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1381113961257394178/y4JQioE6_normal.jpg",
+        "id": "1201660004928897024",
+        "is_processed": true,
+        "following": [
+            "DefiLlama",
+            "downingARK",
+            "peter_szilagyi",
+            "mhluongo",
+            "killedbygoogle",
+            "hubermanlab",
+            "EthereumMemes",
+            "DocumentEther",
+            "doseofdefi",
+            "EvilAICartoons",
+            "LidoFinance",
+            "maxjaderberg",
+            "SamHarrisOrg",
+            "johnsonmxe",
+            "snyksec",
+            "WholeMarsBlog",
+            "KeePassXC",
+            "madewithml",
+            "ethereum",
+            "sassal0x"
+        ]
+    },
+    "sirvioville": {
+        "name": "Ville Sirvi\u00f6",
+        "username": "sirvioville",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1369330571328053254/trTbxLYU_normal.jpg",
+        "id": "418518836",
+        "is_processed": false,
+        "following": []
+    },
+    "mmbronstein": {
+        "name": "Michael Bronstein",
+        "username": "mmbronstein",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1269239465664544768/WBJ4jgBy_normal.jpg",
+        "id": "62044012",
+        "is_processed": false,
+        "following": []
+    },
+    "NeuralAlpha": {
+        "name": "Neural Alpha",
+        "username": "NeuralAlpha",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/801764361589182464/T95SPK_I_normal.jpg",
+        "id": "787280885666185221",
+        "is_processed": false,
+        "following": []
+    },
+    "TheOrbifold": {
+        "name": "Graphs & Networks",
+        "username": "TheOrbifold",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1353961279216615425/gW_HLL8N_normal.jpg",
+        "id": "95575650",
+        "is_processed": false,
+        "following": []
+    },
+    "st3llasia": {
+        "name": "Estelle Scifo",
+        "username": "st3llasia",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1089474027163435008/ms8LnWvy_normal.jpg",
+        "id": "3206113937",
+        "is_processed": false,
+        "following": []
+    },
+    "MarcJBrooker": {
+        "name": "Marc Brooker",
+        "username": "MarcJBrooker",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1319008419844554752/enI4xlWg_normal.jpg",
+        "id": "1957401379",
+        "is_processed": false,
+        "following": []
+    },
+    "kelseyhightower": {
+        "name": "Kelsey Hightower",
+        "username": "kelseyhightower",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1204077305271705606/j5XjhPAt_normal.jpg",
+        "id": "159822053",
+        "is_processed": false,
+        "following": []
+    },
+    "DanielleMorrill": {
+        "name": "Danielle Morrill \ud83d\udc10\u2728",
+        "username": "DanielleMorrill",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1428112789432832008/1g4tgXKp_normal.jpg",
+        "id": "7017692",
+        "is_processed": false,
+        "following": []
+    },
+    "farnamstreet": {
+        "name": "FS",
+        "username": "farnamstreet",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1157029452146192391/LFWIz20B_normal.jpg",
+        "id": "112290748",
+        "is_processed": false,
+        "following": []
+    },
+    "AlexOmeyer": {
+        "name": "Alexandre Omeyer",
+        "username": "AlexOmeyer",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1360222899584593924/zJAPTKYQ_normal.jpg",
+        "id": "1394338597",
+        "is_processed": false,
+        "following": []
+    },
+    "mikebutcher": {
+        "name": "Mike Butcher",
+        "username": "mikebutcher",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/668390067094888448/w18aCM4M_normal.jpg",
+        "id": "13666",
+        "is_processed": false,
+        "following": []
+    },
+    "marinsmiljanic": {
+        "name": "Marin Smiljani\u0107",
+        "username": "marinsmiljanic",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1231665100571856897/-Bt5wHEF_normal.jpg",
+        "id": "50985332",
+        "is_processed": false,
+        "following": []
+    },
+    "budabudimir": {
+        "name": "Ivan Mandura",
+        "username": "budabudimir",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1059912022643621890/NMiH5cIM_normal.jpg",
+        "id": "2831533407",
+        "is_processed": false,
+        "following": []
+    },
+    "business": {
+        "name": "Bloomberg",
+        "username": "business",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/991818020233404416/alrBF_dr_normal.jpg",
+        "id": "34713362",
+        "is_processed": false,
+        "following": []
+    },
+    "CMUDB": {
+        "name": "CMU Database Group",
+        "username": "CMUDB",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/1311854748711165953/B97M6DLe_normal.jpg",
+        "id": "2252942868",
+        "is_processed": false,
+        "following": []
+    },
+    "NenadMalic": {
+        "name": "Nenad Mali\u0107",
+        "username": "NenadMalic",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/578899336362262528/R9c6yxLl_normal.jpeg",
+        "id": "941744611",
+        "is_processed": false,
+        "following": []
+    },
+    "akotarac": {
+        "name": "Ante Kotarac",
+        "username": "akotarac",
+        "profile_image_url": "https://pbs.twimg.com/profile_images/708313915860623361/XBObKA5v_normal.jpg",
+        "id": "36337249",
         "is_processed": false,
         "following": []
     },
@@ -65,35 +267,6 @@
             "AdviceToWriters",
             "mnbookgeek",
             "MichelleDLowery"
-        ]
-    },
-    "BenFerrum": {
-        "name": "benferrum.crypto",
-        "username": "BenFerrum",
-        "profile_image_url": "https://pbs.twimg.com/profile_images/1381113961257394178/y4JQioE6_normal.jpg",
-        "id": "1201660004928897024",
-        "is_processed": true,
-        "following": [
-            "DefiLlama",
-            "downingARK",
-            "peter_szilagyi",
-            "mhluongo",
-            "killedbygoogle",
-            "hubermanlab",
-            "EthereumMemes",
-            "DocumentEther",
-            "doseofdefi",
-            "EvilAICartoons",
-            "LidoFinance",
-            "maxjaderberg",
-            "SamHarrisOrg",
-            "johnsonmxe",
-            "snyksec",
-            "WholeMarsBlog",
-            "KeePassXC",
-            "madewithml",
-            "ethereum",
-            "sassal0x"
         ]
     },
     "luistrigueiros": {
@@ -1718,14 +1891,6 @@
         "username": "MedeirosJohn",
         "profile_image_url": "https://pbs.twimg.com/profile_images/1322362488806088704/0yb-CgNg_normal.jpg",
         "id": "74329502",
-        "is_processed": false,
-        "following": []
-    },
-    "NenadMalic": {
-        "name": "Nenad Mali\u0107",
-        "username": "NenadMalic",
-        "profile_image_url": "https://pbs.twimg.com/profile_images/578899336362262528/R9c6yxLl_normal.jpeg",
-        "id": "941744611",
         "is_processed": false,
         "following": []
     },
