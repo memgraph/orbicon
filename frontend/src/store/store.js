@@ -24,7 +24,7 @@ const mutations = {
     state.memberGraph = memberGraph;
   },
   SET_USERNAMES(state, usernames) {
-    state.usernames = usernames;
+    state.usernames = usernames.map(x => x.username);
   },
   SET_USER_DETAILS(state, userDetails) {
     state.userDetails = userDetails

@@ -47,6 +47,9 @@ def usernames():
             {
                 "username": "jmatak",
             },
+            {
+                "username": "cofi",
+            },
         ]
     }
 
