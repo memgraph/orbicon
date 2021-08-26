@@ -60,7 +60,15 @@ export default {
         return;
       }
 
-      this.$store.dispatch("showUserDetails", this.usernameInput);
+      let self = this;
+      this.$store
+        .dispatch("setIsFetchingUserDetails", true)
+        .then(() => {
+          self.$store.dispatch("showUserDetails", self.usernameInput);
+        })
+        .then(() => {
+          self.$store.dispatch("setIsFetchingUserDetails", false);
+        });
     },
     updateSearchBarWithSuggestion(value) {
       this.usernameInput = value;

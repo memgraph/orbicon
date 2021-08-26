@@ -1,6 +1,10 @@
 <template>
   <div class="user-details">
-    <v-card class="user-card" elevation="2">
+    <v-card
+      v-if="userDetails !== null && userDetails.username !== undefined"
+      class="user-card"
+      elevation="2"
+    >
       <v-list-item three-line>
         <v-list-item-avatar size="80" color="grey"
           ><v-img
@@ -55,6 +59,15 @@
         </v-list-item>
       </v-list>
     </v-card>
+    <v-card v-else-if="!isFetchingUserDetails" class="user-card">
+      <v-list-item three-line>
+        <v-list-item-title
+          ><v-icon>mdi-alert</v-icon>
+          Username not found!
+        </v-list-item-title>
+        <v-btn text class="x-btn" @click="onXClick">X</v-btn>
+      </v-list-item>
+    </v-card>
   </div>
 </template>
 
@@ -95,7 +108,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["showUserDetails", "userDetails"]),
+    ...mapGetters(["showUserDetails", "userDetails", "isFetchingUserDetails"]),
   },
 };
 </script>

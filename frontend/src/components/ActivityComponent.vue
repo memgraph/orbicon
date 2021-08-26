@@ -38,16 +38,27 @@
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ActivityComponent",
   props: ["activity"],
   methods: {
-    ...mapActions(["showUserDetails"]),
+    ...mapActions(["showUserDetails", "setIsFetchingUserDetails"]),
     onBtnClick() {
-      this.$store.dispatch("showUserDetails");
+      let self = this;
+      this.$store
+        .dispatch("setIsFetchingUserDetails", true)
+        .then(() => {
+          self.$store.dispatch("showUserDetails", self.activity.username);
+        })
+        .then(() => {
+          self.$store.dispatch("setIsFetchingUserDetails", false);
+        });
     },
+  },
+  computed: {
+    ...mapGetters(["isFetchingUserDetails"]),
   },
 };
 </script>
