@@ -11,10 +11,16 @@ from kafka import KafkaProducer
 from orbit_graph.kafka_stream.config import TOPIC_NAME
 
 from data.mocks import usernames, userDetails, memberGraph, activities
+from orbit_graph.query import dbUserDetails, dbUsernames
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
+
+
+class MyEncoder(json.JSONEncoder):
+    def default(slef, o):
+        return o.__dict__
 
 
 @app.route("/")
@@ -47,16 +53,16 @@ def get_activities():
     return json.dumps(activities())
 
 
-@app.route("/userDetails")
+@app.route("/userDetails/<username>")
 @cross_origin()
-def get_user_details():
-    return json.dumps(userDetails())
+def get_user_details(username):
+    return json.dumps(dbUserDetails(username), cls=MyEncoder)
 
 
 @app.route("/usernames")
 @cross_origin()
 def get_usernames():
-    return json.dumps(usernames())
+    return json.dumps(dbUsernames(), cls=MyEncoder)
 
 
 if __name__ == "__main__":
