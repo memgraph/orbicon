@@ -13,9 +13,7 @@
         </v-list-item-content>
 
         <v-list-item-avatar size="80" color="grey"
-          ><v-img
-            src="https://avatars.githubusercontent.com/u/4950251?s=88&v=4"
-          ></v-img
+          ><v-img :src="activity.avatar"></v-img
         ></v-list-item-avatar>
       </v-list-item>
       <v-list-item one-line>

@@ -5,7 +5,7 @@
       <p class="powered-by">Powered by Memgraph</p>
       <SearchBarComponent />
       <div v-if="activities.length">
-        <p class="activities-title">ACTIVITIES</p>
+        <p class="activities-title">LATEST ACTIVITIES</p>
         <ActivityComponent
           v-for="(activity, i) in activities"
           :key="i"
@@ -151,9 +151,8 @@ export default {
 
     let self = this;
     window.setInterval(() => {
-      console.log("Getting activities");
       self.$store.dispatch("getActivities");
-    }, 10000);
+    }, 15000);
   },
   methods: {
     onDoubleClick(event) {

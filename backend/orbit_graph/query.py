@@ -4,15 +4,17 @@ from orbit_graph.database import Memgraph
 from orbit_graph.database.config import MG_PORT, MG_HOST, MG_ENCRYPTED, MG_USERNAME, MG_PASSWORD
 
 from orbit_graph.database.orbit_models import (
-    create_member,
+    MemberConstants,
+    create_activity,
     create_github,
     create_twitter,
+    create_member,
     create_empty_github,
     create_empty_twitter,
-    create_activity,
 )
 
 db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASSWORD, encrypted=MG_ENCRYPTED)
+NOT_ACCEPTED_DETAILS = ["", "None", None]
 
 
 def query(command: str) -> Iterator[Dict[str, Any]]:
@@ -21,14 +23,37 @@ def query(command: str) -> Iterator[Dict[str, Any]]:
 
 
 def dbActivities():
-    activity_query = f"MATCH (n:Activity) RETURN n ORDER BY n.date DESC LIMIT 10;"
+    activity_query = f"MATCH (n:Activity)<-[:MADE]-(m:Member) RETURN n,m ORDER BY n.date DESC LIMIT 10;"
     results = list(db.execute_and_fetch(activity_query))
 
     activities = []
     for result in results:
-        activities.append(create_activity(result["n"]._properties))
+        avatar = _get_avatar_from_activity(result)
+        activity = create_activity(result["n"]._properties)
+        activity.avatar = avatar
+        activities.append(activity)
 
     return Activities(activities)
+
+
+def _get_avatar_from_activity(result):
+    avatar = result["m"]._properties[MemberConstants.AVATAR]
+    if avatar not in NOT_ACCEPTED_DETAILS:
+        return avatar
+
+    username = result["m"]._properties[MemberConstants.USERNAME]
+
+    twitter_query = f"MATCH (m:Member {{username: '{username}'}})-[:HAS]->(t:Twitter) RETURN t.avatar"
+    twitter_result = list(db.execute_and_fetch(twitter_query))
+    avatar = twitter_result[0]["t.avatar"] if len(twitter_result) > 0 else None
+    if avatar not in NOT_ACCEPTED_DETAILS:
+        return avatar
+
+    github_query = f"MATCH (m:Member {{username: '{username}'}})-[:HAS]->(g:Github) RETURN g.avatar"
+    github_result = list(db.execute_and_fetch(github_query))
+    avatar = github_result[0]["g.avatar"] if len(github_result) > 0 else None
+
+    return avatar
 
 
 def dbUsernames():
@@ -79,8 +104,6 @@ def dbUserDetails(username):
 
 
 class UserDetails:
-    NOT_ACCEPTED_DETAILS = ["", "None", None]
-
     def __init__(self, member, github, twitter):
         self.username = member.username
         self.avatar = (
@@ -91,28 +114,24 @@ class UserDetails:
             else twitter.profile_image_url
         )
         self.name = member.name if member.name is not None else twitter.name
-        self.name = self.name if self.name not in UserDetails.NOT_ACCEPTED_DETAILS else "Unknown"
+        self.name = self.name if self.name not in NOT_ACCEPTED_DETAILS else "Unknown"
 
         self.love = member.love
         self.love = self.love if self.love is not None else "Unknown"
 
         self.importance = member.importance
 
-        self.location = member.location if member.location not in UserDetails.NOT_ACCEPTED_DETAILS else "Unknown"
+        self.location = member.location if member.location not in NOT_ACCEPTED_DETAILS else "Unknown"
 
-        self.company = github.company if github.company not in UserDetails.NOT_ACCEPTED_DETAILS else "Unknown"
+        self.company = github.company if github.company not in NOT_ACCEPTED_DETAILS else "Unknown"
 
-        self.hireable = github.hireable if github.hireable not in UserDetails.NOT_ACCEPTED_DETAILS else False
+        self.hireable = github.hireable if github.hireable not in NOT_ACCEPTED_DETAILS else False
 
         self.githubAccount = github.url
         self.twitterAccount = twitter.url
 
-        self.githubUsername = (
-            github.username if github.username not in UserDetails.NOT_ACCEPTED_DETAILS else member.username
-        )
-        self.twitterUsername = (
-            twitter.username if twitter.username not in UserDetails.NOT_ACCEPTED_DETAILS else member.username
-        )
+        self.githubUsername = github.username if github.username not in NOT_ACCEPTED_DETAILS else member.username
+        self.twitterUsername = twitter.username if twitter.username not in NOT_ACCEPTED_DETAILS else member.username
 
 
 class Usernames:

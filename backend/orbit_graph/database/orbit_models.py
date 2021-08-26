@@ -40,6 +40,7 @@ class ActivityConstants:
     DATE = "date"
     URL = "url"
     USERNAME = "username"
+    AVATAR = "avatar"
 
 
 class MemberConstants:
@@ -104,11 +105,11 @@ def create_github(props):
     )
 
 
-def create_activity(props):
+def create_activity(props_activity):
     return Activity(
-        props[ActivityConstants.ID],
-        props[ActivityConstants.ACTION],
-        props[ActivityConstants.DATE].replace("UTC", ""),
-        props[ActivityConstants.URL],
-        props[ActivityConstants.USERNAME],
+        props_activity[ActivityConstants.ID],
+        props_activity[ActivityConstants.ACTION],
+        props_activity[ActivityConstants.DATE].replace("UTC", ""),
+        props_activity[ActivityConstants.URL],
+        props_activity[ActivityConstants.USERNAME],
     )

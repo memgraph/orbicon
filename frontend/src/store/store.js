@@ -66,6 +66,7 @@ const actions = {
   getActivities(context) {
     apiClient.getActivities()
       .then((resp) => {
+        console.log(resp);
         context.commit(MUTATION_CONSTANTS.SET_ACTIVITIES, resp.data.activities);
       })
   },
