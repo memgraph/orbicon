@@ -68,7 +68,8 @@ export default {
     sortedUsernames() {
       const filtered = this.usernames.filter((x) =>
         x.toLowerCase().startsWith(this.usernameInput)
-      );
+      ).slice(0, 5);
+
       return filtered;
     },
   },
