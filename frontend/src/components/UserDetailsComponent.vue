@@ -1,11 +1,13 @@
 <template>
   <div class="user-details">
-    <v-card class="user-card" elevation="2">
+    <v-card
+      v-if="userDetails !== null && userDetails.username !== undefined"
+      class="user-card"
+      elevation="2"
+    >
       <v-list-item three-line>
         <v-list-item-avatar size="80" color="grey"
-          ><v-img
-            src="https://avatars.githubusercontent.com/u/4950251?s=88&v=4"
-          ></v-img
+          ><v-img :src="userDetails.avatar"></v-img
         ></v-list-item-avatar>
         <v-list-item-content>
           <v-card-title class="text-h5">{{
@@ -17,16 +19,7 @@
       <v-list class="transparent">
         <v-list-item>
           <v-list-item-title>Name </v-list-item-title>
-          <v-list-item-subtitle
-            >{{ userDetails.firstName }}
-            {{ userDetails.lastName }}</v-list-item-subtitle
-          >
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title>Community</v-list-item-title>
-          <v-list-item-subtitle
-            >{{ userDetails.community }}
-          </v-list-item-subtitle>
+          <v-list-item-subtitle>{{ userDetails.name }}</v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title>Company</v-list-item-title>
@@ -35,41 +28,67 @@
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Memgraph Love</v-item-title>
-            <v-icon>mdi-cards-heart</v-icon>
-          </v-list-item-title>
+          <v-list-item-title>Hireable</v-list-item-title>
+          <v-list-item-subtitle
+            >{{ userDetails.hireable }}
+          </v-list-item-subtitle>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>Location</v-list-item-title>
+          <v-list-item-subtitle
+            >{{ userDetails.location }}
+          </v-list-item-subtitle>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title
+            ><v-icon>mdi-cards-heart</v-icon>Memgraph Love</v-list-item-title
+          >
           <v-list-item-subtitle>{{ userDetails.love }} </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Importance</v-item-title>
-          </v-list-item-title>
+          <v-list-item-title
+            ><v-icon>mdi-star</v-icon>PageRank Score</v-list-item-title
+          >
           <v-list-item-subtitle
             >{{ userDetails.importance }}
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Github</v-item-title>
-          </v-list-item-title>
+          <v-list-item-title> Github </v-list-item-title>
           <v-list-item-subtitle>
-            <v-btn :href="userDetails.githubAccount" target="_blank">
+            <v-btn
+              v-if="userDetails.githubAccount !== null"
+              :href="userDetails.githubAccount"
+              target="_blank"
+            >
               {{ userDetails.githubUsername }}
             </v-btn>
+            <div v-else>Unknown</div>
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <v-item-title>Twitter</v-item-title>
-          </v-list-item-title>
+          <v-list-item-title> Twitter </v-list-item-title>
           <v-list-item-subtitle>
-            <v-btn :href="userDetails.twitterAccount" target="_blank">
+            <v-btn
+              v-if="userDetails.twitterAccount !== null"
+              :href="userDetails.twitterAccount"
+              target="_blank"
+            >
               {{ userDetails.twitterUsername }}
             </v-btn>
+            <div v-else>Unknown</div>
           </v-list-item-subtitle>
         </v-list-item>
       </v-list>
+    </v-card>
+    <v-card v-else-if="!isFetchingUserDetails" class="user-card">
+      <v-list-item three-line>
+        <v-list-item-title
+          ><v-icon>mdi-alert</v-icon>
+          Username not found!
+        </v-list-item-title>
+        <v-btn text class="x-btn" @click="onXClick">X</v-btn>
+      </v-list-item>
     </v-card>
   </div>
 </template>
@@ -111,7 +130,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["showUserDetails", "userDetails"]),
+    ...mapGetters(["showUserDetails", "userDetails", "isFetchingUserDetails"]),
   },
 };
 </script>

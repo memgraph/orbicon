@@ -1,0 +1,5 @@
+MG_HOST="orbit.memgraph.com"
+MG_PORT=7687
+MG_ENCRYPTED=False
+MG_USERNAME=""
+MG_PASSWORD=""

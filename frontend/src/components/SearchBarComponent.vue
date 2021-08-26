@@ -7,13 +7,14 @@
           hide-details
           prepend-icon="mdi-magnify"
           single-line
+          @keyup="search($event)"
           @keyup.enter.native="onEnterClicked"
         ></v-text-field>
       </v-toolbar>
     </div>
-    <div v-if="usernameInput.length !== 0" class="suggestions">
+    <div v-if="showSuggestions" class="suggestions">
       <SuggestionItemComponent
-        v-for="(username, i) in sortedUsernames"
+        v-for="(username, i) in usernames"
         :key="i"
         :username="username"
         @suggestionClicked="updateSearchBarWithSuggestion"
@@ -32,7 +33,7 @@
   margin: auto;
   z-index: 2;
   position: absolute;
-  top: 60px;
+  top: 125px;
   left: 20px;
   width: 350px;
 }
@@ -48,30 +49,46 @@ export default {
   data: () => {
     return {
       usernameInput: "",
+      showSuggestions: false,
+      timeout: null,
     };
   },
   methods: {
-    ...mapActions(["showUserDetails"]),
+    ...mapActions(["showUserDetails", "getUsernamesWithPrefix"]),
     onEnterClicked() {
       if (this.usernameInput.length === 0) {
         return;
       }
 
-      this.$store.dispatch("showUserDetails");
+      let self = this;
+      this.$store
+        .dispatch("setIsFetchingUserDetails", true)
+        .then(() => {
+          self.$store.dispatch("showUserDetails", self.usernameInput);
+        })
+        .then(() => {
+          self.$store.dispatch("setIsFetchingUserDetails", false);
+        });
     },
     updateSearchBarWithSuggestion(value) {
       this.usernameInput = value;
+      this.showSuggestions = false;
+    },
+    search(event) {
+      if (event.keyCode === 13) {
+        return;
+      }
+      this.showSuggestions = true;
+
+      clearTimeout(this.timeout);
+      var self = this;
+      this.timeout = setTimeout(function () {
+        self.$store.dispatch("getUsernamesWithPrefix", self.usernameInput);
+      }, 500);
     },
   },
   computed: {
     ...mapGetters(["usernames"]),
-    sortedUsernames() {
-      const filtered = this.usernames.filter((x) =>
-        x.toLowerCase().startsWith(this.usernameInput)
-      ).slice(0, 5);
-
-      return filtered;
-    },
   },
 };
 </script>

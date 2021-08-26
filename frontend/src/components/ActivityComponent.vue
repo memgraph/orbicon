@@ -7,19 +7,17 @@
           <v-list-item-title class="text-h5 mb-1">
             {{ activity.username }}
           </v-list-item-title>
-          <v-list-item-subtitle>{{
-            activity.description
-          }}</v-list-item-subtitle>
+          <v-btn :href="activity.url" target="_blank">
+            Check out activity!
+          </v-btn>
         </v-list-item-content>
 
         <v-list-item-avatar size="80" color="grey"
-          ><v-img
-            src="https://avatars.githubusercontent.com/u/4950251?s=88&v=4"
-          ></v-img
+          ><v-img :src="activity.avatar"></v-img
         ></v-list-item-avatar>
       </v-list-item>
       <v-list-item one-line>
-        <v-btn align="left" @click="onBtnClick">Find more!</v-btn>
+        <v-btn align="left" @click="onBtnClick">Check user!</v-btn>
         <v-card-text align="right">
           {{ activity.date }}
         </v-card-text>
@@ -38,16 +36,27 @@
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ActivityComponent",
   props: ["activity"],
   methods: {
-    ...mapActions(["showUserDetails"]),
+    ...mapActions(["showUserDetails", "setIsFetchingUserDetails"]),
     onBtnClick() {
-      this.$store.dispatch("showUserDetails");
+      let self = this;
+      this.$store
+        .dispatch("setIsFetchingUserDetails", true)
+        .then(() => {
+          self.$store.dispatch("showUserDetails", self.activity.username);
+        })
+        .then(() => {
+          self.$store.dispatch("setIsFetchingUserDetails", false);
+        });
     },
+  },
+  computed: {
+    ...mapGetters(["isFetchingUserDetails"]),
   },
 };
 </script>

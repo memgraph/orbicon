@@ -1,16 +1,29 @@
 <template>
   <div>
     <div class="sidebar">
+      <p class="app-title">ORBIT ACTIVITY TRACKER</p>
+      <p class="powered-by">Powered by Memgraph</p>
       <SearchBarComponent />
-      <p class="activities-title">ACTIVITIES</p>
-      <ActivityComponent
-        v-for="(activity, i) in activities"
-        :key="i"
-        :activity="activity"
-      />
+      <div v-if="activities.length">
+        <p class="activities-title">LATEST ACTIVITIES</p>
+        <ActivityComponent
+          v-for="(activity, i) in activities"
+          :key="i"
+          :activity="activity"
+        />
+      </div>
+      <div v-else>
+        <v-progress-circular
+          :size="50"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+        <p class="loading-bar-text">Loading activities...</p>
+      </div>
     </div>
     <div class="network-bar">
       <network
+        v-if="memberGraph.nodes.length"
         class="wrapper"
         ref="network"
         :nodes="memberGraph.nodes"
@@ -18,6 +31,16 @@
         :options="options"
         @double-click="onDoubleClick($event)"
       ></network>
+      <div class="loading-container" v-else>
+        <div class="loading-bar">
+          <v-progress-circular
+            :size="200"
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+          <p class="loading-bar-text big-text">Loading member graph...</p>
+        </div>
+      </div>
     </div>
     <div v-if="showUserDetails">
       <UserDetailsComponent />
@@ -40,6 +63,12 @@
   color: #555;
 }
 
+.app-title {
+  font-weight: 600;
+  font-size: 22px;
+  margin-bottom: 0px;
+}
+
 .network-bar {
   margin-left: 400px;
   padding: 1px 16px;
@@ -54,6 +83,30 @@
 .activities-title {
   font-weight: 700;
   font-size: 20px;
+}
+
+.loading-container {
+  position: absolute;
+  left: 400px;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+}
+
+.loading-bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loading-bar-text {
+  margin-top: 20px;
+}
+
+.big-text {
+  font-weight: 500;
+  font-size: 30px;
 }
 </style>
 
@@ -91,12 +144,15 @@ export default {
     try {
       this.$store.dispatch("getMemberGraph");
       this.$store.dispatch("getUsernames");
-      this.$store.dispatch("getUserDetails");
       this.$store.dispatch("getActivities");
     } catch (error) {
-      this.msg = "Server error :(";
       console.log(error);
     }
+
+    let self = this;
+    window.setInterval(() => {
+      self.$store.dispatch("getActivities");
+    }, 15000);
   },
   methods: {
     onDoubleClick(event) {

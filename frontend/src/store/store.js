@@ -14,6 +14,7 @@ const state = {
     edges: []
   },
   usernames: [],
+  isFetchingUserDetails: false,
   userDetails: {},
   activities: [],
   showUserDetails: false,
@@ -24,7 +25,7 @@ const mutations = {
     state.memberGraph = memberGraph;
   },
   SET_USERNAMES(state, usernames) {
-    state.usernames = usernames;
+    state.usernames = usernames.map(x => x.username);
   },
   SET_USER_DETAILS(state, userDetails) {
     state.userDetails = userDetails
@@ -37,39 +38,53 @@ const mutations = {
   },
   DISPOSE_USER_DETAILS(state) {
     state.showUserDetails = false;
+  },
+  SET_IS_FETCHING_USER_DETAILS(state, isFetchingUserDetails) {
+    state.isFetchingUserDetails = isFetchingUserDetails;
   }
 }
 
 const actions = {
-  getMemberGraph(context) {
+  async getMemberGraph(context) {
     apiClient.getMemberGraph()
       .then((resp) => {
         context.commit(MUTATION_CONSTANTS.SET_MEMBER_GRAPH, resp.data);
       })
   },
-  getUsernames(context) {
+  async getUsernames(context) {
     apiClient.getUsernames()
       .then((resp) => {
         context.commit(MUTATION_CONSTANTS.SET_USERNAMES, resp.data.usernames);
       })
   },
-  getUserDetails(context) {
-    apiClient.getUserDetails("Buda")
+  async getUsernamesWithPrefix(context, prefix) {
+    apiClient.getUsernamesWithPrefix(prefix)
       .then((resp) => {
-        context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data);
+        context.commit(MUTATION_CONSTANTS.SET_USERNAMES, resp.data.usernames);
       })
   },
   getActivities(context) {
     apiClient.getActivities()
       .then((resp) => {
+        console.log(resp);
         context.commit(MUTATION_CONSTANTS.SET_ACTIVITIES, resp.data.activities);
       })
   },
-  showUserDetails(context) {
-    context.commit(MUTATION_CONSTANTS.SHOW_USER_DETAILS)
+  async showUserDetails(context, usernameInput) {
+    apiClient.getUserDetails(usernameInput)
+      .then((resp) => {
+        console.log(resp);
+        context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data);
+      })
+      .then(() => {
+        context.commit(MUTATION_CONSTANTS.SHOW_USER_DETAILS)
+      })
   },
   disposeUserDetails(context) {
     context.commit(MUTATION_CONSTANTS.DISPOSE_USER_DETAILS)
+  },
+  async setIsFetchingUserDetails(context, isFetchingUserDetails) {
+    context.commit(MUTATION_CONSTANTS.SET_IS_FETCHING_USER_DETAILS, isFetchingUserDetails);
   }
 }
 
@@ -79,6 +94,7 @@ const getters = {
   userDetails: state => state.userDetails,
   activities: state => state.activities,
   showUserDetails: state => state.showUserDetails,
+  isFetchingUserDetails: state => state.isFetchingUserDetails,
 }
 
 

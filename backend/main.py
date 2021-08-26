@@ -4,11 +4,23 @@ orbit_graph
 
 import json
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+from flask_cors.decorator import cross_origin
 from kafka import KafkaProducer
 
 from orbit_graph.kafka_stream.config import TOPIC_NAME
 
+from data.mocks import usernames, userDetails, memberGraph, activities
+from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities
+
 app = Flask(__name__)
+cors = CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
+
+
+class MyEncoder(json.JSONEncoder):
+    def default(slef, o):
+        return o.__dict__
 
 
 @app.route("/")
@@ -27,6 +39,36 @@ def webhook():
     producer.send(TOPIC_NAME, value=request.get_json())
     producer.flush()
     return jsonify({})
+
+
+@app.route("/memberGraph")
+@cross_origin()
+def get_member_graph():
+    return json.dumps(memberGraph())
+
+
+@app.route("/activities")
+@cross_origin()
+def get_activities():
+    return json.dumps(dbActivities(), cls=MyEncoder)
+
+
+@app.route("/userDetails/<username>")
+@cross_origin()
+def get_user_details(username):
+    return json.dumps(dbUserDetails(username), cls=MyEncoder)
+
+
+@app.route("/usernames")
+@cross_origin()
+def get_usernames():
+    return json.dumps(dbUsernames(), cls=MyEncoder)
+
+
+@app.route("/usernamesWithPrefix/<prefix>")
+@cross_origin()
+def get_usernames_with_prefix(prefix):
+    return json.dumps(dbUsernamesPrefix(prefix), cls=MyEncoder)
 
 
 if __name__ == "__main__":
