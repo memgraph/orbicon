@@ -113,13 +113,13 @@ def create_twitter_accounts_obj_batch(names: List[str]):
     return twitter_dict
 
 
-def get_twitter_recursive_following(twitter_dict: {}, depth_following_level=1):
+def get_twitter_recursive_following(twitter_dict, depth_following_level=1):
     """
     twitter_dict :
     if value is None or is_processed=False - not processed yet
     processing - get main account + add accounts it follows in dict for further processing (level+1)
     """
-    for i in range(depth_following_level):
+    for _ in range(depth_following_level):
         new_twitter_dict = {}
         batch_twitter_names = []
         for name, twitter_account in twitter_dict.items():
@@ -127,7 +127,7 @@ def get_twitter_recursive_following(twitter_dict: {}, depth_following_level=1):
                 continue
 
             batch_twitter_names.append(name)
-            if len(batch_twitter_names) != 10:  # twitter magic number for number of accounts you are allowed in one pull to get
+            if len(batch_twitter_names) != 10:  # twitter magic number for number of accounts you are allowed in a pull
                 continue
 
             new_twitter_account_dict = create_twitter_accounts_obj_batch(batch_twitter_names)
@@ -171,19 +171,19 @@ def load_twitter_already_processed():
     return twitter_dict_processed
 
 
-def process_twitter(orbit_events_json: List[ActivityHistoryItem]):
+def process_twitter_history(orbit_events_json: List[ActivityHistoryItem]):
     twitter_members_names = get_twitter_members(orbit_events_json)
+    process_twitter(twitter_members_names)
 
+
+def process_twitter(users):
     twitter_dict = {}
-    for twitter_name in twitter_members_names:
+    for twitter_name in users:
         twitter_dict[twitter_name] = None
+    twitter_dict = get_twitter_recursive_following(twitter_dict, depth_following_level=1)
 
     twitter_dict_processed = load_twitter_already_processed()
-
     twitter_dict = {**twitter_dict, **twitter_dict_processed}
-    print(twitter_dict)
-
-    twitter_dict = get_twitter_recursive_following(twitter_dict, depth_following_level=1)
 
     twitter_json_dict = {}
     for key, value in twitter_dict.items():
@@ -192,7 +192,7 @@ def process_twitter(orbit_events_json: List[ActivityHistoryItem]):
     with open(TWITTER_FILE_PATH, "w") as jsonFile:
         jsonFile.write(json.dumps(twitter_json_dict, indent=4, ignore_nan=True))
 
-    print(len(twitter_json_dict))
+    return {username: twitter_dict[username] for username in users}
 
 
 if __name__ == "__main__":
