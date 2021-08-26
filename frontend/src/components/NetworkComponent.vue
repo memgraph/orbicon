@@ -1,6 +1,8 @@
 <template>
   <div>
     <div class="sidebar">
+      <p class="app-title">ORBIT ACTIVITY TRACKER</p>
+      <p class="powered-by">Powered by Memgraph</p>
       <SearchBarComponent />
       <div v-if="activities.length">
         <p class="activities-title">ACTIVITIES</p>
@@ -59,6 +61,12 @@
 
 .sidebar p {
   color: #555;
+}
+
+.app-title {
+  font-weight: 600;
+  font-size: 22px;
+  margin-bottom: 0px;
 }
 
 .network-bar {
@@ -138,7 +146,6 @@ export default {
       this.$store.dispatch("getUsernames");
       this.$store.dispatch("getActivities");
     } catch (error) {
-      this.msg = "Server error :(";
       console.log(error);
     }
   },

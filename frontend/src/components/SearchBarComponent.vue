@@ -33,7 +33,7 @@
   margin: auto;
   z-index: 2;
   position: absolute;
-  top: 60px;
+  top: 125px;
   left: 20px;
   width: 350px;
 }
