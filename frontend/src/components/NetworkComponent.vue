@@ -148,6 +148,12 @@ export default {
     } catch (error) {
       console.log(error);
     }
+
+    let self = this;
+    window.setInterval(() => {
+      console.log("Getting activities");
+      self.$store.dispatch("getActivities");
+    }, 10000);
   },
   methods: {
     onDoubleClick(event) {
