@@ -3,7 +3,7 @@ from string import Template
 from utils.data_provider import get_orbit_json_events
 
 
-class Activity:
+class ActivityNode:
     CYP_CREATE_NODE = Template(
         """
         CREATE (n:Activity {
@@ -36,7 +36,7 @@ class Activity:
         self.username = username
 
     def cyp_create_node(self):
-        return Activity.CYP_CREATE_NODE.substitute(
+        return ActivityNode.CYP_CREATE_NODE.substitute(
             id=self.id,
             date=self.date,
             url=self.url,
@@ -45,7 +45,7 @@ class Activity:
         )
 
     def cyp_merge_node(self):
-        return Activity.CYP_MERGE_NODE.substitute(
+        return ActivityNode.CYP_MERGE_NODE.substitute(
             id=self.id,
             date=self.date,
             url=self.url,
@@ -54,12 +54,12 @@ class Activity:
         )
 
     def cyp_made(self):
-        return Activity.CYP_MADE.substitute(source=self.username, target=self.id)
+        return ActivityNode.CYP_MADE.substitute(source=self.username, target=self.id)
 
 
 def load_activity_already_processed():
     return {
-        event["id"]: Activity(
+        event["id"]: ActivityNode(
             id=event["id"],
             date=event["occured_at"],
             url=event["orbit_url"],

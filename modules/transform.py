@@ -5,6 +5,7 @@ import importlib
 import utils.github as github
 import utils.twitter as twitter
 import utils.orbit as orbit
+import utils.activity as activity
 
 
 def json_print(data):
@@ -49,6 +50,7 @@ def kafka2graph_transform(
     importlib.reload(github)
     importlib.reload(twitter)
     importlib.reload(orbit)
+    importlib.reload(activity)
     queries = []
     for i in range(messages.total_messages()):
         try:
@@ -76,8 +78,16 @@ def kafka2graph_transform(
                 accessor = JsonDataAccessor(
                     json.loads(payload["event_payload"])["event_payload"]
                 )
-                # member_id = accessor.take_n("data", "relationships", "member", "data", "id")
                 included = accessor.take_n("included")
+
+                activity_id = accessor.take_n("data", "id")
+                activity_url = accessor.take_n("data", "attributes", "orbit_url")
+                activity_time = accessor.take_n("data", "attributes", "occurred_at")
+                activity_type = None
+                activity_data = take_type_from_array(included, "activity_type")
+                if activity_data:
+                    activity_accessor = JsonDataAccessor(activity_data)
+                    activity_type = activity_accessor.take_n("attributes", "key")
 
                 member_account = None
                 github_account = None
@@ -137,7 +147,9 @@ def kafka2graph_transform(
                         name=None, username=username, profile_image_url=None, id=None
                     )
                     queries.append(create_record(twitter_account.cyp_merge_node()))
-                    twitter_accounts = twitter.process_twitter([username], single_request=True)
+                    twitter_accounts = twitter.process_twitter(
+                        [username], single_request=True
+                    )
                     for username, account in twitter_accounts.items():
                         print("TWITTER:", username, "FOLLOWS:", account.following)
                         queries.append(create_record(account.cyp_merge_node()))
@@ -156,12 +168,24 @@ def kafka2graph_transform(
                             member_account.cyp_has_github(github_account.login)
                         )
                     )
+
+                if member_account and activity_id:
+                    activity_node = activity.ActivityNode(
+                        id=activity_id,
+                        date=activity_time,
+                        url=activity_url,
+                        action=activity_type,
+                        username=member_account.slug,
+                    )
+                    queries.append(create_record(activity_node.cyp_merge_node()))
+                    queries.append(create_record(activity_node.cyp_made()))
             # ORBIT EVENT
 
         except Exception as e:
             print("Failed to process message %s" % i)
             print(e)
             import traceback
+
             traceback.print_exc()
 
     return queries
