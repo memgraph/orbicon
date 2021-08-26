@@ -1,5 +1,8 @@
 import mgp
 import json
+import importlib
+import utils.github as github
+import utils.twitter as twitter
 
 
 def json_print(data):
@@ -53,9 +56,9 @@ def create_record(query):
 def kafka2graph_transform(
     messages: mgp.Messages,
 ) -> mgp.Record(query=str, parameters=mgp.Nullable[mgp.Map]):
-    # TODO(gitbuda): If something fails stream is stopped.
+    importlib.reload(github)
+    importlib.reload(twitter)
     queries = []
-
     for i in range(messages.total_messages()):
         try:
             message_str = messages.message_at(i).payload().decode("utf-8")

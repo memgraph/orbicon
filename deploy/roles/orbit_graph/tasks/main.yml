@@ -49,6 +49,16 @@
       - "--exclude=__pycache__"
       - "--exclude=htmlcov"
 
+- name: Copy modules code
+  synchronize:
+    src: ../modules/
+    dest: /home/{{ ansible_user }}/modules
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=ve3"
+      - "--exclude=__pycache__"
+      - "--exclude=htmlcov"
+
 - name: Start backend service
   community.docker.docker_compose:
     project_name: orbit_graph
