@@ -36,7 +36,7 @@
             '--telemetry-enabled=false',
             '--query-modules-directory=/usr/lib/memgraph/query_modules,/query_modules',
             '--kafka-bootstrap-servers=kafka:9092',
-            '--log-level=TRACE',
+            '--log-level=DEBUG',
             '--also-log-to-stderr'
           ]
           # TODO(gitbuda): Figure out how to pass these environment variables into the query module.

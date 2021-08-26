@@ -20,14 +20,19 @@ BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAA0lTAEAAAAANrpndxI81KFXLjieXcj0ZjxhbVQ%3DrM
 class TwitterAccount:
     CYP_CREATE_NODE = Template(
         """
-        CREATE (n:Twitter {username: "$username", name: "$name", profile_image_url: "$profile_image_url"});
+        CREATE (n:Twitter {
+            username: "$username",
+            name: "$name",
+            profile_image_url: "$profile_image_url",
+            url: "$url"
+        });
     """
     )
     CYP_MERGE_NODE = Template(
         """
         MERGE (n:Twitter {username: "$username"})
-        ON CREATE SET n += {name: "$name", profile_image_url: "$profile_image_url"}
-        ON MATCH SET n += {name: "$name", profile_image_url: "$profile_image_url"}
+        ON CREATE SET n += {name: "$name", profile_image_url: "$profile_image_url", url: "$url"}
+        ON MATCH SET n += {name: "$name", profile_image_url: "$profile_image_url", url: "$url"}
     """
     )
     CYP_FOLLOWS = Template(
@@ -41,6 +46,7 @@ class TwitterAccount:
         self.username = username
         self.profile_image_url = profile_image_url
         self.id = id
+        self.url = "https://twitter.com/%s" % self.username
         self.is_processed = False
         self.following: List[str] = []
 
@@ -66,6 +72,7 @@ class TwitterAccount:
             username=self.username,
             name=self.name,
             profile_image_url=self.profile_image_url,
+            url=self.url,
         )
 
     def cyp_merge_node(self):
@@ -73,6 +80,7 @@ class TwitterAccount:
             username=self.username,
             name=self.name,
             profile_image_url=self.profile_image_url,
+            url=self.url,
         )
 
     def cyp_follows(self, other):
@@ -159,7 +167,7 @@ def create_twitter_accounts_obj_batch(names: List[str]):
     return twitter_dict
 
 
-def get_twitter_recursive_following(twitter_dict, depth_following_level=1):
+def get_twitter_recursive_following(twitter_dict, depth_following_level=1, single_request=False):
     """
     twitter_dict :
     if value is None or is_processed=False - not processed yet
@@ -174,7 +182,7 @@ def get_twitter_recursive_following(twitter_dict, depth_following_level=1):
 
             batch_twitter_names.append(name)
             if (
-                len(batch_twitter_names) != 10
+                not single_request and len(batch_twitter_names) != 10
             ):  # twitter magic number for number of accounts you are allowed in a pull
                 continue
 
@@ -226,12 +234,12 @@ def process_twitter_history(orbit_events_json: List[ActivityHistoryItem]):
     process_twitter(twitter_members_names)
 
 
-def process_twitter(users):
+def process_twitter(users, single_request=False):
     twitter_dict = {}
     for twitter_name in users:
         twitter_dict[twitter_name] = None
     twitter_dict = get_twitter_recursive_following(
-        twitter_dict, depth_following_level=1
+        twitter_dict, depth_following_level=1, single_request=single_request
     )
 
     twitter_dict_processed = load_twitter_already_processed()
@@ -250,5 +258,4 @@ def process_twitter(users):
 if __name__ == "__main__":
     with open(os.path.join(DATA_DIR, "memgraph_orbit_events.json")) as json_file:
         orbit_events_json: List[ActivityHistoryItem] = json.load(json_file)
-
     process_twitter(orbit_events_json)
