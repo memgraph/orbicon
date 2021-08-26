@@ -28,8 +28,17 @@
           networks:
             - orbit-graph
         memgraph:
-          image: 'memgraph/memgraph:1.6.0-community'
-          entrypoint: ['/usr/lib/memgraph/memgraph', '--telemetry-enabled=false', '--kafka-bootstrap-servers=kafka:9092', '--log-level=TRACE']
+          image: 'memgraph-1.6.1-orbit'
+          volumes:
+            - '/home/{{ ansible_user }}/modules:/query_modules'
+          entrypoint: [
+            '/usr/lib/memgraph/memgraph',
+            '--telemetry-enabled=false',
+            '--query-modules-directory=/usr/lib/memgraph/query_modules,/query_modules',
+            '--kafka-bootstrap-servers=kafka:9092',
+            '--log-level=TRACE',
+            '--also-log-to-stderr'
+          ]
           # TODO(gitbuda): Figure out how to pass these environment variables into the query module.
           # environment:
           #   - ORBIT_GRAPH_GITHUB_TOKEN=

@@ -75,7 +75,7 @@ class MemberAccount:
 
 def load_orbit_already_processed():
     return {
-        event["member_slug"]: MemberNode(
+        event["member_slug"]: MemberAccount(
             love=None,
             name=event["member_name"],
             slug=event["member_slug"],

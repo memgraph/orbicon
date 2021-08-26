@@ -1,6 +1,7 @@
 import mgp
 import json
 import importlib
+
 import utils.github as github
 import utils.twitter as twitter
 import utils.orbit as orbit
@@ -159,7 +160,6 @@ def kafka2graph_transform(
             print("Failed to process message %s" % i)
             print(e)
             import traceback
-
             traceback.print_exc()
 
     return queries

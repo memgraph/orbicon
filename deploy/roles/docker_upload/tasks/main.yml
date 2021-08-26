@@ -1,0 +1,22 @@
+---
+- name: "Remove {{ docker_image_host_path }} if present"
+  file:
+    path: "{{ docker_image_host_path }}"
+    state: absent
+
+- name: "Copy image {{ docker_image_control_node_path }} to the host"
+  copy:
+    src: "{{ docker_image_control_node_path }}"
+    dest: "{{ docker_image_host_path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "755"
+
+- name: "Load {{ docker_image_name}} from {{ docker_image_host_path }}"
+  docker_image:
+    name: "{{ docker_image_name }}"
+    load_path: "{{ docker_image_host_path }}"
+    state: present
+    source: load
+    force_source: yes
+...
