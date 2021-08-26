@@ -668,14 +668,19 @@
         "is_processed": false
     },
     "Josipmrden": {
-        "hireable": "",
+        "hireable": null,
         "avatar": "https://avatars.githubusercontent.com/u/22621791?v=4",
-        "company": "",
-        "bio": "",
+        "company": null,
+        "bio": null,
         "login": "Josipmrden",
         "id": 22621791,
-        "following": [],
-        "is_processed": false
+        "following": [
+            "jmatak",
+            "matejgrcic",
+            "markoburcul",
+            "nikskiks"
+        ],
+        "is_processed": true
     },
     "teambrixmusic": {
         "hireable": null,

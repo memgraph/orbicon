@@ -32,8 +32,8 @@
           entrypoint: ['/usr/lib/memgraph/memgraph', '--telemetry-enabled=false', '--kafka-bootstrap-servers=kafka:9092', '--log-level=TRACE']
           # TODO(gitbuda): Figure out how to pass these environment variables into the query module.
           # environment:
-          #   - ORBIT_GRAPH_GITHUB_TOKEN=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
-          #   - ORBIT_GRAPH_TWITTER_TOKEN=AAAAAAAAAAAAAAAAAAAAAA0lTAEAAAAANrpndxI81KFXLjieXcj0ZjxhbVQ%3DrMUx9pSfeiNOW3vJbaMYkxaUMkhYsozzlYJdpw0bLx8BXqpM5v
+          #   - ORBIT_GRAPH_GITHUB_TOKEN=
+          #   - ORBIT_GRAPH_TWITTER_TOKEN=
           ports:
             - '7687:7687'
           networks:

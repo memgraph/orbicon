@@ -5,7 +5,6 @@ import requests
 from typing import List
 from simplejson import JSONDecodeError
 
-from utils.abstract import NodeAbstract
 from utils.util import merge_dicts
 from utils.load_event_history_data import ActivityHistoryItem
 
@@ -17,9 +16,24 @@ GITHUB_FILE_PATH = os.path.join(DATA_DIR, GITHUB_FILE_NAME)
 OAUTH_TOKEN = "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"
 
 
-class GithubAccount(NodeAbstract):
-    template = Template(
-        'MERGE (n:Github {username: "$username", avatar: "$avatar", company:"$company", hireable:"$hireable"});')
+class GithubAccount:
+    CYP_CREATE_NODE = Template(
+        """
+        CREATE (n:Github {username: "$username", avatar: "$avatar", company:"$company", hireable:"$hireable"});
+    """
+    )
+    CYP_MERGE_NODE = Template(
+        """
+        MERGE (n:Github {username: "$username"})
+        ON CREATE SET n += {avatar: "$avatar", company:"$company", hireable:"$hireable"}
+        ON MATCH SET n += {avatar: "$avatar", company:"$company", hireable:"$hireable"};
+    """
+    )
+    CYP_FOLLOWS = Template(
+        """
+        MATCH (n:Github {username: "$source"}), (m:Github {username: "$target"}) MERGE (n)-[:FOLLOWS]->(m);
+    """
+    )
 
     def __init__(self, avatar, company, bio, hireable, login, id):
         self.hireable = hireable
@@ -33,25 +47,51 @@ class GithubAccount(NodeAbstract):
         self.is_processed: bool = False
 
     def __str__(self):
-        return "id={id}," \
-               "is_processed={is_processed}," \
-               "avatar={avatar}," \
-               "company={company}," \
-               "login={login}," \
-               "hireable:{hireable}," \
-               "following:{following}".format(id=self.id, company=self.company, login=self.login, avatar=self.avatar,
-                                              hireable=self.hireable, following=",".join(self.following),
-                                              is_processed=self.is_processed)
+        return (
+            "id={id},"
+            "is_processed={is_processed},"
+            "avatar={avatar},"
+            "company={company},"
+            "login={login},"
+            "hireable:{hireable},"
+            "following:{following}".format(
+                id=self.id,
+                company=self.company,
+                login=self.login,
+                avatar=self.avatar,
+                hireable=self.hireable,
+                following=",".join(self.following),
+                is_processed=self.is_processed,
+            )
+        )
 
-    def get_node_cypher(self):
-        return GithubAccount.template.substitute(avatar=self.avatar, company=self.company,
-                                                 hireable=self.hireable, username=self.login)
+    def cyp_create_node(self):
+        return GithubAccount.CYP_CREATE_NODE.substitute(
+            avatar=self.avatar,
+            company=self.company,
+            hireable=self.hireable,
+            username=self.login,
+        )
+
+    def cyp_merge_node(self):
+        return GithubAccount.CYP_MERGE_NODE.substitute(
+            avatar=self.avatar,
+            company=self.company,
+            hireable=self.hireable,
+            username=self.login,
+        )
+
+    def cyp_follows(self, other):
+        return GithubAccount.CYP_FOLLOWS.substitute(source=self.login, target=other)
 
 
 def send_github_users_request(name):
-    headers = {'Authorization': 'token %s' % OAUTH_TOKEN}
-    response = requests.get("https://api.github.com/users/{name}".format(name=name),
-                            params={"accept": "application/vnd.github.v3+json"}, headers=headers)
+    headers = {"Authorization": "token %s" % OAUTH_TOKEN}
+    response = requests.get(
+        "https://api.github.com/users/{name}".format(name=name),
+        params={"accept": "application/vnd.github.v3+json"},
+        headers=headers,
+    )
     if not response.ok:
         print("name:", name, ",response content:", response.content)
         return None
@@ -60,9 +100,12 @@ def send_github_users_request(name):
 
 
 def send_github_users_following_request(name):
-    headers = {'Authorization': 'token %s' % OAUTH_TOKEN}
-    response = requests.get("https://api.github.com/users/{name}/following".format(name=name),
-                            params={"accept": "application/vnd.github.v3+json"}, headers=headers)
+    headers = {"Authorization": "token %s" % OAUTH_TOKEN}
+    response = requests.get(
+        "https://api.github.com/users/{name}/following".format(name=name),
+        params={"accept": "application/vnd.github.v3+json"},
+        headers=headers,
+    )
     if not response.ok:
         return None
 
@@ -74,12 +117,14 @@ def parse_key(json_obj, key):
 
 
 def parse_github_account(github_account_json) -> GithubAccount:
-    return GithubAccount(avatar=parse_key(github_account_json, "avatar_url"),
-                         company=parse_key(github_account_json, "company"),
-                         bio=parse_key(github_account_json, "bio"),
-                         hireable=parse_key(github_account_json, "hireable"),
-                         login=parse_key(github_account_json, "login"),
-                         id=parse_key(github_account_json, "id"))
+    return GithubAccount(
+        avatar=parse_key(github_account_json, "avatar_url"),
+        company=parse_key(github_account_json, "company"),
+        bio=parse_key(github_account_json, "bio"),
+        hireable=parse_key(github_account_json, "hireable"),
+        login=parse_key(github_account_json, "login"),
+        id=parse_key(github_account_json, "id"),
+    )
 
 
 def create_github_account_obj(name):
@@ -102,7 +147,9 @@ def create_github_account_obj(name):
         return github_dict
 
     # get accounts that main follows
-    github_following_accounts = list(map(parse_github_account, github_user_following_response))
+    github_following_accounts = list(
+        map(parse_github_account, github_user_following_response)
+    )
 
     # expand the dictionary with new accounts to process
     for github_following_account in github_following_accounts:
@@ -156,12 +203,14 @@ def load_github_already_processed():
         if len(github_account_json) == 0:
             github_dict_processed[github_key] = None
             continue
-        github_account = GithubAccount(avatar=github_account_json["avatar"],
-                                       company=github_account_json["company"],
-                                       bio=github_account_json["bio"],
-                                       hireable=github_account_json["hireable"],
-                                       login=github_account_json["login"],
-                                       id=github_account_json["id"])
+        github_account = GithubAccount(
+            avatar=github_account_json["avatar"],
+            company=github_account_json["company"],
+            bio=github_account_json["bio"],
+            hireable=github_account_json["hireable"],
+            login=github_account_json["login"],
+            id=github_account_json["id"],
+        )
         github_account.following = github_account_json["following"]
         github_account.is_processed = github_account_json["is_processed"]
 

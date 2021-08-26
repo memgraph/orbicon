@@ -5,7 +5,6 @@ import requests
 from typing import List
 from simplejson import JSONDecodeError
 
-from utils.abstract import NodeAbstract
 from utils.util import merge_dicts
 from utils.load_event_history_data import ActivityHistoryItem
 
@@ -18,8 +17,24 @@ MAX_FOLLOWING_ACCOUNTS_ON_REQUEST = 20
 BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAA0lTAEAAAAANrpndxI81KFXLjieXcj0ZjxhbVQ%3DrMUx9pSfeiNOW3vJbaMYkxaUMkhYsozzlYJdpw0bLx8BXqpM5v"
 
 
-class TwitterAccount(NodeAbstract):
-    template = Template('MERGE (n:Twitter {username: "$username", name: "$name", profile_image_url: "$profile_image_url"});')
+class TwitterAccount:
+    CYP_CREATE_NODE = Template(
+        """
+        CREATE (n:Twitter {username: "$username", name: "$name", profile_image_url: "$profile_image_url"});
+    """
+    )
+    CYP_MERGE_NODE = Template(
+        """
+        MERGE (n:Twitter {username: "$username"})
+        ON CREATE SET n += {name: "$name", profile_image_url: "$profile_image_url"}
+        ON MATCH SET n += {name: "$name", profile_image_url: "$profile_image_url"}
+    """
+    )
+    CYP_FOLLOWS = Template(
+        """
+        MATCH (n:Twitter {username: "$source"}), (m:Twitter {username: "$target"}) MERGE (n)-[:FOLLOWS]->(m);
+    """
+    )
 
     def __init__(self, name, username, profile_image_url, id):
         self.name = name
@@ -30,28 +45,46 @@ class TwitterAccount(NodeAbstract):
         self.following: List[str] = []
 
     def __str__(self):
-        return "id={id}," \
-               "name={name}," \
-               "username={username}," \
-               "profile_image_url={profile_image_url}," \
-               "is_processed={is_processed}" \
-               "following:{following}".format(id=self.id,
-                                              name=self.name,
-                                              username=self.username,
-                                              profile_image_url=self.profile_image_url,
-                                              following=",".join(self.following),
-                                              is_processed=self.is_processed)
+        return (
+            "id={id},"
+            "name={name},"
+            "username={username},"
+            "profile_image_url={profile_image_url},"
+            "is_processed={is_processed}"
+            "following:{following}".format(
+                id=self.id,
+                name=self.name,
+                username=self.username,
+                profile_image_url=self.profile_image_url,
+                following=",".join(self.following),
+                is_processed=self.is_processed,
+            )
+        )
 
-    def get_node_cypher(self):
-        return TwitterAccount.template.substitute(username=self.username, name=self.name,
-                                                  profile_image_url=self.profile_image_url)
+    def cyp_create_node(self):
+        return TwitterAccount.CYP_CREATE_NODE.substitute(
+            username=self.username,
+            name=self.name,
+            profile_image_url=self.profile_image_url,
+        )
+
+    def cyp_merge_node(self):
+        return TwitterAccount.CYP_MERGE_NODE.substitute(
+            username=self.username,
+            name=self.name,
+            profile_image_url=self.profile_image_url,
+        )
+
+    def cyp_follows(self, other):
+        return TwitterAccount.CYP_FOLLOWS.substitute(source=self.username, target=other)
 
 
 def send_twitter_users_by_usernames_request(usernames: List[str]):
-    headers = {'Authorization': 'Bearer %s' % BEARER_TOKEN}
+    headers = {"Authorization": "Bearer %s" % BEARER_TOKEN}
 
-    url = 'https://api.twitter.com/2/users/by?usernames={usernames}&user.fields=id,name,username,profile_image_url'.format(
-        usernames=",".join(usernames))
+    url = "https://api.twitter.com/2/users/by?usernames={usernames}&user.fields=id,name,username,profile_image_url".format(
+        usernames=",".join(usernames)
+    )
 
     response = requests.get(url, headers=headers)
     if not response.ok:
@@ -62,9 +95,10 @@ def send_twitter_users_by_usernames_request(usernames: List[str]):
 
 
 def send_twitter_users_following_request(id):
-    headers = {'Authorization': 'Bearer %s' % BEARER_TOKEN}
-    url = 'https://api.twitter.com/2/users/{id}/following?max_results={n}&user.fields=id,name,username,profile_image_url'.format(
-        n=MAX_FOLLOWING_ACCOUNTS_ON_REQUEST, id=id)
+    headers = {"Authorization": "Bearer %s" % BEARER_TOKEN}
+    url = "https://api.twitter.com/2/users/{id}/following?max_results={n}&user.fields=id,name,username,profile_image_url".format(
+        n=MAX_FOLLOWING_ACCOUNTS_ON_REQUEST, id=id
+    )
 
     response = requests.get(url, headers=headers)
     if not response.ok:
@@ -79,10 +113,12 @@ def parse_key(json_obj, key):
 
 
 def parse_twitter_account(twitter_account_json) -> TwitterAccount:
-    return TwitterAccount(name=parse_key(twitter_account_json, "name"),
-                          username=parse_key(twitter_account_json, "username"),
-                          profile_image_url=parse_key(twitter_account_json, "profile_image_url"),
-                          id=parse_key(twitter_account_json, "id"))
+    return TwitterAccount(
+        name=parse_key(twitter_account_json, "name"),
+        username=parse_key(twitter_account_json, "username"),
+        profile_image_url=parse_key(twitter_account_json, "profile_image_url"),
+        id=parse_key(twitter_account_json, "id"),
+    )
 
 
 def create_twitter_accounts_obj_batch(names: List[str]):
@@ -97,7 +133,9 @@ def create_twitter_accounts_obj_batch(names: List[str]):
     for twitter_user_json in twitter_users_json:
         twitter_main_account = parse_twitter_account(twitter_user_json)
         twitter_dict[twitter_main_account.username] = twitter_main_account
-        twitter_following_users_response = send_twitter_users_following_request(twitter_main_account.id)
+        twitter_following_users_response = send_twitter_users_following_request(
+            twitter_main_account.id
+        )
 
         if twitter_following_users_response is None:
             twitter_main_account.is_processed = False
@@ -106,9 +144,15 @@ def create_twitter_accounts_obj_batch(names: List[str]):
         twitter_following_users_json = twitter_following_users_response["data"]
 
         for twitter_following_user_json in twitter_following_users_json:
-            twitter_following_user_account = parse_twitter_account(twitter_following_user_json)
-            twitter_dict[twitter_following_user_account.username] = twitter_following_user_account
-            twitter_main_account.following.append(twitter_following_user_account.username)
+            twitter_following_user_account = parse_twitter_account(
+                twitter_following_user_json
+            )
+            twitter_dict[
+                twitter_following_user_account.username
+            ] = twitter_following_user_account
+            twitter_main_account.following.append(
+                twitter_following_user_account.username
+            )
 
         twitter_main_account.is_processed = True
 
@@ -129,10 +173,14 @@ def get_twitter_recursive_following(twitter_dict, depth_following_level=1):
                 continue
 
             batch_twitter_names.append(name)
-            if len(batch_twitter_names) != 10:  # twitter magic number for number of accounts you are allowed in a pull
+            if (
+                len(batch_twitter_names) != 10
+            ):  # twitter magic number for number of accounts you are allowed in a pull
                 continue
 
-            new_twitter_account_dict = create_twitter_accounts_obj_batch(batch_twitter_names)
+            new_twitter_account_dict = create_twitter_accounts_obj_batch(
+                batch_twitter_names
+            )
 
             new_twitter_dict = merge_dicts(new_twitter_dict, new_twitter_account_dict)
 
@@ -182,7 +230,9 @@ def process_twitter(users):
     twitter_dict = {}
     for twitter_name in users:
         twitter_dict[twitter_name] = None
-    twitter_dict = get_twitter_recursive_following(twitter_dict, depth_following_level=1)
+    twitter_dict = get_twitter_recursive_following(
+        twitter_dict, depth_following_level=1
+    )
 
     twitter_dict_processed = load_twitter_already_processed()
     twitter_dict = merge_dicts(twitter_dict, twitter_dict_processed)
