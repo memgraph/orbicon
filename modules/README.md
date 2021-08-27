@@ -28,7 +28,7 @@ To see the stream status run:
 SHOW STREAMS;
 ```
 
-##Algorithms
+## Algorithms
 
 Before any edge is added to graph, we need to initialize `node2vec_online` module
 
@@ -47,8 +47,8 @@ This one is for `orbit_graph_calculus module` to update `communityId`.
 CREATE TRIGGER orbit_graph_calculus_set_lables ON --> CREATE AFTER COMMIT
 EXECUTE CALL node2vec_online.update(createdEdges) YIELD *
 WITH 1 as x
-CALL node2vec_online.get() YIELD node,embedding 
-WITH COLLECT(node) as nodes, COLLECT(embedding) as embeddings 
+CALL node2vec_online.get() YIELD node,embedding
+WITH COLLECT(node) as nodes, COLLECT(embedding) as embeddings
 CALL orbit_graph_calculus.get_labels(nodes,embeddings) YIELD node,label
 SET node.communityId=label;
 ```
