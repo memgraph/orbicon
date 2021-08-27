@@ -35,7 +35,7 @@
             '/usr/lib/memgraph/memgraph',
             '--telemetry-enabled=false',
             '--query-modules-directory=/usr/lib/memgraph/query_modules,/query_modules',
-            '--query-execution-timeout-sec=600',
+            '--query-execution-timeout-sec=1200',
             '--kafka-bootstrap-servers=kafka:9092',
             '--log-level=TRACE',
             '--also-log-to-stderr'
@@ -73,6 +73,22 @@
       - "--exclude=__pycache__"
       - "--exclude=htmlcov"
 
+- name: Delete content & directory
+  file:
+    state: absent
+    path: /home/{{ ansible_user }}/frontend/
+
+- name: Copy frontend code
+  synchronize:
+    src: ../frontend/dist/
+    dest: /home/{{ ansible_user }}/frontend
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=ve3"
+      - "--exclude=__pycache__"
+      - "--exclude=htmlcov"
+      - "--exclude=node_modules"
+
 # TODO(gitbuda): Ensure right permissions for the modules/data directory.
 
 - name: Start backend service
@@ -80,4 +96,5 @@
     project_name: orbit_graph
     project_src: /home/{{ ansible_user }}/backend
     build: yes
+    nocache: yes
 ...

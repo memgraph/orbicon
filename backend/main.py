@@ -3,7 +3,7 @@ orbit_graph
 """
 
 import json
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flask_cors.decorator import cross_origin
 from kafka import KafkaProducer
@@ -14,7 +14,9 @@ from data.mocks import usernames, userDetails, memberGraph, activities
 from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities, dbMemberGraph
 from orbit_graph.database.orbit_models import MemberGraphEdge
 
-app = Flask(__name__)
+# TODO(gitbuda): Huge hack but during hackathon all is allowed!
+app = Flask(__name__, template_folder="/frontend", static_folder="/frontend", static_url_path='')
+
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
@@ -29,7 +31,12 @@ class MyEncoder(json.JSONEncoder):
         return o.__dict__
 
 
-@app.route("/")
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route("/heartbeat")
 def hello_world():
     return jsonify({"name": "Orbit Graph API"})
 
