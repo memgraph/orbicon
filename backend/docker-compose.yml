@@ -6,6 +6,8 @@ services:
       - "80:3000"
     volumes:
       - ./orbit_graph:/app/orbit_graph
+      # TODO(gitbuda): Huge hack but during hackathon all is allowed!
+      - /home/ubuntu/frontend:/frontend
     environment:
       MG_HOST: memgraph
       MG_PORT: 7687
