@@ -30,6 +30,7 @@ SHOW STREAMS;
 
 ## Algorithms
 
+### Community detection with node2vec_online
 Before any edge is added to graph, we need to initialize `node2vec_online` module
 
 ```Cypher
@@ -51,4 +52,15 @@ CALL node2vec_online.get() YIELD node,embedding
 WITH COLLECT(node) as nodes, COLLECT(embedding) as embeddings
 CALL orbit_graph_calculus.get_labels(nodes,embeddings) YIELD node,label
 SET node.communityId=label;
+```
+
+
+
+### Importance calculation with pagerank
+
+```Cypher
+MATCH (n:Member)-[e:CONNECTS]-(m:Member)
+WITH COLLECT (n) as nodes, collect(e) as edges
+CALL orbit_graph_calculus.pagerank(nodes,edges) YIELD node, rank
+SET node.importance=rank;
 ```
