@@ -1,7 +1,7 @@
 import mgp
 import kmeans
 
-NUMBER_OF_GROUPS = 5
+
 
 @mgp.read_proc
 def get_labels(ctx: mgp.ProcCtx, nodes: mgp.List[mgp.Vertex], embeddings: mgp.List[mgp.List[mgp.Number]]) -> mgp.Record(
@@ -16,6 +16,11 @@ def get_labels(ctx: mgp.ProcCtx, nodes: mgp.List[mgp.Vertex], embeddings: mgp.Li
 
     for i in range(len(nodes_new)):
         print(nodes_new[i], embeddings_new[i])
+
+    NUMBER_OF_GROUPS = 2
+
+    if len(nodes_new)>100:
+        NUMBER_OF_GROUPS=5
 
     dict, nodes_labels_list = kmeans.get_groups(NUMBER_OF_GROUPS, embeddings_new, nodes_new)
 
