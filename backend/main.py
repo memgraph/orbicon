@@ -15,7 +15,7 @@ from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbA
 from orbit_graph.database.orbit_models import MemberGraphEdge
 
 # TODO(gitbuda): Huge hack but during hackathon all is allowed!
-app = Flask(__name__, template_folder="/frontend", static_folder="/frontend", static_url_path='')
+app = Flask(__name__, template_folder="/frontend", static_folder="/frontend", static_url_path="")
 
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
@@ -27,13 +27,14 @@ class MyEncoder(json.JSONEncoder):
             dic = dict()
             dic["from"] = o.from_edge
             dic["to"] = o.to_edge
+            dic["length"] = o.length
             return dic
         return o.__dict__
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
 @app.route("/heartbeat")

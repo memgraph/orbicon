@@ -1,31 +1,35 @@
+import random
+
 NOT_ACCEPTED_DETAILS = ["", "None", None]
+
+colors = ["#2a2d34", "#009ddc", "#f26430", "#6761a8", "009b72"]
 
 
 class Member:
     def __init__(self, username: str, name: str, love: str, location: str, avatar: str, importance: str):
-        self.username = username if username not in [None, "None"] else None
-        self.name = name if name not in [None, "None"] else None
-        self.love = love if love not in [None, "None"] else None
-        self.location = location if location not in [None, "None"] else None
-        self.avatar = avatar if avatar not in [None, "None"] else None
-        self.importance = importance if importance not in [None, "None"] else 0
+        self.username = username if username not in NOT_ACCEPTED_DETAILS else None
+        self.name = name if name not in NOT_ACCEPTED_DETAILS else None
+        self.love = love if love not in NOT_ACCEPTED_DETAILS else None
+        self.location = location if location not in NOT_ACCEPTED_DETAILS else None
+        self.avatar = avatar if avatar not in NOT_ACCEPTED_DETAILS else None
+        self.importance = importance if importance not in NOT_ACCEPTED_DETAILS else 0
 
 
 class Twitter:
     def __init__(self, username: str, name: str, profile_image_url: str, url: str):
-        self.username = username if username not in [None, "None"] else None
-        self.name = name if name not in [None, "None"] else None
-        self.profile_image_url = profile_image_url if profile_image_url not in [None, "None"] else None
-        self.url = url if url not in [None, "None"] else None
+        self.username = username if username not in NOT_ACCEPTED_DETAILS else None
+        self.name = name if name not in NOT_ACCEPTED_DETAILS else None
+        self.profile_image_url = profile_image_url if profile_image_url not in NOT_ACCEPTED_DETAILS else None
+        self.url = url if url not in NOT_ACCEPTED_DETAILS else None
 
 
 class Github:
     def __init__(self, username: str, company: str, hireable: str, avatar: str, url: str):
-        self.username = username if username not in [None, "None"] else None
-        self.company = company if company not in [None, "None"] else None
-        self.hireable = hireable if hireable not in [None, "None"] else None
-        self.avatar = avatar if avatar not in [None, "None"] else None
-        self.url = url if url not in [None, "None"] else None
+        self.username = username if username not in NOT_ACCEPTED_DETAILS else None
+        self.company = company if company not in NOT_ACCEPTED_DETAILS else None
+        self.hireable = hireable if hireable not in NOT_ACCEPTED_DETAILS else None
+        self.avatar = avatar if avatar not in NOT_ACCEPTED_DETAILS else None
+        self.url = url if url not in NOT_ACCEPTED_DETAILS else None
 
 
 class Activity:
@@ -53,6 +57,7 @@ class MemberConstants:
     LOCATION = "location"
     AVATAR = "avatar"
     IMPORTANCE = "importance"
+    COMMUNITY_ID = "communityId"
 
 
 class TwitterConstants:
@@ -119,7 +124,7 @@ def create_activity(props_activity):
 
 
 class MemberGraphNode:
-    def __init__(self, id, importance, community_id, love, username, avatar):
+    def __init__(self, id, importance, community_id, community_name, love, username, avatar):
         self.id = id
         self.label = username
         self.shape = "circularImage"
@@ -129,25 +134,35 @@ class MemberGraphNode:
         tmp_importance = tmp_importance if tmp_importance not in NOT_ACCEPTED_DETAILS else 25
         if tmp_importance == 0:
             tmp_importance = 25
-        self.size = tmp_importance
+        random_size = 25 + random.random() * 75
+        tmp_importance = random_size
 
-        self.title = f"Importance: {tmp_importance}\nLove: {love}\nCommunity class: {community_id}"
+        self.size = tmp_importance
+        self.community_name = community_name
+        self.love = love if love not in NOT_ACCEPTED_DETAILS else "Unknown"
+
+        self.title = f"Importance: {tmp_importance}<br>Love: {love}<br>Community class: {community_name}"
         self.borderWidth = 5
         self.color = {}
-        self.color["border"] = "#000"
+        self.color["border"] = colors[community_id]
 
 
 class MemberGraphEdge:
     def __init__(self, from_edge, to_edge):
         self.from_edge = from_edge
         self.to_edge = to_edge
+        self.length = 500
 
 
-def create_member_node(id, props):
+def create_member_node(id, props, community_names):
+    community_id = int(props[MemberConstants.COMMUNITY_ID])
+    community_name = community_names[community_id]
+
     return MemberGraphNode(
         id,
         props[MemberConstants.IMPORTANCE],
-        1,
+        community_id,
+        community_name,
         props[MemberConstants.LOVE],
         props[MemberConstants.USERNAME],
         props[MemberConstants.AVATAR],
@@ -156,3 +171,229 @@ def create_member_node(id, props):
 
 def create_member_graph_edge(id1, id2):
     return MemberGraphEdge(id1, id2)
+
+
+left_part = [
+    "admiring",
+    "adoring",
+    "agitated",
+    "amazing",
+    "angry",
+    "awesome",
+    "backstabbing",
+    "berserk",
+    "big",
+    "boring",
+    "clever",
+    "cocky",
+    "compassionate",
+    "condescending",
+    "cranky",
+    "desperate",
+    "determined",
+    "distracted",
+    "dreamy",
+    "drunk",
+    "ecstatic",
+    "elated",
+    "elegant",
+    "evil",
+    "fervent",
+    "focused",
+    "furious",
+    "gigantic",
+    "gloomy",
+    "goofy",
+    "grave",
+    "happy",
+    "high",
+    "hopeful",
+    "hungry",
+    "insane",
+    "jolly",
+    "jovial",
+    "kickass",
+    "lonely",
+    "loving",
+    "mad",
+    "modest",
+    "naughty",
+    "nauseous",
+    "nostalgic",
+    "pedantic",
+    "pensive",
+    "prickly",
+    "reverent",
+    "romantic",
+    "sad",
+    "serene",
+    "sharp",
+    "sick",
+    "silly",
+    "sleepy",
+    "small",
+    "stoic",
+    "stupefied",
+    "suspicious",
+    "tender",
+    "thirsty",
+    "tiny",
+    "trusting",
+]
+
+right_part = [
+    "albattani",
+    "allen",
+    "almeida",
+    "archimedes",
+    "ardinghelli",
+    "aryabhata",
+    "austin",
+    "babbage",
+    "banach",
+    "bardeen",
+    "bartik",
+    "bassi",
+    "bell",
+    "bhabha",
+    "bhaskara",
+    "blackwell",
+    "bohr",
+    "booth",
+    "borg",
+    "bose",
+    "boyd",
+    "brahmagupta",
+    "brattain",
+    "brown",
+    "carson",
+    "chandrasekhar",
+    "colden",
+    "cori",
+    "cray",
+    "curie",
+    "darwin",
+    "davinci",
+    "dijkstra",
+    "dubinsky",
+    "easley",
+    "einstein",
+    "elion",
+    "engelbart",
+    "euclid",
+    "euler",
+    "fermat",
+    "fermi",
+    "feynman",
+    "franklin",
+    "galileo",
+    "gates",
+    "goldberg",
+    "goldstine",
+    "goldwasser",
+    "golick",
+    "goodall",
+    "hamilton",
+    "hawking",
+    "heisenberg",
+    "heyrovsky",
+    "hodgkin",
+    "hoover",
+    "hopper",
+    "hugle",
+    "hypatia",
+    "jang",
+    "jennings",
+    "jepsen",
+    "joliot",
+    "jones",
+    "kalam",
+    "kare",
+    "keller",
+    "khorana",
+    "kilby",
+    "kirch",
+    "knuth",
+    "kowalevski",
+    "lalande",
+    "lamarr",
+    "leakey",
+    "leavitt",
+    "lichterman",
+    "liskov",
+    "lovelace",
+    "lumiere",
+    "mahavira",
+    "mayer",
+    "mccarthy",
+    "mcclintock",
+    "mclean",
+    "mcnulty",
+    "meitner",
+    "meninsky",
+    "mestorf",
+    "minsky",
+    "mirzakhani",
+    "morse",
+    "murdock",
+    "newton",
+    "nobel",
+    "noether",
+    "northcutt",
+    "noyce",
+    "panini",
+    "pare",
+    "pasteur",
+    "payne",
+    "perlman",
+    "pike",
+    "poincare",
+    "poitras",
+    "ptolemy",
+    "raman",
+    "ramanujan",
+    "ride",
+    "ritchie",
+    "roentgen",
+    "rosalind",
+    "saha",
+    "sammet",
+    "shaw",
+    "shirley",
+    "shockley",
+    "sinoussi",
+    "snyder",
+    "spence",
+    "stallman",
+    "stonebraker",
+    "swanson",
+    "swartz",
+    "swirles",
+    "tesla",
+    "thompson",
+    "torvalds",
+    "turing",
+    "varahamihira",
+    "visvesvaraya",
+    "volhard",
+    "wescoff",
+    "williams",
+    "wilson",
+    "wing",
+    "wozniak",
+    "wright",
+    "yalow",
+    "yonath",
+]
+
+
+def choose_names(community_size):
+    community_names = []
+
+    for i in range(community_size):
+        left = random.choice(left_part).capitalize()
+        right = random.choice(right_part).capitalize()
+
+        community_names.append(f"{left} {right}")
+
+    return community_names
