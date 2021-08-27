@@ -5,7 +5,7 @@ import { store } from './store/store.js';
 
 Vue.config.productionTip = false
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.VUE_APP_NODE_ENV === 'development') {
   const { worker } = require('./mocks/browser')
   worker.start()
 }

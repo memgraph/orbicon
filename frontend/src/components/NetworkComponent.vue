@@ -141,6 +141,7 @@ export default {
     ]),
   },
   mounted() {
+    console.log(process.env.VUE_APP_NODE_ENV);
     try {
       this.$store.dispatch("getActivities");
       this.$store.dispatch("getUsernames");
@@ -160,9 +161,9 @@ export default {
         return;
       }
       const nodeId = event.nodes[0];
-      const networkNodes = this.$refs.network.getNode()
-      const selectedNode = networkNodes.filter(x => x.id === nodeId)[0];
-      const username = selectedNode.label
+      const networkNodes = this.$refs.network.getNode();
+      const selectedNode = networkNodes.filter((x) => x.id === nodeId)[0];
+      const username = selectedNode.label;
       this.$store.dispatch("showUserDetails", username);
     },
   },
