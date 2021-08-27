@@ -128,7 +128,9 @@ export default {
   data: function () {
     return {
       msg: "All good!",
-      options: {},
+      options: {
+        smooth: "true"
+      },
     };
   },
   computed: {
