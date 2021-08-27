@@ -1,7 +1,7 @@
 # Orbit Graph Deploy Code
 
 ```bash
-ansible-playbook -i hosts.yml init.yml --extra-vars "ansible_user=ubuntu"
+ansible-playbook -i hosts.yml all.yml --extra-vars "ansible_user=ubuntu"
 ```
 
 ## Kafka
