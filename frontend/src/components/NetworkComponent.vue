@@ -142,9 +142,9 @@ export default {
   },
   mounted() {
     try {
-      this.$store.dispatch("getMemberGraph");
-      this.$store.dispatch("getUsernames");
       this.$store.dispatch("getActivities");
+      this.$store.dispatch("getUsernames");
+      this.$store.dispatch("getMemberGraph");
     } catch (error) {
       console.log(error);
     }
@@ -160,8 +160,10 @@ export default {
         return;
       }
       const nodeId = event.nodes[0];
-      console.log(nodeId);
-      this.$store.dispatch("showUserDetails");
+      const networkNodes = this.$refs.network.getNode();
+      const selectedNode = networkNodes.filter((x) => x.id === nodeId)[0];
+      const username = selectedNode.label;
+      this.$store.dispatch("showUserDetails", username);
     },
   },
 };

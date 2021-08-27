@@ -35,6 +35,7 @@
             '/usr/lib/memgraph/memgraph',
             '--telemetry-enabled=false',
             '--query-modules-directory=/usr/lib/memgraph/query_modules,/query_modules',
+            '--query-execution-timeout-sec=600',
             '--kafka-bootstrap-servers=kafka:9092',
             '--log-level=TRACE',
             '--also-log-to-stderr'

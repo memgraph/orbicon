@@ -11,15 +11,46 @@ from orbit_graph.database.orbit_models import (
     create_member,
     create_empty_github,
     create_empty_twitter,
+    create_member_node,
+    create_member_graph_edge,
+    NOT_ACCEPTED_DETAILS,
 )
 
 db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASSWORD, encrypted=MG_ENCRYPTED)
-NOT_ACCEPTED_DETAILS = ["", "None", None]
 
 
 def query(command: str) -> Iterator[Dict[str, Any]]:
     """Queries Memgraph database and returns iterator of results"""
     yield from db.execute_and_fetch(command)
+
+
+def dbMemberGraph(limit: int = 50):
+    member_graph_query = f"MATCH (m:Member)-[h:HAS]->(n) RETURN m, h, n LIMIT {limit}"
+    results = db.execute_and_fetch(member_graph_query)
+
+    member_graph_nodes = []
+    member_graph_edges = []
+
+    member_node_ids = set()
+    for result in results:
+        id = result["m"]._id
+
+        if id not in member_node_ids:
+            member_node = create_member_node(id, result["m"]._properties)
+            member_graph_nodes.append(member_node)
+            member_node_ids.add(id)
+
+        id2 = result["n"]._id
+
+        if id2 not in member_node_ids:
+            member_node = create_member_node(id2, result["m"]._properties)
+            member_graph_nodes.append(member_node)
+            member_node_ids.add(id2)
+
+        member_edge = create_member_graph_edge(id, id2)
+        member_graph_edges.append(member_edge)
+
+    return MemberGraph(member_graph_nodes, member_graph_edges)
 
 
 def dbActivities():
@@ -148,25 +179,6 @@ class MemberGraph:
     def __init__(self, nodes, edges):
         self.nodes = nodes
         self.edges = edges
-
-
-class MemberGraphNode:
-    def __init__(self, id, importance, community_id, love, username, avatar):
-        self.id = id
-        self.importance = importance
-        self.communityId = community_id
-        self.love = love
-        self.username = username
-        self.avatar = avatar
-
-
-class MemberGraphEdge:
-    def __init__(self, from_edge, to_edge):
-        self.from_edge = from_edge
-        self.to_edge = to_edge
-
-    def __dict__(self):
-        return {"from": self.from_edge, "to": self.to_edge}
 
 
 class Activities:
