@@ -1,4 +1,5 @@
 import { rest } from 'msw'
+import { apiRoutes } from '../api/apiClient'
 
 export default [
   rest.get('/network', (req, res, ctx) => {
@@ -8,30 +9,30 @@ export default [
       })
     )
   }),
-  rest.get('/memberGraph', (req, res, ctx) => {
+  rest.get(apiRoutes.memberGraphRoute(), (req, res, ctx) => {
     return res(ctx.json(memberGraph))
   }),
-  rest.get('/usernames', (req, res, ctx) => {
+  rest.get(apiRoutes.usernamesRoute(), (req, res, ctx) => {
     return res(ctx.json(usernames))
   }),
   rest.get('/userDetails/:username', (req, res, ctx) => {
     return res(ctx.json(userDetails))
   }),
-  rest.get('/activities', (req, res, ctx) => {
+  rest.get(apiRoutes.activitiesRoute(), (req, res, ctx) => {
     return res(ctx.json(activities))
   }),
 ]
 
 const memberGraph = {
   nodes: [
-    { id: 1,  label: 'njonjo',  shape: 'circularImage', image: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4", title: "Ovo je njonjo", size: 100, borderWidth: 10, color: { border: 'green' }, },
-    { id: 2,  label: 'ellipse', shape: 'ellipse', borderWidth: 5, color: { border: 'green' } },
-    { id: 3,  label: 'database', shape: 'database' },
-    { id: 4,  label: 'njonjo2', image: 'https://avatars.githubusercontent.com/u/4950251?s=88&v=4' },
-    { id: 5,  label: 'diamond', shape: 'diamond' },
-    { id: 6,  label: 'dot',     shape: 'dot' },
-    { id: 7,  label: 'square',  shape: 'square' },
-    { id: 8,  label: 'triangle',shape: 'triangle' },
+    { id: 1,  label: 'mbudiselicbuda',  shape: 'circularImage', image: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4", title: "Ovo je njonjo", size: 100, borderWidth: 10, color: { border: 'green' }, },
+    { id: 2,  label: 'mbudiselicbuda', shape: 'ellipse', borderWidth: 5, color: { border: 'green' } },
+    { id: 3,  label: 'mbudiselicbuda', shape: 'database' },
+    { id: 4,  label: 'mbudiselicbuda', image: 'https://avatars.githubusercontent.com/u/4950251?s=88&v=4' },
+    { id: 5,  label: 'mbudiselicbuda', shape: 'diamond' },
+    { id: 6,  label: 'mbudiselicbuda', shape: 'dot' },
+    { id: 7,  label: 'mbudiselicbuda', shape: 'square' },
+    { id: 8,  label: 'mbudiselicbuda', shape: 'triangle' },
   ],
   edges: [
     {from: 1, to: 2},
@@ -76,72 +77,84 @@ const activities = {
       action: "PR_MAKE",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda2",
       action: "PR_MAKE2",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda3",
       action: "PR_MAKE3",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda",
       action: "PR_MAKE",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda2",
       action: "PR_MAKE2",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda3",
       action: "PR_MAKE3",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda",
       action: "PR_MAKE",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda2",
       action: "PR_MAKE2",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda3",
       action: "PR_MAKE3",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda",
       action: "PR_MAKE",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda2",
       action: "PR_MAKE2",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
     {
       username: "Gitbuda3",
       action: "PR_MAKE3",
       description: "This guy made a PR!",
       date: "2020-01-01T08:00:00",
+      avatar: "https://avatars.githubusercontent.com/u/4950251?s=88&v=4",
     },
   ]
 }

@@ -1,3 +1,6 @@
+NOT_ACCEPTED_DETAILS = ["", "None", None]
+
+
 class Member:
     def __init__(self, username: str, name: str, love: str, location: str, avatar: str, importance: str):
         self.username = username if username not in [None, "None"] else None
@@ -113,3 +116,43 @@ def create_activity(props_activity):
         props_activity[ActivityConstants.URL],
         props_activity[ActivityConstants.USERNAME],
     )
+
+
+class MemberGraphNode:
+    def __init__(self, id, importance, community_id, love, username, avatar):
+        self.id = id
+        self.label = username
+        self.shape = "circularImage"
+        self.image = avatar
+
+        tmp_importance = importance
+        tmp_importance = tmp_importance if tmp_importance not in NOT_ACCEPTED_DETAILS else 25
+        if tmp_importance == 0:
+            tmp_importance = 25
+        self.size = tmp_importance
+
+        self.title = f"Importance: {tmp_importance}\nLove: {love}\nCommunity class: {community_id}"
+        self.borderWidth = 5
+        self.color = {}
+        self.color["border"] = "#000"
+
+
+class MemberGraphEdge:
+    def __init__(self, from_edge, to_edge):
+        self.from_edge = from_edge
+        self.to_edge = to_edge
+
+
+def create_member_node(id, props):
+    return MemberGraphNode(
+        id,
+        props[MemberConstants.IMPORTANCE],
+        1,
+        props[MemberConstants.LOVE],
+        props[MemberConstants.USERNAME],
+        props[MemberConstants.AVATAR],
+    )
+
+
+def create_member_graph_edge(id1, id2):
+    return MemberGraphEdge(id1, id2)

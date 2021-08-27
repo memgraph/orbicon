@@ -11,7 +11,8 @@ from kafka import KafkaProducer
 from orbit_graph.kafka_stream.config import TOPIC_NAME
 
 from data.mocks import usernames, userDetails, memberGraph, activities
-from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities
+from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities, dbMemberGraph
+from orbit_graph.database.orbit_models import MemberGraphEdge
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -19,7 +20,12 @@ app.config["CORS_HEADERS"] = "Content-Type"
 
 
 class MyEncoder(json.JSONEncoder):
-    def default(slef, o):
+    def default(self, o):
+        if isinstance(o, MemberGraphEdge):
+            dic = dict()
+            dic["from"] = o.from_edge
+            dic["to"] = o.to_edge
+            return dic
         return o.__dict__
 
 
@@ -44,7 +50,8 @@ def webhook():
 @app.route("/memberGraph")
 @cross_origin()
 def get_member_graph():
-    return json.dumps(memberGraph())
+    response = dbMemberGraph()
+    return json.dumps(response, cls=MyEncoder)
 
 
 @app.route("/activities")

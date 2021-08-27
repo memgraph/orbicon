@@ -66,14 +66,12 @@ const actions = {
   getActivities(context) {
     apiClient.getActivities()
       .then((resp) => {
-        console.log(resp);
         context.commit(MUTATION_CONSTANTS.SET_ACTIVITIES, resp.data.activities);
       })
   },
   async showUserDetails(context, usernameInput) {
     apiClient.getUserDetails(usernameInput)
       .then((resp) => {
-        console.log(resp);
         context.commit(MUTATION_CONSTANTS.SET_USER_DETAILS, resp.data);
       })
       .then(() => {
