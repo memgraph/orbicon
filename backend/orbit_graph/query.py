@@ -14,6 +14,7 @@ from orbit_graph.database.orbit_models import (
     create_member_node,
     create_member_graph_edge,
     NOT_ACCEPTED_DETAILS,
+    choose_names,
 )
 
 db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASSWORD, encrypted=MG_ENCRYPTED)
@@ -25,25 +26,27 @@ def query(command: str) -> Iterator[Dict[str, Any]]:
 
 
 def dbMemberGraph(limit: int = 50):
-    member_graph_query = f"MATCH (m:Member)-[h:HAS]->(n) RETURN m, h, n LIMIT {limit}"
+    member_graph_query = f"MATCH (n)-[c:CONNECTS]-(m) return n, c, m"
     results = db.execute_and_fetch(member_graph_query)
+
+    community_names = choose_names(5)
 
     member_graph_nodes = []
     member_graph_edges = []
 
     member_node_ids = set()
     for result in results:
-        id = result["m"]._id
+        id = result["n"]._id
 
         if id not in member_node_ids:
-            member_node = create_member_node(id, result["m"]._properties)
+            member_node = create_member_node(id, result["n"]._properties, community_names)
             member_graph_nodes.append(member_node)
             member_node_ids.add(id)
 
-        id2 = result["n"]._id
+        id2 = result["m"]._id
 
         if id2 not in member_node_ids:
-            member_node = create_member_node(id2, result["m"]._properties)
+            member_node = create_member_node(id2, result["m"]._properties, community_names)
             member_graph_nodes.append(member_node)
             member_node_ids.add(id2)
 
