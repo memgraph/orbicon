@@ -4,6 +4,9 @@
 ansible-playbook -i hosts.yml all.yml --extra-vars "ansible_user=ubuntu"
 ```
 
+`all.yml` playbook initializes deployment machine, while `redeploy.yml` just
+redeploys Docker containers if required.
+
 ## Kafka
 
 * [How to properly configure Kafka?](https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc)
