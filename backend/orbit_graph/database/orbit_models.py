@@ -124,24 +124,22 @@ def create_activity(props_activity):
 
 
 class MemberGraphNode:
-    def __init__(self, id, importance, community_id, community_name, love, username, avatar):
+    def __init__(
+        self, id, importance, community_id, community_name, love, username, avatar, max_importance, min_importance
+    ):
         self.id = id
         self.label = username
         self.shape = "circularImage"
         self.image = avatar
 
-        tmp_importance = importance
-        tmp_importance = tmp_importance if tmp_importance not in NOT_ACCEPTED_DETAILS else 25
-        if tmp_importance == 0:
-            tmp_importance = 25
-        random_size = 25 + random.random() * 75
-        tmp_importance = random_size
+        tmp_importance = 25 + 75 * (importance - min_importance) / (max_importance - min_importance)
+        self.importance = "{:.2f}".format(tmp_importance)
 
         self.size = tmp_importance
         self.community_name = community_name
         self.love = love if love not in NOT_ACCEPTED_DETAILS else "Unknown"
 
-        self.title = f"Importance: {tmp_importance}<br>Love: {love}<br>Community class: {community_name}"
+        self.title = f"Importance: {self.importance}<br>Love: {self.love}<br>Community class: {community_name}"
         self.borderWidth = 5
         self.color = {}
         self.color["border"] = colors[community_id]
@@ -154,7 +152,7 @@ class MemberGraphEdge:
         self.length = 500
 
 
-def create_member_node(id, props, community_names):
+def create_member_node(id, props, community_names, max_importance, min_importance):
     community_id = int(props[MemberConstants.COMMUNITY_ID])
     community_name = community_names[community_id]
 
@@ -166,6 +164,8 @@ def create_member_node(id, props, community_names):
         props[MemberConstants.LOVE],
         props[MemberConstants.USERNAME],
         props[MemberConstants.AVATAR],
+        max_importance,
+        min_importance,
     )
 
 

@@ -45,7 +45,16 @@ def _get_avatar_from_member(props):
     return avatar
 
 
-def dbMemberGraph(limit: int = 50):
+def _max_min_importance():
+    importance_max_min_query = f"MATCH (m:Member) WITH MAX(m.importance) AS max_importance, MIN(m.importance) AS min_importance RETURN max_importance, min_importance"
+    result_min_max = list(db.execute_and_fetch(importance_max_min_query))[0]
+    max, min = result_min_max["max_importance"], result_min_max["min_importance"]
+    return max, min
+
+
+def dbMemberGraph():
+    max, min = _max_min_importance()
+
     member_graph_query = f"MATCH (n)-[c:CONNECTS]-(m) return n, c, m"
     results = db.execute_and_fetch(member_graph_query)
 
@@ -62,7 +71,7 @@ def dbMemberGraph(limit: int = 50):
             props = result["n"]._properties
             avatar = _get_avatar_from_member(props)
             props["avatar"] = avatar
-            member_node = create_member_node(id, props, community_names)
+            member_node = create_member_node(id, props, community_names, max, min)
             member_node.avatar = avatar
             member_graph_nodes.append(member_node)
             member_node_ids.add(id)
@@ -73,7 +82,7 @@ def dbMemberGraph(limit: int = 50):
             props2 = result["m"]._properties
             avatar = _get_avatar_from_member(props2)
             props2["avatar"] = avatar
-            member_node = create_member_node(id2, props2, community_names)
+            member_node = create_member_node(id2, props2, community_names, max, min)
             member_graph_nodes.append(member_node)
             member_node_ids.add(id2)
 
@@ -121,6 +130,8 @@ def _dbUsernamesExecution(query):
 
 
 def dbUserDetails(username):
+    max, min = _max_min_importance()
+
     memberQuery = f'MATCH (n:Member) WHERE n.username = "{username}" RETURN n'
     member_results = list(db.execute_and_fetch(memberQuery))
 
@@ -141,11 +152,11 @@ def dbUserDetails(username):
         create_github(github_results[0]["m"]._properties) if len(github_results) > 0 else create_empty_github()
     )
 
-    return UserDetails(member_model, github_model, twitter_model)
+    return UserDetails(member_model, github_model, twitter_model, max, min)
 
 
 class UserDetails:
-    def __init__(self, member, github, twitter):
+    def __init__(self, member, github, twitter, max_importance, min_importance):
         self.username = member.username
         self.avatar = (
             member.avatar
@@ -160,7 +171,8 @@ class UserDetails:
         self.love = member.love
         self.love = self.love if self.love is not None else "Unknown"
 
-        self.importance = member.importance
+        self.importance = 25 + 75 * (member.importance - min_importance) / (max_importance - min_importance)
+        self.importance = "{:.2f}".format(self.importance)
 
         self.location = member.location if member.location not in NOT_ACCEPTED_DETAILS else "Unknown"
 

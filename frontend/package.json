@@ -17,6 +17,7 @@
     "vis-util": "^5.0.2",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.5",
+    "vue-meta": "^2.4.0",
     "vue-vis-network": "^1.0.2",
     "vuetify": "^2.5.8",
     "vuex": "^3.6.2"

@@ -5,14 +5,17 @@
 </template>
 
 <script>
-import NetworkComponent from './components/NetworkComponent.vue'
+import NetworkComponent from "./components/NetworkComponent.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    NetworkComponent
-  }
-}
+    NetworkComponent,
+  },
+  metaInfo: {
+    title: "Orbicon",
+  },
+};
 </script>
 
 <style>
