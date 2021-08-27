@@ -50,7 +50,7 @@
             ><v-icon>mdi-star</v-icon>PageRank Score</v-list-item-title
           >
           <v-list-item-subtitle
-            >{{ userDetails.importance }}
+            >{{ userDetails.importance }}/100
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
