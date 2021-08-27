@@ -43,12 +43,8 @@ def pagerank(
     tol = 1e-06
     weight= "weight"
 
-
-    print(vertices)
-
     g = nx.DiGraph()
     g.add_nodes_from(vertices)
-    g.add_edges_from([(edge.from_vertex, edge.to_vertex) for edge in edges])
     g.add_edges_from([(edge.from_vertex, edge.to_vertex) for edge in edges])
 
     pg = nx.pagerank(
