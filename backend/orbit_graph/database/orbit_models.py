@@ -134,6 +134,9 @@ class MemberGraphNode:
         tmp_importance = tmp_importance if tmp_importance not in NOT_ACCEPTED_DETAILS else 25
         if tmp_importance == 0:
             tmp_importance = 25
+        random_size = 25 + random.random() * 75
+        tmp_importance = random_size
+
         self.size = tmp_importance
         self.community_name = community_name
         self.love = love if love not in NOT_ACCEPTED_DETAILS else "Unknown"
@@ -148,6 +151,7 @@ class MemberGraphEdge:
     def __init__(self, from_edge, to_edge):
         self.from_edge = from_edge
         self.to_edge = to_edge
+        self.length = 500
 
 
 def create_member_node(id, props, community_names):

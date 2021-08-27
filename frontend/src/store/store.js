@@ -48,6 +48,7 @@ const actions = {
   async getMemberGraph(context) {
     apiClient.getMemberGraph()
       .then((resp) => {
+        console.log(resp);
         context.commit(MUTATION_CONSTANTS.SET_MEMBER_GRAPH, resp.data);
       })
   },

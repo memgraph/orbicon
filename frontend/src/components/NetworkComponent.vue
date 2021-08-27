@@ -163,7 +163,7 @@ export default {
       const networkNodes = this.$refs.network.getNode();
       const selectedNode = networkNodes.filter((x) => x.id === nodeId)[0];
       const username = selectedNode.label;
-      this.$store.dispatch("showUserDetails", username);
+      this.$store.dispatch("showUserDetails", username, );
     },
   },
 };

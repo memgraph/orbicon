@@ -25,6 +25,26 @@ def query(command: str) -> Iterator[Dict[str, Any]]:
     yield from db.execute_and_fetch(command)
 
 
+def _get_avatar_from_member(props):
+    avatar = props[MemberConstants.AVATAR]
+    if avatar not in NOT_ACCEPTED_DETAILS:
+        return avatar
+
+    username = props[MemberConstants.USERNAME]
+
+    twitter_query = f"MATCH (m:Member {{username: '{username}'}})-[:HAS]->(t:Twitter) RETURN t.profile_image_url"
+    twitter_result = list(db.execute_and_fetch(twitter_query))
+    avatar = twitter_result[0]["t.profile_image_url"] if len(twitter_result) > 0 else None
+    if avatar not in NOT_ACCEPTED_DETAILS:
+        return avatar
+
+    github_query = f"MATCH (m:Member {{username: '{username}'}})-[:HAS]->(g:Github) RETURN g.avatar"
+    github_result = list(db.execute_and_fetch(github_query))
+    avatar = github_result[0]["g.avatar"] if len(github_result) > 0 else None
+
+    return avatar
+
+
 def dbMemberGraph(limit: int = 50):
     member_graph_query = f"MATCH (n)-[c:CONNECTS]-(m) return n, c, m"
     results = db.execute_and_fetch(member_graph_query)
@@ -39,14 +59,21 @@ def dbMemberGraph(limit: int = 50):
         id = result["n"]._id
 
         if id not in member_node_ids:
-            member_node = create_member_node(id, result["n"]._properties, community_names)
+            props = result["n"]._properties
+            avatar = _get_avatar_from_member(props)
+            props["avatar"] = avatar
+            member_node = create_member_node(id, props, community_names)
+            member_node.avatar = avatar
             member_graph_nodes.append(member_node)
             member_node_ids.add(id)
 
         id2 = result["m"]._id
 
         if id2 not in member_node_ids:
-            member_node = create_member_node(id2, result["m"]._properties, community_names)
+            props2 = result["m"]._properties
+            avatar = _get_avatar_from_member(props2)
+            props2["avatar"] = avatar
+            member_node = create_member_node(id2, props2, community_names)
             member_graph_nodes.append(member_node)
             member_node_ids.add(id2)
 
@@ -62,32 +89,12 @@ def dbActivities():
 
     activities = []
     for result in results:
-        avatar = _get_avatar_from_activity(result)
+        avatar = _get_avatar_from_member(result["m"]._properties)
         activity = create_activity(result["n"]._properties)
         activity.avatar = avatar
         activities.append(activity)
 
     return Activities(activities)
-
-
-def _get_avatar_from_activity(result):
-    avatar = result["m"]._properties[MemberConstants.AVATAR]
-    if avatar not in NOT_ACCEPTED_DETAILS:
-        return avatar
-
-    username = result["m"]._properties[MemberConstants.USERNAME]
-
-    twitter_query = f"MATCH (m:Member {{username: '{username}'}})-[:HAS]->(t:Twitter) RETURN t.avatar"
-    twitter_result = list(db.execute_and_fetch(twitter_query))
-    avatar = twitter_result[0]["t.avatar"] if len(twitter_result) > 0 else None
-    if avatar not in NOT_ACCEPTED_DETAILS:
-        return avatar
-
-    github_query = f"MATCH (m:Member {{username: '{username}'}})-[:HAS]->(g:Github) RETURN g.avatar"
-    github_result = list(db.execute_and_fetch(github_query))
-    avatar = github_result[0]["g.avatar"] if len(github_result) > 0 else None
-
-    return avatar
 
 
 def dbUsernames():
