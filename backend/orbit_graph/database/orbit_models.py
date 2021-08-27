@@ -132,7 +132,7 @@ class MemberGraphNode:
         self.size = tmp_importance
 
         self.title = f"Importance: {tmp_importance}\nLove: {love}\nCommunity class: {community_id}"
-        self.borderWidth = 10
+        self.borderWidth = 5
         self.color = {}
         self.color["border"] = "#000"
 
