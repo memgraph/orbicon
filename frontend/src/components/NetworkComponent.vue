@@ -141,7 +141,6 @@ export default {
     ]),
   },
   mounted() {
-    console.log(process.env.VUE_APP_NODE_ENV);
     try {
       this.$store.dispatch("getActivities");
       this.$store.dispatch("getUsernames");
