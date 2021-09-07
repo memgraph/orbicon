@@ -9,6 +9,7 @@
           single-line
           @keyup="search($event)"
           @keyup.enter.native="onEnterClicked"
+          @focus="showSuggestions = true"
         ></v-text-field>
       </v-toolbar>
     </div>
@@ -71,6 +72,7 @@ export default {
         });
     },
     updateSearchBarWithSuggestion(value) {
+      console.log(value);
       this.usernameInput = value;
       this.showSuggestions = false;
     },
@@ -78,6 +80,11 @@ export default {
       if (event.keyCode === 13) {
         return;
       }
+      if (this.usernameInput.length === 0) {
+        this.showSuggestions = false;
+        return;
+      }
+
       this.showSuggestions = true;
 
       clearTimeout(this.timeout);
