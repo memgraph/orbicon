@@ -33,12 +33,11 @@
 }
 .suggestions {
   display: block;
-  margin: auto;
   z-index: 2;
   position: absolute;
   top: 55px;
-  left: 20px;
-  width: 350px;
+  left: 1.5rem;
+  right: 1.5rem;
 }
 </style>
 <script>

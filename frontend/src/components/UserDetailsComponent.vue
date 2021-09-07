@@ -14,27 +14,31 @@
             userDetails.username
           }}</v-card-title>
         </v-list-item-content>
-        <v-btn text class="x-btn" @click="onXClick"><v-icon>mdi-close</v-icon></v-btn>
+        <v-btn text class="x-btn" @click="onXClick"
+          ><v-icon>mdi-close</v-icon></v-btn
+        >
       </v-list-item>
       <v-list class="transparent">
         <v-list-item>
-          <v-list-item-title>Name </v-list-item-title>
+          <v-list-item-title>
+            <v-icon>mdi-format-letter-starts-with</v-icon> Name
+          </v-list-item-title>
           <v-list-item-subtitle>{{ userDetails.name }}</v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>Company</v-list-item-title>
+          <v-list-item-title><v-icon>mdi-domain</v-icon>Company</v-list-item-title>
           <v-list-item-subtitle
             >{{ userDetails.company }}
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>Hireable</v-list-item-title>
+          <v-list-item-title><v-icon>mdi-handshake-outline</v-icon>Hireable</v-list-item-title>
           <v-list-item-subtitle
             >{{ userDetails.hireable }}
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>Location</v-list-item-title>
+          <v-list-item-title><v-icon>mdi-crosshairs-gps</v-icon>Location</v-list-item-title>
           <v-list-item-subtitle
             >{{ userDetails.location }}
           </v-list-item-subtitle>
@@ -54,7 +58,7 @@
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title> Github </v-list-item-title>
+          <v-list-item-title><v-icon>mdi-github</v-icon>Github</v-list-item-title>
           <v-list-item-subtitle>
             <v-btn
               v-if="userDetails.githubAccount !== null"
@@ -67,7 +71,7 @@
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title> Twitter </v-list-item-title>
+          <v-list-item-title><v-icon>mdi-twitter</v-icon>Twitter</v-list-item-title>
           <v-list-item-subtitle>
             <v-btn
               v-if="userDetails.twitterAccount !== null"
