@@ -21,13 +21,13 @@
       <v-list class="transparent">
         <v-list-item>
           <v-list-item-title align="left">
-            <v-icon>mdi-format-letter-starts-with</v-icon>  Name
+            <v-icon>mdi-format-letter-starts-with</v-icon> Name
           </v-list-item-title>
           <v-list-item-subtitle>{{ userDetails.name }}</v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-domain</v-icon>  Company</v-list-item-title
+            ><v-icon>mdi-domain</v-icon> Company</v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.company }}
@@ -35,7 +35,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-handshake-outline</v-icon>  Hireable</v-list-item-title
+            ><v-icon>mdi-handshake-outline</v-icon> Hireable</v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.hireable }}
@@ -43,7 +43,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-crosshairs-gps</v-icon>  Location</v-list-item-title
+            ><v-icon>mdi-crosshairs-gps</v-icon> Location</v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.location }}
@@ -51,13 +51,13 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-cards-heart</v-icon>  Memgraph Love</v-list-item-title
+            ><v-icon>mdi-cards-heart</v-icon> Memgraph Love</v-list-item-title
           >
           <v-list-item-subtitle>{{ userDetails.love }} </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-star</v-icon>  PageRank Score</v-list-item-title
+            ><v-icon>mdi-star</v-icon> PageRank Score</v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.importance }}/100
@@ -65,31 +65,33 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-github</v-icon>  Github</v-list-item-title
+            ><v-icon>mdi-github</v-icon> Github</v-list-item-title
           >
           <v-list-item-subtitle>
-            <v-btn
+            <a
+              class="link-to-social-network"
               v-if="userDetails.githubAccount !== null"
               :href="userDetails.githubAccount"
               target="_blank"
             >
-              {{ userDetails.githubUsername }}
-            </v-btn>
+              <span>Go to Github <v-icon class="arrow-icon">mdi-chevron-right</v-icon></span>
+            </a>
             <div v-else>Unknown</div>
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-twitter</v-icon>  Twitter</v-list-item-title
+            ><v-icon class="arrow-icon">mdi-twitter</v-icon> Twitter</v-list-item-title
           >
           <v-list-item-subtitle>
-            <v-btn
+            <a
+              class="link-to-social-network"
               v-if="userDetails.twitterAccount !== null"
               :href="userDetails.twitterAccount"
               target="_blank"
             >
-              {{ userDetails.twitterUsername }}
-            </v-btn>
+              <span>Go to Twitter <v-icon>mdi-chevron-right</v-icon></span>
+            </a>
             <div v-else>Unknown</div>
           </v-list-item-subtitle>
         </v-list-item>
@@ -136,6 +138,25 @@
   position: absolute;
   top: 0px;
   right: 0px;
+}
+
+.link-to-social-network {
+  text-decoration: none;
+}
+
+.arrow-icon {
+  position: relative;
+  top: -2px;
+}
+
+a,
+a * {
+  color: var(--v-danger-base) !important;
+}
+
+a:hover,
+a:hover * {
+  color: var(--v-dangerHover-base) !important;
 }
 </style>
 
