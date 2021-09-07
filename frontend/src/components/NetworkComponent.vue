@@ -70,7 +70,7 @@
 }
 
 .network-bar {
-  margin-left: 400px;
+  margin-left: 350px;
   padding: 1px 16px;
 }
 
@@ -87,7 +87,7 @@
 
 .loading-container {
   position: absolute;
-  left: 400px;
+  left: 350px;
   top: 0px;
   bottom: 0px;
   right: 0px;
