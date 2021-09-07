@@ -114,6 +114,10 @@
   position: relative;
 }
 
+.v-sheet.v-card {
+  border-radius: 10px;
+}
+
 .x-btn {
   position: absolute;
   top: 0px;
