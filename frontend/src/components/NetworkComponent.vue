@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="sidebar">
-      <p class="app-title">ORBIT ACTIVITY TRACKER</p>
-      <p class="powered-by">Powered by Memgraph</p>
+    <div class="sidebar scrollbar" id="style-5">
+      <p class="app-title">ORBICON</p>
+      <p class="powered-by">Memgraph's activity tracker</p>
       <SearchBarComponent />
       <div v-if="activities.length">
         <p class="activities-title">LATEST ACTIVITIES</p>
@@ -107,6 +107,28 @@
 .big-text {
   font-weight: 500;
   font-size: 30px;
+}
+
+/*
+ *  STYLE 5
+ */
+
+#style-5::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#style-5::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-5::-webkit-scrollbar-thumb
+{
+	background-color: #0ae;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
 }
 </style>
 
