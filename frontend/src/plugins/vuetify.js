@@ -21,7 +21,8 @@ export default new Vuetify({
         error: '#000',
         lightGrey: '#f9f9f9',
         danger: '#d22',
-        dangerHover: '#fb6e00'
+        dangerHover: '#fb6e00',
+        success: "#00a400",
       },
     },
   },

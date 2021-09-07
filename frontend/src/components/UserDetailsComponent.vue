@@ -37,8 +37,10 @@
           <v-list-item-title align="left"
             ><v-icon>mdi-handshake-outline</v-icon> Hireable</v-list-item-title
           >
-          <v-list-item-subtitle
-            >{{ userDetails.hireable }}
+          <v-list-item-subtitle>
+            
+            <v-icon class="success--text" v-if="userDetails.hireable">mdi-thumb-up</v-icon>
+            <v-icon class="danger--text" v-else>mdi-thumb-down</v-icon>
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
@@ -74,14 +76,18 @@
               :href="userDetails.githubAccount"
               target="_blank"
             >
-              <span>Go to Github <v-icon class="arrow-icon">mdi-chevron-right</v-icon></span>
+              <span
+                >Go to Github
+                <v-icon class="arrow-icon">mdi-chevron-right</v-icon></span
+              >
             </a>
             <div v-else>Unknown</div>
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon class="arrow-icon">mdi-twitter</v-icon> Twitter</v-list-item-title
+            ><v-icon class="arrow-icon">mdi-twitter</v-icon>
+            Twitter</v-list-item-title
           >
           <v-list-item-subtitle>
             <a
