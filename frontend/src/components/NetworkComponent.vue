@@ -54,6 +54,7 @@
 .sidebar {
   margin: 0;
   padding: 0;
+  padding-top: 20px;
   width: 400px;
   color: #f1f1f1;
   position: fixed;
