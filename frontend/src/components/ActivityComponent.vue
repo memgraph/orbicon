@@ -8,7 +8,7 @@
               {{ activity.action }}
             </v-list-item-subtitle>
           </div>
-          <v-list-item-title class="text-h5 mb-1">
+          <v-list-item-title class="title text-h5 mb-1">
             {{ activity.username }}
           </v-list-item-title>
           <v-card-text class="card-date">
@@ -32,7 +32,7 @@
 
 <style scoped>
 .card-container {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   margin-left: 10px;
   margin-right: 10px;
 }

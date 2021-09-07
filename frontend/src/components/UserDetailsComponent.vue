@@ -10,11 +10,11 @@
           ><v-img :src="userDetails.avatar"></v-img
         ></v-list-item-avatar>
         <v-list-item-content>
-          <v-card-title class="text-h5">{{
+          <v-card-title class="title text-h5">{{
             userDetails.username
           }}</v-card-title>
         </v-list-item-content>
-        <v-btn text class="x-btn" @click="onXClick">X</v-btn>
+        <v-btn text class="x-btn" @click="onXClick"><v-icon>mdi-close</v-icon></v-btn>
       </v-list-item>
       <v-list class="transparent">
         <v-list-item>
@@ -110,12 +110,14 @@
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 1;
-  padding: 15px;
+  padding: 10px;
+  position: relative;
 }
 
 .x-btn {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 </style>
 

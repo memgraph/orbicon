@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="sidebar scrollbar" id="style-5">
-      <p class="app-title">ORBICON</p>
+      <p class="app-title title">ORBICON</p>
       <p class="powered-by">Memgraph's activity tracker</p>
       <SearchBarComponent />
       <div v-if="activities.length">
-        <p class="activities-title">LATEST ACTIVITIES</p>
+        <p class="activities-title title">LATEST ACTIVITIES</p>
         <ActivityComponent
           v-for="(activity, i) in activities"
           :key="i"
