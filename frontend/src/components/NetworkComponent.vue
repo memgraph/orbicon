@@ -55,7 +55,7 @@
   margin: 0;
   padding: 0;
   padding-top: 20px;
-  width: 400px;
+  width: 350px;
   position: fixed;
   height: 100%;
   overflow: auto;

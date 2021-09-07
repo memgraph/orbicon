@@ -25,14 +25,14 @@
       </v-list-item>
       <v-list-item class="btn-list-item">
         <a @click="onBtnClick" align="left"
-          ><span>Check user </span><v-icon>mdi-chevron-right</v-icon></a
+          ><span>Check user</span><v-icon class="icon-link">mdi-chevron-right</v-icon></a
         >
         <a
           class="check-activity-link"
           align="right"
           :href="activity.url"
           target="_blank"
-          ><span>Check activity <v-icon>mdi-chevron-right</v-icon></span></a
+          ><span>Check activity<v-icon class="icon-link">mdi-chevron-right</v-icon></span></a
         >
       </v-list-item>
     </v-card>
@@ -76,6 +76,11 @@ a:hover * {
 
 a >>> * {
   font-size: 20px;
+}
+
+.icon-link {
+  position: relative;
+  top: -2px;
 }
 </style>
 
