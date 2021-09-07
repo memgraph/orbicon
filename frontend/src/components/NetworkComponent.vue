@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="sidebar scrollbar" id="style-5">
-      <p class="app-title title-custom">ORBICON</p>
-      <p class="powered-by">Memgraph's activity tracker</p>
+    <div class="lightGrey sidebar scrollbar" id="style-5">
+      <p class="app-title title-custom danger--text">ORBICON</p>
+      <p class="powered-by danger--text">Memgraph's activity tracker</p>
       <SearchBarComponent />
       <div v-if="activities.length">
-        <p class="activities-title title-custom">LATEST ACTIVITIES</p>
+        <p class="activities-title title-custom danger--text">LATEST ACTIVITIES</p>
         <ActivityComponent
           v-for="(activity, i) in activities"
           :key="i"
@@ -56,14 +56,9 @@
   padding: 0;
   padding-top: 20px;
   width: 400px;
-  color: #f1f1f1;
   position: fixed;
   height: 100%;
   overflow: auto;
-}
-
-.sidebar p {
-  color: #555;
 }
 
 .app-title {

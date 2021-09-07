@@ -1,6 +1,6 @@
 <template>
   <div class="card-container">
-    <v-card elevation="16">
+    <v-card elevation="15">
       <v-list-item three-line>
         <v-list-item-content>
           <div class="text-overline mb-4">
@@ -21,10 +21,16 @@
         ></v-list-item-avatar>
       </v-list-item>
       <v-list-item class="btn-list-item">
-        <v-btn align="left" @click="onBtnClick">Check user</v-btn>
-        <v-btn align="right" :href="activity.url" target="_blank">
-          Check activity
-        </v-btn>
+        <a @click="onBtnClick" align="left"
+          ><span>Check user </span><v-icon>mdi-chevron-right</v-icon></a
+        >
+        <a
+          class="check-activity-link"
+          align="right"
+          :href="activity.url"
+          target="_blank"
+          ><span>Check activity <v-icon>mdi-chevron-right</v-icon></span></a
+        >
       </v-list-item>
     </v-card>
   </div>
@@ -45,6 +51,26 @@
 .card-date {
   font-weight: 500;
   font-size: 16px;
+}
+
+.v-sheet.v-card {
+  border-radius: 8px;
+}
+
+.check-activity-link {
+  text-decoration: none;
+}
+
+a, a * {
+  color: var(--v-danger-base) !important;
+}
+
+a:hover, a:hover *{
+  color: var(--v-dangerHover-base) !important;
+}
+
+a >>> * {
+  font-size: 20px;
 }
 </style>
 
