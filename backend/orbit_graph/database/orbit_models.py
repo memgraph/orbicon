@@ -140,7 +140,6 @@ class MemberGraphNode:
         self.community_name = community_name
         self.love = love if love not in NOT_ACCEPTED_DETAILS else "Unknown"
 
-        self.title = f"Importance: {self.importance}<br>Love: {self.love}<br>Community class: {community_name}"
         self.borderWidth = 8
         self.color = {}
         self.color["border"] = colors[community_id]

@@ -38,8 +38,9 @@
             ><v-icon>mdi-handshake-outline</v-icon> Hireable</v-list-item-title
           >
           <v-list-item-subtitle>
-            
-            <v-icon class="success--text" v-if="userDetails.hireable">mdi-thumb-up</v-icon>
+            <v-icon class="success--text" v-if="userDetails.hireable"
+              >mdi-thumb-up</v-icon
+            >
             <v-icon class="danger--text" v-else>mdi-thumb-down</v-icon>
           </v-list-item-subtitle>
         </v-list-item>

@@ -10,7 +10,6 @@ from kafka import KafkaProducer
 
 from orbit_graph.kafka_stream.config import TOPIC_NAME
 
-from data.mocks import usernames, userDetails, memberGraph, activities
 from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities, dbMemberGraph
 from orbit_graph.database.orbit_models import MemberGraphEdge
 

@@ -142,6 +142,11 @@
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.vis-tooltip {
+  background-color: var(--v-blue-base) !important;
+  color: var(--v-blue-base) !important;
+}
 </style>
 
 <script>
