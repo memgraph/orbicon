@@ -82,7 +82,8 @@ def create_member(props):
         props[MemberConstants.LOVE],
         props[MemberConstants.LOCATION],
         props[MemberConstants.AVATAR],
-        props[MemberConstants.IMPORTANCE],
+        props[MemberConstants.IMPORTANCE] if MemberConstants.IMPORTANCE in props else 0,
+        #TODO: Change this and call pagerank every time on webhook
     )
 
 
