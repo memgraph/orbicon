@@ -13,14 +13,14 @@
           @focus="showSuggestions = true"
         ></v-text-field>
       </v-toolbar>
-    </div>
-    <div v-if="showSuggestions" class="suggestions">
-      <SuggestionItemComponent
-        v-for="(username, i) in usernames"
-        :key="i"
-        :username="username"
-        @suggestionClicked="updateSearchBarWithSuggestion"
-      />
+      <div v-if="showSuggestions" class="suggestions">
+        <SuggestionItemComponent
+          v-for="(username, i) in usernames"
+          :key="i"
+          :username="username"
+          @suggestionClicked="updateSearchBarWithSuggestion"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -29,13 +29,14 @@
 .sidebar-search {
   margin-top: 10px;
   margin-bottom: 50px;
+  position: relative;
 }
 .suggestions {
   display: block;
   margin: auto;
   z-index: 2;
   position: absolute;
-  top: 125px;
+  top: 55px;
   left: 20px;
   width: 350px;
 }
