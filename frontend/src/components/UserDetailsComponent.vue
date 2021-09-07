@@ -20,45 +20,53 @@
       </v-list-item>
       <v-list class="transparent">
         <v-list-item>
-          <v-list-item-title>
-            <v-icon>mdi-format-letter-starts-with</v-icon> Name
+          <v-list-item-title align="left">
+            <v-icon>mdi-format-letter-starts-with</v-icon>  Name
           </v-list-item-title>
           <v-list-item-subtitle>{{ userDetails.name }}</v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title><v-icon>mdi-domain</v-icon>Company</v-list-item-title>
+          <v-list-item-title align="left"
+            ><v-icon>mdi-domain</v-icon>  Company</v-list-item-title
+          >
           <v-list-item-subtitle
             >{{ userDetails.company }}
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title><v-icon>mdi-handshake-outline</v-icon>Hireable</v-list-item-title>
+          <v-list-item-title align="left"
+            ><v-icon>mdi-handshake-outline</v-icon>  Hireable</v-list-item-title
+          >
           <v-list-item-subtitle
             >{{ userDetails.hireable }}
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title><v-icon>mdi-crosshairs-gps</v-icon>Location</v-list-item-title>
+          <v-list-item-title align="left"
+            ><v-icon>mdi-crosshairs-gps</v-icon>  Location</v-list-item-title
+          >
           <v-list-item-subtitle
             >{{ userDetails.location }}
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title
-            ><v-icon>mdi-cards-heart</v-icon>Memgraph Love</v-list-item-title
+          <v-list-item-title align="left"
+            ><v-icon>mdi-cards-heart</v-icon>  Memgraph Love</v-list-item-title
           >
           <v-list-item-subtitle>{{ userDetails.love }} </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title
-            ><v-icon>mdi-star</v-icon>PageRank Score</v-list-item-title
+          <v-list-item-title align="left"
+            ><v-icon>mdi-star</v-icon>  PageRank Score</v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.importance }}/100
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title><v-icon>mdi-github</v-icon>Github</v-list-item-title>
+          <v-list-item-title align="left"
+            ><v-icon>mdi-github</v-icon>  Github</v-list-item-title
+          >
           <v-list-item-subtitle>
             <v-btn
               v-if="userDetails.githubAccount !== null"
@@ -71,7 +79,9 @@
           </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title><v-icon>mdi-twitter</v-icon>Twitter</v-list-item-title>
+          <v-list-item-title align="left"
+            ><v-icon>mdi-twitter</v-icon>  Twitter</v-list-item-title
+          >
           <v-list-item-subtitle>
             <v-btn
               v-if="userDetails.twitterAccount !== null"
@@ -109,7 +119,7 @@
 }
 
 .user-card {
-  width: 600px;
+  width: 400px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
