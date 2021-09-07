@@ -4,6 +4,7 @@
       <v-toolbar dense floating>
         <v-text-field
           v-model="usernameInput"
+          placeholder="Search for contributors"
           hide-details
           prepend-icon="mdi-magnify"
           single-line
