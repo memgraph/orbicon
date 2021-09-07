@@ -4,19 +4,22 @@
       <v-list-item three-line>
         <v-list-item-content>
           <div class="text-overline mb-4">
-            <v-list-item-subtitle>
+            <v-list-item-subtitle align="left">
               {{ activity.action }}
             </v-list-item-subtitle>
           </div>
-          <v-list-item-title class="title text-h5 mb-1">
+          <v-list-item-subtitle
+            class="blacky--text title text-h5 mb-1"
+            align="left"
+          >
             {{ activity.username }}
-          </v-list-item-title>
-          <v-card-text class="card-date">
+          </v-list-item-subtitle>
+          <v-list-item-subtitle class="card-date" align="left">
             {{ dateFormatted }}
-          </v-card-text>
+          </v-list-item-subtitle>
         </v-list-item-content>
 
-        <v-list-item-avatar size="80" color="grey"
+        <v-list-item-avatar size="50" color="grey"
           ><v-img :src="activity.avatar"></v-img
         ></v-list-item-avatar>
       </v-list-item>
@@ -61,11 +64,13 @@
   text-decoration: none;
 }
 
-a, a * {
+a,
+a * {
   color: var(--v-danger-base) !important;
 }
 
-a:hover, a:hover *{
+a:hover,
+a:hover * {
   color: var(--v-dangerHover-base) !important;
 }
 
