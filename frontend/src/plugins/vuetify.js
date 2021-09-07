@@ -23,6 +23,7 @@ export default new Vuetify({
         danger: '#d22',
         dangerHover: '#fb6e00',
         success: "#00a400",
+        blue: "#0ae",
       },
     },
   },

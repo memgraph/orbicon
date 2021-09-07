@@ -5,7 +5,9 @@
       <p class="powered-by danger--text">Memgraph's activity tracker</p>
       <SearchBarComponent />
       <div v-if="activities.length">
-        <p class="activities-title title-custom danger--text">LATEST ACTIVITIES</p>
+        <p class="activities-title title-custom danger--text">
+          LATEST ACTIVITIES
+        </p>
         <ActivityComponent
           v-for="(activity, i) in activities"
           :key="i"
@@ -15,7 +17,7 @@
       <div v-else>
         <v-progress-circular
           :size="50"
-          color="primary"
+          color="blue"
           indeterminate
         ></v-progress-circular>
         <p class="loading-bar-text">Loading activities...</p>
@@ -35,10 +37,10 @@
         <div class="loading-bar">
           <v-progress-circular
             :size="200"
-            color="primary"
+            color="blue"
             indeterminate
           ></v-progress-circular>
-          <p class="loading-bar-text big-text">Loading member graph...</p>
+          <p class="loading-bar-text big-text">{{ dynamicalLoadingMessage }}</p>
         </div>
       </div>
     </div>
@@ -122,7 +124,7 @@
 }
 
 #style-5::-webkit-scrollbar-thumb {
-  background-color: #0ae;
+  background-color: var(--v-blue-base);
   background-image: -webkit-gradient(
     linear,
     0 0,
@@ -161,6 +163,8 @@ export default {
     return {
       msg: "All good!",
       options: {},
+      loadingMessage: "Loading member graph",
+      loadingStep: 0,
     };
   },
   computed: {
@@ -171,6 +175,11 @@ export default {
       "activities",
       "showUserDetails",
     ]),
+    dynamicalLoadingMessage() {
+      let currentStep = this.loadingStep;
+      const dots = '.'.repeat(currentStep);
+      return `${this.loadingMessage}${dots}`;
+    },
   },
   mounted() {
     try {
@@ -186,6 +195,12 @@ export default {
       self.$store.dispatch("getActivities");
     }, 15000);
   },
+  created() {
+    let self = this;
+    window.setInterval(() => {
+      self.computeMessage();
+    }, 500);
+  },
   methods: {
     onDoubleClick(event) {
       if (event.nodes.length !== 1) {
@@ -196,6 +211,9 @@ export default {
       const selectedNode = networkNodes.filter((x) => x.id === nodeId)[0];
       const username = selectedNode.label;
       this.$store.dispatch("showUserDetails", username);
+    },
+    computeMessage() {
+      this.loadingStep = ((this.loadingStep + 1) % 4);
     },
   },
 };
