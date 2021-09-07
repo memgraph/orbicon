@@ -55,7 +55,7 @@ def _max_min_importance():
 def dbMemberGraph():
     max, min = _max_min_importance()
 
-    member_graph_query = f"MATCH (n)-[c:CONNECTS]-(m) return n, c, m"
+    member_graph_query = f"MATCH (n)-[c:CONNECTS]->(m) return n, c, m"
     results = db.execute_and_fetch(member_graph_query)
 
     community_names = choose_names(5)
