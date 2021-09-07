@@ -10,7 +10,7 @@
           ><v-img :src="userDetails.avatar"></v-img
         ></v-list-item-avatar>
         <v-list-item-content>
-          <v-card-title class="title text-h5">{{
+          <v-card-title class="title-custom text-h5">{{
             userDetails.username
           }}</v-card-title>
         </v-list-item-content>
