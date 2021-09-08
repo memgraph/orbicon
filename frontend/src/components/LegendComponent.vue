@@ -26,6 +26,7 @@
 .color-box {
   width: 20px;
   height: 20px;
+  border-radius: 10px;
   border: 1px solid black;
 }
 
