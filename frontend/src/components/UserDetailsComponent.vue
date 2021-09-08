@@ -23,13 +23,13 @@
       <v-list class="transparent">
         <v-list-item>
           <v-list-item-title align="left">
-            <v-icon>mdi-format-letter-starts-with</v-icon> Name
+            <v-icon>mdi-format-letter-starts-with</v-icon><span>&nbsp; Name</span>
           </v-list-item-title>
           <v-list-item-subtitle>{{ userDetails.name }}</v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-domain</v-icon> Company</v-list-item-title
+            ><v-icon>mdi-domain</v-icon><span>&nbsp; Company</span></v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.company }}
@@ -37,7 +37,8 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-handshake-outline</v-icon> Hireable</v-list-item-title
+            ><v-icon>mdi-handshake-outline</v-icon
+            ><span>&nbsp; Hireable</span></v-list-item-title
           >
           <v-list-item-subtitle>
             <v-icon class="success--text" v-if="userDetails.hireable"
@@ -48,7 +49,8 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-crosshairs-gps</v-icon> Location</v-list-item-title
+            ><v-icon>mdi-crosshairs-gps</v-icon
+            ><span>&nbsp; Location</span></v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.location }}
@@ -56,13 +58,15 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-cards-heart</v-icon> Memgraph Love</v-list-item-title
+            ><v-icon>mdi-cards-heart</v-icon
+            ><span>&nbsp; Memgraph Love</span></v-list-item-title
           >
           <v-list-item-subtitle>{{ userDetails.love }} </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-star</v-icon> PageRank Score</v-list-item-title
+            ><v-icon>mdi-star</v-icon
+            ><span>&nbsp; Pagerank Score</span></v-list-item-title
           >
           <v-list-item-subtitle
             >{{ userDetails.importance }}/100
@@ -70,13 +74,16 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-account-group</v-icon> Community</v-list-item-title
+            ><v-icon>mdi-account-group</v-icon
+            ><span>&nbsp; Community</span></v-list-item-title
           >
-          <v-list-item-subtitle>{{ userDetails.community }} </v-list-item-subtitle>
+          <v-list-item-subtitle
+            >{{ userDetails.community }}
+          </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon>mdi-github</v-icon> Github</v-list-item-title
+            ><v-icon>mdi-github</v-icon><span>&nbsp; Github</span></v-list-item-title
           >
           <v-list-item-subtitle>
             <a
@@ -95,8 +102,8 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
-            ><v-icon class="arrow-icon">mdi-twitter</v-icon>
-            Twitter</v-list-item-title
+            ><v-icon class="arrow-icon">mdi-twitter</v-icon
+            ><span>&nbsp; Twitter</span></v-list-item-title
           >
           <v-list-item-subtitle>
             <a
@@ -125,6 +132,10 @@
 </template>
 
 <style scoped>
+span {
+  white-space: pre;
+}
+
 .user-details {
   z-index: 6;
   position: absolute;
@@ -191,6 +202,10 @@
 a,
 a * {
   color: var(--v-danger-base) !important;
+}
+
+.v-icon {
+  color: var(--v-dangerHover-base) !important
 }
 
 a:hover,

@@ -22,9 +22,6 @@
       <p class="powered-by danger--text">Your DEV community tracker</p>
       <SearchBarComponent />
       <div v-if="activities.length">
-        <p class="activities-title title-custom danger--text">
-          LATEST ACTIVITIES
-        </p>
         <ActivityComponent
           v-for="(activity, i) in activities"
           :key="i"
@@ -41,26 +38,30 @@
       </div>
     </div>
     <div class="network-bar">
-      <div class="memgraph-background-image"></div>
-      <network
-        v-if="memberGraph.nodes.length"
-        class="wrapper"
-        ref="network"
-        :nodes="memberGraph.nodes"
-        :edges="memberGraph.edges"
-        :options="options"
-        @double-click="onDoubleClick($event)"
-      ></network>
-      <div class="loading-container" v-else>
-        <div class="loading-bar">
-          <v-progress-circular
-            :size="200"
-            color="dangerHover"
-            indeterminate
-          ></v-progress-circular>
-          <p class="loading-bar-text big-text">{{ dynamicalLoadingMessage }}</p>
+      <transition name="fade">
+        <div v-if="memberGraph.nodes.length" class="memgraph-background-image"></div>
+      </transition>
+      <transition name="fade">
+        <network
+          v-if="memberGraph.nodes.length"
+          class="wrapper"
+          ref="network"
+          :nodes="memberGraph.nodes"
+          :edges="memberGraph.edges"
+          :options="options"
+          @double-click="onDoubleClick($event)"
+        ></network>
+        <div class="loading-container" v-else>
+          <div class="loading-bar">
+            <v-progress-circular
+              :size="200"
+              color="dangerHover"
+              indeterminate
+            ></v-progress-circular>
+            <p class="loading-bar-text big-text">{{ dynamicalLoadingMessage }}</p>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
     <transition name="fade">
       <div v-if="showUserDetails">
@@ -101,8 +102,9 @@
 
 .network-bar {
   margin-left: 351px;
-  padding: 1px 16px;
+  padding: 5px;
   position: relative;
+  height: 100vh;
 }
 
 .memgraph-background-image {
@@ -135,7 +137,7 @@
 
 .loading-container {
   position: absolute;
-  left: 350px;
+  left: 0px;
   top: 0px;
   bottom: 0px;
   right: 0px;
@@ -155,6 +157,10 @@
 .big-text {
   font-weight: 500;
   font-size: 30px;
+}
+
+.powered-by {
+  margin-bottom: 5px;
 }
 
 /*

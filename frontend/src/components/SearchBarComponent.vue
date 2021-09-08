@@ -27,8 +27,7 @@
 
 <style scoped>
 .sidebar-search {
-  margin-top: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   position: relative;
 }
 .suggestions {
