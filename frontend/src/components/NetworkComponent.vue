@@ -1,7 +1,24 @@
 <template>
   <div>
     <div class="lightGrey sidebar scrollbar" id="style-5">
+      <div class="title-images">
+        <img
+          src="https://assets-global.website-files.com/6090f2cbfb550680d4288567/60916d2d77cab34ad9d7666f_Logo.svg"
+          width="88px"
+          height="34px"
+          loading="lazy"
+          alt=""
+        />
+        <img
+          src="https://uploads-ssl.webflow.com/5e7ceb09657a69bdab054b3a/5e7ceb09657a6937ab054bba_Black_Original%20_Logo.png"
+          width="88px"
+          height="34px"
+          alt=""
+          class="nav-logo"
+        />
+      </div>
       <p class="app-title title-custom danger--text">ORBICON</p>
+
       <p class="powered-by danger--text">Your DEV community tracker</p>
       <SearchBarComponent />
       <div v-if="activities.length">
@@ -63,10 +80,22 @@
   overflow: auto;
 }
 
+.title-images {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.ampersand {
+  font-size: 20px;
+  font-weight: 700;
+}
+
 .app-title {
   font-weight: 600;
   font-size: 30px;
   margin-bottom: 0px;
+  letter-spacing: 2px;
 }
 
 .network-bar {
@@ -182,7 +211,7 @@ export default {
     ]),
     dynamicalLoadingMessage() {
       let currentStep = this.loadingStep;
-      const dots = '.'.repeat(currentStep);
+      const dots = ".".repeat(currentStep);
       return `${this.loadingMessage}${dots}`;
     },
   },
@@ -218,7 +247,7 @@ export default {
       this.$store.dispatch("showUserDetails", username);
     },
     computeMessage() {
-      this.loadingStep = ((this.loadingStep + 1) % 4);
+      this.loadingStep = (this.loadingStep + 1) % 4;
     },
   },
 };
