@@ -5,8 +5,8 @@
       class="user-card"
       elevation="2"
     >
-      <v-list-item three-line>
-        <v-list-item-avatar size="80" color="grey"
+      <div class="user-card-heading">
+        <v-list-item-avatar size="80" color="grey" class="avatar"
           ><v-img :src="userDetails.avatar"></v-img
         ></v-list-item-avatar>
         <div>
@@ -16,7 +16,7 @@
         <v-btn text class="x-btn" @click="onXClick"
           ><v-icon>mdi-close</v-icon></v-btn
         >
-      </v-list-item>
+      </div>
       <v-divider class="divider"></v-divider>
       <v-list class="transparent">
         <v-list-item>
@@ -135,6 +135,14 @@
   opacity: 1;
   padding: 10px;
   position: relative;
+}
+
+.user-card-heading {
+  display: flex;
+}
+
+.avatar {
+  margin-left: 5px;
 }
 
 .user-username {

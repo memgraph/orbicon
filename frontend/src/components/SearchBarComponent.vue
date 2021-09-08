@@ -10,7 +10,7 @@
           single-line
           @keyup="search($event)"
           @keyup.enter.native="onEnterClicked"
-          @focus="showSuggestions = true"
+          @focus="onFocus"
         ></v-text-field>
       </v-toolbar>
       <div v-if="showSuggestions" class="suggestions">
@@ -93,6 +93,11 @@ export default {
       this.timeout = setTimeout(function () {
         self.$store.dispatch("getUsernamesWithPrefix", self.usernameInput);
       }, 500);
+    },
+    onFocus() {
+      if (this.usernameInput.length) {
+        this.showSuggestions = true;
+      }
     },
   },
   computed: {
