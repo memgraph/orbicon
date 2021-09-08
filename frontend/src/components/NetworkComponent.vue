@@ -33,14 +33,15 @@
       </div>
       <div v-else>
         <v-progress-circular
+          color="danger"
           :size="50"
-          color="blue"
           indeterminate
         ></v-progress-circular>
         <p class="loading-bar-text">Loading activities...</p>
       </div>
     </div>
     <div class="network-bar">
+      <div class="memgraph-background-image"></div>
       <network
         v-if="memberGraph.nodes.length"
         class="wrapper"
@@ -54,7 +55,7 @@
         <div class="loading-bar">
           <v-progress-circular
             :size="200"
-            color="blue"
+            color="dangerHover"
             indeterminate
           ></v-progress-circular>
           <p class="loading-bar-text big-text">{{ dynamicalLoadingMessage }}</p>
@@ -99,8 +100,26 @@
 }
 
 .network-bar {
-  margin-left: 350px;
+  margin-left: 351px;
   padding: 1px 16px;
+  position: relative;
+}
+
+.memgraph-background-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: linear-gradient(
+    45deg,
+    #ff0092,
+    #df2000 17%,
+    #ffc500 100%,
+    #fff 0,
+    #fff
+  );
+  opacity: 0.6;
 }
 
 .wrapper {
@@ -154,13 +173,13 @@
 
 #style-5::-webkit-scrollbar-thumb {
   background-color: var(--v-blue-base);
-  background-image: -webkit-gradient(
-    linear,
-    0 0,
-    0 100%,
-    color-stop(0.5, rgba(255, 255, 255, 0.2)),
-    color-stop(0.5, transparent),
-    to(transparent)
+  background-image: linear-gradient(
+    45deg,
+    #ff0092,
+    #df2000 17%,
+    #ffc500 100%,
+    #fff 0,
+    #fff
   );
 }
 
