@@ -15,6 +15,7 @@ from orbit_graph.database.orbit_models import (
     create_member_graph_edge,
     NOT_ACCEPTED_DETAILS,
     get_community_name,
+    Legend,
 )
 
 db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASSWORD, encrypted=MG_ENCRYPTED)
@@ -50,6 +51,10 @@ def _max_min_importance():
     result_min_max = list(db.execute_and_fetch(importance_max_min_query))[0]
     max, min = result_min_max["max_importance"], result_min_max["min_importance"]
     return max, min
+
+
+def dbLegend():
+    return Legend()
 
 
 def dbMemberGraph():

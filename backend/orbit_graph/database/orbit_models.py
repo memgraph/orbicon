@@ -1,5 +1,3 @@
-import random
-
 NOT_ACCEPTED_DETAILS = ["", "None", None]
 
 colors = ["#2a2d34", "#009ddc", "#f26430", "#6761a8", "009b72"]
@@ -193,6 +191,21 @@ right_part = [
     "lovelace",
 ]
 
+
 def get_community_name(community_id):
     community_name = f"{left_part[community_id].capitalize()} {right_part[community_id].capitalize()}"
     return community_name
+
+
+class Legend:
+    def __init__(self) -> None:
+        self.communities = []
+        for idx, color in enumerate(colors):
+            self.communities.append(LegendColorCommunity(idx, get_community_name(idx), color))
+
+
+class LegendColorCommunity:
+    def __init__(self, community_id: int, community: str, color: str) -> None:
+        self.community_id = community_id
+        self.community = community
+        self.color = color

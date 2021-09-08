@@ -10,7 +10,7 @@ from kafka import KafkaProducer
 
 from orbit_graph.kafka_stream.config import TOPIC_NAME
 
-from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities, dbMemberGraph
+from orbit_graph.query import dbUserDetails, dbUsernames, dbUsernamesPrefix, dbActivities, dbMemberGraph, dbLegend
 from orbit_graph.database.orbit_models import MemberGraphEdge
 
 # TODO(gitbuda): Huge hack but during hackathon all is allowed!
@@ -83,6 +83,12 @@ def get_usernames():
 @cross_origin()
 def get_usernames_with_prefix(prefix):
     return json.dumps(dbUsernamesPrefix(prefix), cls=MyEncoder)
+
+
+@app.route("/legend")
+@cross_origin()
+def get_legend():
+    return json.dumps(dbLegend(), cls=MyEncoder)
 
 
 if __name__ == "__main__":

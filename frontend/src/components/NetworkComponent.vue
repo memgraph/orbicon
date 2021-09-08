@@ -233,6 +233,7 @@ export default {
       "userDetails",
       "activities",
       "showUserDetails",
+      "legend",
     ]),
     dynamicalLoadingMessage() {
       let currentStep = this.loadingStep;
@@ -244,6 +245,7 @@ export default {
     try {
       this.$store.dispatch("getActivities");
       this.$store.dispatch("getUsernames");
+      this.$store.dispatch("getLegend");
       this.$store.dispatch("getMemberGraph");
     } catch (error) {
       console.log(error);

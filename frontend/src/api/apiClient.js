@@ -18,6 +18,9 @@ export const apiRoutes = {
   activitiesRoute() {
     return `${API_URL}/activities`
   },
+  legendRoute() {
+    return `${API_URL}/legend`
+  },
 }
 
 export const apiClient = {
@@ -36,4 +39,7 @@ export const apiClient = {
   getActivities: () => {
     return Vue.axios.get(apiRoutes.activitiesRoute());
   },
+  getLegend: () => {
+    return Vue.axios.get(apiRoutes.legendRoute());
+  }
 }
