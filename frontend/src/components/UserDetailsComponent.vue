@@ -9,15 +9,15 @@
         <v-list-item-avatar size="80" color="grey"
           ><v-img :src="userDetails.avatar"></v-img
         ></v-list-item-avatar>
-        <v-list-item-content>
-          <v-card-title class="title-custom text-h5">{{
-            userDetails.username
-          }}</v-card-title>
-        </v-list-item-content>
+        <div>
+          <div align="left" class="title-custom text-h5 user-username">{{ userDetails.username }}</div>
+          <div class="user-description">{{ userDescriptionFormatted }}</div>
+        </div>
         <v-btn text class="x-btn" @click="onXClick"
           ><v-icon>mdi-close</v-icon></v-btn
         >
       </v-list-item>
+      <v-divider class="divider"></v-divider>
       <v-list class="transparent">
         <v-list-item>
           <v-list-item-title align="left">
@@ -128,13 +128,29 @@
 }
 
 .user-card {
-  width: 400px;
+  width: 500px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 1;
   padding: 10px;
   position: relative;
+}
+
+.user-username {
+  margin-top: 10px;
+}
+
+.user-description {
+  color: var(--v-grey-base);
+  text-align: left;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.divider {
+  margin-top: 10px;
 }
 
 .v-sheet.v-card {
@@ -172,6 +188,57 @@ a:hover * {
 import { mapGetters } from "vuex";
 export default {
   name: "UserDetailsComponent",
+  data: () => {
+    return {
+      userDescription:
+        "Hello, I'm  $name, $whatKindOf developer with a history of $projectAdjective projects. My skills include $skill1, $skill2 and $skill3. My interest is $interest1.",
+      articleAdjectives: [
+        "an aspiring",
+        "an enthusiastic",
+        "an ambitious",
+        "a loveable",
+        "a full-stack",
+        "a frontend",
+        "a backend",
+      ],
+      projectsAdjectives: [
+        "enterprise",
+        "mission critical",
+        "agency",
+        "student",
+        "university",
+        "self-learning",
+      ],
+      interestTopics: [
+        "Machine Learning",
+        "Mobile Development",
+        "Web Development",
+        "Blockchain",
+        "NLP",
+        "Genetic Algorithms",
+        "Security",
+        "Low Level Programming",
+        "System Design",
+        "System Administration",
+        "Devops",
+      ],
+      currentSkills: [
+        "Java",
+        "Python",
+        "Databases",
+        "Javascript",
+        "C++",
+        "C#",
+        "Graph Databases",
+        "SQL Databases",
+        "GO",
+        "Scala",
+        "Kubernetes",
+        "Docker",
+        "Ansible",
+      ],
+    };
+  },
   methods: {
     onXClick() {
       this.$store.dispatch("disposeUserDetails");
@@ -179,6 +246,16 @@ export default {
   },
   computed: {
     ...mapGetters(["showUserDetails", "userDetails", "isFetchingUserDetails"]),
+    userDescriptionFormatted() {
+      return this.userDescription
+        .replace("$name", this.userDetails.name)
+        .replace("$whatKindOf", this.articleAdjectives.sample())
+        .replace("$projectAdjective", this.projectsAdjectives.sample())
+        .replace("$skill1", this.currentSkills.sample())
+        .replace("$skill2", this.currentSkills.sample())
+        .replace("$skill3", this.currentSkills.sample())
+        .replace("$interest1", this.interestTopics.sample())
+    },
   },
 };
 </script>
