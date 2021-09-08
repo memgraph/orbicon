@@ -130,7 +130,10 @@ export default {
       return formattedTimeDate;
     },
     activityActionFormatted() {
-      return this.activity.action.replaceAll(":", " ").toUpperCase();
+      return this.activity.action
+        .replaceAll(":", " ")
+        .replaceAll("_", " ")
+        .toUpperCase();
     },
   },
 };
