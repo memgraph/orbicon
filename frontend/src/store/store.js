@@ -18,6 +18,7 @@ const state = {
   userDetails: {},
   activities: [],
   showUserDetails: false,
+  legend: [],
 }
 
 const mutations = {
@@ -33,6 +34,9 @@ const mutations = {
   SET_ACTIVITIES(state, activities) {
     state.activities = activities;
   },
+  SET_LEGEND(state, legend) {
+    state.legend = legend;
+  },
   SHOW_USER_DETAILS(state) {
     state.showUserDetails = true;
   },
@@ -45,10 +49,15 @@ const mutations = {
 }
 
 const actions = {
+  async getLegend(context) {
+    apiClient.getLegend()
+    .then((resp) => {
+      context.commit(MUTATION_CONSTANTS.SET_LEGEND, resp.data.communities)
+    });
+  },
   async getMemberGraph(context) {
     apiClient.getMemberGraph()
       .then((resp) => {
-        console.log(resp);
         context.commit(MUTATION_CONSTANTS.SET_MEMBER_GRAPH, resp.data);
       })
   },
@@ -94,6 +103,7 @@ const getters = {
   activities: state => state.activities,
   showUserDetails: state => state.showUserDetails,
   isFetchingUserDetails: state => state.isFetchingUserDetails,
+  legend: state => state.legend,
 }
 
 

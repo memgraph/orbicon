@@ -12,6 +12,10 @@ if (process.env.VUE_APP_NODE_ENV === 'development') {
   worker.start()
 }
 
+Array.prototype.sample = function() {
+  return this[Math.floor(Math.random()*this.length)];
+}
+
 new Vue({
   vuetify,
   store,

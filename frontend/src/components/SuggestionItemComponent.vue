@@ -1,7 +1,11 @@
 <template>
   <div class="toolbar-block">
     <v-hover v-slot="{ hover }">
-      <v-toolbar :elevation="hover ? 16 : 2" class="toolbar" @click="onSuggestionClicked">
+      <v-toolbar
+        :elevation="hover ? 16 : 2"
+        class="toolbar"
+        @click="onSuggestionClicked"
+      >
         <p>{{ username }}</p>
       </v-toolbar>
     </v-hover>
@@ -30,8 +34,8 @@ export default {
   props: ["username"],
   methods: {
     onSuggestionClicked() {
-      this.$emit('suggestionClicked', this.username);
-    }
-  }
+      this.$emit("suggestionClicked", this.username);
+    },
+  },
 };
 </script>

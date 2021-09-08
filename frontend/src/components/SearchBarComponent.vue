@@ -4,38 +4,39 @@
       <v-toolbar dense floating>
         <v-text-field
           v-model="usernameInput"
+          placeholder="Search for contributors"
           hide-details
           prepend-icon="mdi-magnify"
           single-line
           @keyup="search($event)"
           @keyup.enter.native="onEnterClicked"
+          @focus="onFocus"
         ></v-text-field>
       </v-toolbar>
-    </div>
-    <div v-if="showSuggestions" class="suggestions">
-      <SuggestionItemComponent
-        v-for="(username, i) in usernames"
-        :key="i"
-        :username="username"
-        @suggestionClicked="updateSearchBarWithSuggestion"
-      />
+      <div v-if="showSuggestions" class="suggestions">
+        <SuggestionItemComponent
+          v-for="(username, i) in usernames"
+          :key="i"
+          :username="username"
+          @suggestionClicked="updateSearchBarWithSuggestion"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .sidebar-search {
-  margin-top: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  position: relative;
 }
 .suggestions {
   display: block;
-  margin: auto;
   z-index: 2;
   position: absolute;
-  top: 125px;
-  left: 20px;
-  width: 350px;
+  top: 55px;
+  left: 1.5rem;
+  right: 1.5rem;
 }
 </style>
 <script>
@@ -71,6 +72,7 @@ export default {
         });
     },
     updateSearchBarWithSuggestion(value) {
+      console.log(value);
       this.usernameInput = value;
       this.showSuggestions = false;
     },
@@ -78,6 +80,11 @@ export default {
       if (event.keyCode === 13) {
         return;
       }
+      if (this.usernameInput.length === 0) {
+        this.showSuggestions = false;
+        return;
+      }
+
       this.showSuggestions = true;
 
       clearTimeout(this.timeout);
@@ -85,6 +92,11 @@ export default {
       this.timeout = setTimeout(function () {
         self.$store.dispatch("getUsernamesWithPrefix", self.usernameInput);
       }, 500);
+    },
+    onFocus() {
+      if (this.usernameInput.length) {
+        this.showSuggestions = true;
+      }
     },
   },
   computed: {
