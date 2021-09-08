@@ -2,7 +2,7 @@
   <div>
     <div class="lightGrey sidebar scrollbar" id="style-5">
       <p class="app-title title-custom danger--text">ORBICON</p>
-      <p class="powered-by danger--text">Memgraph's activity tracker</p>
+      <p class="powered-by danger--text">Your DEV community tracker</p>
       <SearchBarComponent />
       <div v-if="activities.length">
         <p class="activities-title title-custom danger--text">

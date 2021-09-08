@@ -20,6 +20,8 @@ export default new Vuetify({
         accent: '#000',
         error: '#000',
         lightGrey: '#f9f9f9',
+        grey: '#857f97',
+        darkGrey: '#009',
         danger: '#d22',
         dangerHover: '#fb6e00',
         success: "#00a400",

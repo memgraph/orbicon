@@ -1,41 +1,46 @@
 <template>
   <div class="card-container">
-    <v-card elevation="15">
-      <v-list-item three-line>
-        <v-list-item-content>
-          <div class="text-overline mb-4">
-            <v-list-item-subtitle align="left">
-              {{ activity.action }}
+    <v-hover v-slot="{ hover }">
+      <v-card :elevation="hover ? 16 : 5">
+        <v-list-item three-line>
+          <v-list-item-content>
+            <p align="left" class="action-title">
+              {{ activityActionFormatted }}
+            </p>
+            <v-list-item-subtitle
+              class="blacky--text title text-h5 mb-1"
+              align="left"
+            >
+              {{ activity.username }}
             </v-list-item-subtitle>
-          </div>
-          <v-list-item-subtitle
-            class="blacky--text title text-h5 mb-1"
-            align="left"
-          >
-            {{ activity.username }}
-          </v-list-item-subtitle>
-          <v-list-item-subtitle class="card-date" align="left">
-            {{ dateFormatted }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
+            <div class="card-date" align="left">
+              {{ dateFormatted }}
+            </div>
+          </v-list-item-content>
 
-        <v-list-item-avatar size="50" color="grey"
-          ><v-img :src="activity.avatar"></v-img
-        ></v-list-item-avatar>
-      </v-list-item>
-      <v-list-item class="btn-list-item">
-        <a @click="onBtnClick" align="left"
-          ><span>Check user</span><v-icon class="icon-link">mdi-chevron-right</v-icon></a
-        >
-        <a
-          class="check-activity-link"
-          align="right"
-          :href="activity.url"
-          target="_blank"
-          ><span>Check activity<v-icon class="icon-link">mdi-chevron-right</v-icon></span></a
-        >
-      </v-list-item>
-    </v-card>
+          <v-list-item-avatar size="50" color="grey"
+            ><v-img :src="activity.avatar"></v-img
+          ></v-list-item-avatar>
+        </v-list-item>
+        <v-list-item class="btn-list-item">
+          <a @click="onBtnClick" align="left"
+            ><span>Check user</span
+            ><v-icon class="icon-link">mdi-chevron-right</v-icon></a
+          >
+          <a
+            class="check-activity-link"
+            align="right"
+            :href="activity.url"
+            target="_blank"
+            ><span
+              >Check activity<v-icon class="icon-link"
+                >mdi-chevron-right</v-icon
+              ></span
+            ></a
+          >
+        </v-list-item>
+      </v-card>
+    </v-hover>
   </div>
 </template>
 
@@ -44,6 +49,14 @@
   margin-bottom: 15px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.v-list-item__content {
+  padding-bottom: 0px;
+}
+
+.action-title {
+  color: var(--v-grey-base);
 }
 
 .btn-list-item {
@@ -115,6 +128,9 @@ export default {
         .replace("T", " @ ")
         .replaceAll("-", "/");
       return formattedTimeDate;
+    },
+    activityActionFormatted() {
+      return this.activity.action.replaceAll(":", " ").toUpperCase();
     },
   },
 };
