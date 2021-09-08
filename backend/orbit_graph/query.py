@@ -14,7 +14,7 @@ from orbit_graph.database.orbit_models import (
     create_member_node,
     create_member_graph_edge,
     NOT_ACCEPTED_DETAILS,
-    choose_names,
+    get_community_name,
 )
 
 db = Memgraph(host=MG_HOST, port=MG_PORT, username=MG_USERNAME, password=MG_PASSWORD, encrypted=MG_ENCRYPTED)
@@ -58,8 +58,6 @@ def dbMemberGraph():
     member_graph_query = f"MATCH (n)-[c:CONNECTS]->(m) return n, c, m"
     results = db.execute_and_fetch(member_graph_query)
 
-    community_names = choose_names(5)
-
     member_graph_nodes = []
     member_graph_edges = []
 
@@ -71,7 +69,7 @@ def dbMemberGraph():
             props = result["n"]._properties
             avatar = _get_avatar_from_member(props)
             props["avatar"] = avatar
-            member_node = create_member_node(id, props, community_names, max, min)
+            member_node = create_member_node(id, props, max, min)
             member_node.avatar = avatar
             member_graph_nodes.append(member_node)
             member_node_ids.add(id)
@@ -82,7 +80,7 @@ def dbMemberGraph():
             props2 = result["m"]._properties
             avatar = _get_avatar_from_member(props2)
             props2["avatar"] = avatar
-            member_node = create_member_node(id2, props2, community_names, max, min)
+            member_node = create_member_node(id2, props2, max, min)
             member_graph_nodes.append(member_node)
             member_node_ids.add(id2)
 
@@ -167,6 +165,8 @@ class UserDetails:
         )
         self.name = member.name if member.name is not None else twitter.name
         self.name = self.name if self.name not in NOT_ACCEPTED_DETAILS else "Unknown"
+
+        self.community = get_community_name(member.community)
 
         self.love = member.love
         self.love = self.love if self.love is not None else "Unknown"

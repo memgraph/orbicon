@@ -6,13 +6,16 @@ colors = ["#2a2d34", "#009ddc", "#f26430", "#6761a8", "009b72"]
 
 
 class Member:
-    def __init__(self, username: str, name: str, love: str, location: str, avatar: str, importance: str):
+    def __init__(
+        self, username: str, name: str, love: str, location: str, avatar: str, importance: str, community: int
+    ):
         self.username = username if username not in NOT_ACCEPTED_DETAILS else None
         self.name = name if name not in NOT_ACCEPTED_DETAILS else None
         self.love = love if love not in NOT_ACCEPTED_DETAILS else None
         self.location = location if location not in NOT_ACCEPTED_DETAILS else None
         self.avatar = avatar if avatar not in NOT_ACCEPTED_DETAILS else None
         self.importance = importance if importance not in NOT_ACCEPTED_DETAILS else 0
+        self.community = community if community not in NOT_ACCEPTED_DETAILS else 0
 
 
 class Twitter:
@@ -83,7 +86,8 @@ def create_member(props):
         props[MemberConstants.LOCATION],
         props[MemberConstants.AVATAR],
         props[MemberConstants.IMPORTANCE] if MemberConstants.IMPORTANCE in props else 0,
-        #TODO: Change this and call pagerank every time on webhook
+        props[MemberConstants.COMMUNITY_ID] if MemberConstants.COMMUNITY_ID in props else 0,
+        # TODO: Change this and call pagerank every time on webhook
     )
 
 
@@ -152,9 +156,9 @@ class MemberGraphEdge:
         self.length = 500
 
 
-def create_member_node(id, props, community_names, max_importance, min_importance):
+def create_member_node(id, props, max_importance, min_importance):
     community_id = int(props[MemberConstants.COMMUNITY_ID])
-    community_name = community_names[community_id]
+    community_name = get_community_name(community_id)
 
     return MemberGraphNode(
         id,
@@ -174,226 +178,21 @@ def create_member_graph_edge(id1, id2):
 
 
 left_part = [
-    "admiring",
-    "adoring",
-    "agitated",
-    "amazing",
-    "angry",
     "awesome",
-    "backstabbing",
-    "berserk",
-    "big",
-    "boring",
-    "clever",
-    "cocky",
-    "compassionate",
-    "condescending",
-    "cranky",
-    "desperate",
-    "determined",
-    "distracted",
-    "dreamy",
-    "drunk",
     "ecstatic",
-    "elated",
-    "elegant",
-    "evil",
-    "fervent",
-    "focused",
-    "furious",
-    "gigantic",
-    "gloomy",
-    "goofy",
-    "grave",
-    "happy",
-    "high",
-    "hopeful",
-    "hungry",
-    "insane",
-    "jolly",
-    "jovial",
-    "kickass",
-    "lonely",
-    "loving",
-    "mad",
-    "modest",
-    "naughty",
     "nauseous",
-    "nostalgic",
     "pedantic",
-    "pensive",
-    "prickly",
-    "reverent",
-    "romantic",
-    "sad",
-    "serene",
-    "sharp",
-    "sick",
-    "silly",
-    "sleepy",
-    "small",
-    "stoic",
-    "stupefied",
     "suspicious",
-    "tender",
-    "thirsty",
-    "tiny",
-    "trusting",
 ]
 
 right_part = [
-    "albattani",
-    "allen",
-    "almeida",
-    "archimedes",
-    "ardinghelli",
-    "aryabhata",
-    "austin",
-    "babbage",
-    "banach",
-    "bardeen",
-    "bartik",
-    "bassi",
-    "bell",
-    "bhabha",
-    "bhaskara",
-    "blackwell",
-    "bohr",
-    "booth",
-    "borg",
-    "bose",
-    "boyd",
-    "brahmagupta",
-    "brattain",
-    "brown",
-    "carson",
-    "chandrasekhar",
-    "colden",
-    "cori",
-    "cray",
-    "curie",
-    "darwin",
-    "davinci",
     "dijkstra",
-    "dubinsky",
-    "easley",
-    "einstein",
-    "elion",
-    "engelbart",
-    "euclid",
-    "euler",
-    "fermat",
-    "fermi",
-    "feynman",
-    "franklin",
-    "galileo",
-    "gates",
-    "goldberg",
-    "goldstine",
-    "goldwasser",
-    "golick",
-    "goodall",
-    "hamilton",
-    "hawking",
-    "heisenberg",
-    "heyrovsky",
-    "hodgkin",
-    "hoover",
-    "hopper",
-    "hugle",
-    "hypatia",
-    "jang",
-    "jennings",
-    "jepsen",
-    "joliot",
-    "jones",
-    "kalam",
-    "kare",
-    "keller",
-    "khorana",
-    "kilby",
-    "kirch",
-    "knuth",
-    "kowalevski",
-    "lalande",
-    "lamarr",
-    "leakey",
-    "leavitt",
-    "lichterman",
-    "liskov",
-    "lovelace",
-    "lumiere",
-    "mahavira",
-    "mayer",
-    "mccarthy",
-    "mcclintock",
-    "mclean",
-    "mcnulty",
-    "meitner",
-    "meninsky",
-    "mestorf",
-    "minsky",
-    "mirzakhani",
-    "morse",
-    "murdock",
-    "newton",
-    "nobel",
-    "noether",
-    "northcutt",
-    "noyce",
-    "panini",
-    "pare",
-    "pasteur",
-    "payne",
-    "perlman",
-    "pike",
-    "poincare",
-    "poitras",
-    "ptolemy",
-    "raman",
-    "ramanujan",
-    "ride",
-    "ritchie",
-    "roentgen",
-    "rosalind",
-    "saha",
-    "sammet",
-    "shaw",
-    "shirley",
-    "shockley",
-    "sinoussi",
-    "snyder",
-    "spence",
-    "stallman",
-    "stonebraker",
-    "swanson",
-    "swartz",
-    "swirles",
-    "tesla",
-    "thompson",
     "torvalds",
-    "turing",
-    "varahamihira",
-    "visvesvaraya",
-    "volhard",
-    "wescoff",
-    "williams",
-    "wilson",
-    "wing",
-    "wozniak",
-    "wright",
-    "yalow",
-    "yonath",
+    "bohr",
+    "euler",
+    "lovelace",
 ]
 
-
-def choose_names(community_size):
-    community_names = []
-
-    for i in range(community_size):
-        left = random.choice(left_part).capitalize()
-        right = random.choice(right_part).capitalize()
-
-        community_names.append(f"{left} {right}")
-
-    return community_names
+def get_community_name(community_id):
+    community_name = f"{left_part[community_id].capitalize()} {right_part[community_id].capitalize()}"
+    return community_name
