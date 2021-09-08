@@ -10,7 +10,9 @@
           ><v-img :src="userDetails.avatar"></v-img
         ></v-list-item-avatar>
         <div>
-          <div align="left" class="title-custom text-h5 user-username">{{ userDetails.username }}</div>
+          <div align="left" class="title-custom text-h5 user-username">
+            {{ userDetails.username }}
+          </div>
           <div class="user-description">{{ userDescriptionFormatted }}</div>
         </div>
         <v-btn text class="x-btn" @click="onXClick"
@@ -65,6 +67,12 @@
           <v-list-item-subtitle
             >{{ userDetails.importance }}/100
           </v-list-item-subtitle>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title align="left"
+            ><v-icon>mdi-account-group</v-icon> Community</v-list-item-title
+          >
+          <v-list-item-subtitle>{{ userDetails.community }} </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
           <v-list-item-title align="left"
@@ -262,7 +270,7 @@ export default {
         .replace("$skill1", this.currentSkills.sample())
         .replace("$skill2", this.currentSkills.sample())
         .replace("$skill3", this.currentSkills.sample())
-        .replace("$interest1", this.interestTopics.sample())
+        .replace("$interest1", this.interestTopics.sample());
     },
   },
 };
