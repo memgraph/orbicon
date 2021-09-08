@@ -1,6 +1,6 @@
 NOT_ACCEPTED_DETAILS = ["", "None", None]
 
-colors = ["#2a2d34", "#009ddc", "#f26430", "#6761a8", "009b72"]
+colors = ["#2a2d34", "#009ddc", "#f26430", "#6761a8", "#009b72"]
 
 
 class Member:

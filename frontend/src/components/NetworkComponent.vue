@@ -38,9 +38,15 @@
       </div>
     </div>
     <div class="network-bar">
-      <transition name="fade">
-        <div v-if="memberGraph.nodes.length" class="memgraph-background-image"></div>
-      </transition>
+      <transition-group name="fade">
+        <div :key="0"
+          v-if="memberGraph.nodes.length"
+          class="memgraph-background-image"
+        ></div>
+        <div v-if="memberGraph.nodes.length" :key="1" class="legend-section">
+          <LegendComponent />
+        </div>
+      </transition-group>
       <transition name="fade">
         <network
           v-if="memberGraph.nodes.length"
@@ -58,7 +64,9 @@
               color="dangerHover"
               indeterminate
             ></v-progress-circular>
-            <p class="loading-bar-text big-text">{{ dynamicalLoadingMessage }}</p>
+            <p class="loading-bar-text big-text">
+              {{ dynamicalLoadingMessage }}
+            </p>
           </div>
         </div>
       </transition>
@@ -122,6 +130,13 @@
     #fff
   );
   opacity: 0.6;
+}
+
+.legend-section {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
 }
 
 .wrapper {
@@ -209,6 +224,7 @@ import { mapGetters } from "vuex";
 import SearchBarComponent from "./SearchBarComponent";
 import ActivityComponent from "./ActivityComponent";
 import UserDetailsComponent from "./UserDetailsComponent";
+import LegendComponent from "./LegendComponent";
 
 export default {
   name: "NetworkComponent",
@@ -217,6 +233,7 @@ export default {
     SearchBarComponent,
     ActivityComponent,
     UserDetailsComponent,
+    LegendComponent,
   },
   data: function () {
     return {
@@ -233,7 +250,6 @@ export default {
       "userDetails",
       "activities",
       "showUserDetails",
-      "legend",
     ]),
     dynamicalLoadingMessage() {
       let currentStep = this.loadingStep;
@@ -245,7 +261,6 @@ export default {
     try {
       this.$store.dispatch("getActivities");
       this.$store.dispatch("getUsernames");
-      this.$store.dispatch("getLegend");
       this.$store.dispatch("getMemberGraph");
     } catch (error) {
       console.log(error);
