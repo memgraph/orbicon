@@ -7,7 +7,7 @@
 Orbit provides the **Love** metric, which tells how much a given community member loves your brand. In addition to data coming from Orbit, Memgraph scrapes social graph data from Github and Twitter. Based on these social networks, Memgraph constructs an entirely new membership graph. Memgraph then analyzes the membership graph by applying the following graph algorithms:
 
 * [PageRank](https://memgraph.com/blog/influencers-among-computer-scientists) telling how important a member is
-* [Community Detection](https://memgraph.com/blog/community_detection-algorithms_with_python_networkx) telling deeper insights about sub-communities
+* [Community Detection](https://memgraph.com/blog/community_detection-algorithms_with_python_networkx) revealing deeper insights about sub-communities
 
 ## Data Model
 
