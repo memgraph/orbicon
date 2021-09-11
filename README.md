@@ -4,9 +4,14 @@
 
 **Orbicon** is a centralized place where you can find anything about your developer community. [Orbit](https://orbit.love) aggregates all sorts of different events comming from the community, while [Memgraph](https://memgraph.com) enriches data and provides advanced insights based on incremental graph algorithms.
 
+Orbit provides the **Love** metric, which tells how much a given community member loves your brand. In addition to data coming from Orbit, Memgraph scrapes social graph data from Github and Twitter. Based on these social networks, Memgraph constructs an entirely new membership graph. Memgraph then analyzes the membership graph by applying the following graph algorithms:
+
+* [PageRank](https://memgraph.com/blog/influencers-among-computer-scientists) telling how important a member is
+* [Community Detection](https://memgraph.com/blog/community_detection-algorithms_with_python_networkx) telling deeper insights about sub-communities
+
 ## Data Model
 
-![orbicon_graph](https://user-images.githubusercontent.com/4950251/131035066-47199982-925e-496b-8cbe-10c7d34f706d.png)
+![orbicon_data_model](https://user-images.githubusercontent.com/4950251/132960622-c5ebe0b6-1cd5-46d7-9791-67e252aa67d8.png)
 
 ## Try It Out!
 
