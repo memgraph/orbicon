@@ -18,6 +18,37 @@ Orbit provides the **Love** metric, which tells how much a given community membe
 * [Portal](http://orbit.memgraph.com/)
 * Data - **bolt://orbit.memgraph.com:7687** (to explore, please download [Memgraph Lab](https://memgraph.com/product/lab))
 
+
+## Run on your local machine
+
+### Running backend code
+
+The first thing to do in the root is to create a python virtual environment.
+```
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+After that, installing of all the dependencies is required with *poetry* tool.
+```
+cd backend
+poetry install
+```
+
+Finally, start the backend with
+```
+python3 main.py
+```
+
+### Running frontend code
+
+Position yourself in the frontend directory, install the dependencies with *npm* and run using the following orders.
+```
+cd frontend
+npm install
+npm run serve
+```
+
 ## Find out More About Memgraph
 
 * [Memgraph Docs](https://docs.memgraph.com)
