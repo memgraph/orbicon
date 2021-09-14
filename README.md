@@ -25,7 +25,7 @@
 
 <p align="center">
   <a href="https://github.com/memgraph/orbicon">
-    <img src="https://user-images.githubusercontent.com/4950251/131040062-d2df128e-423b-490d-b357-0c95004587c7.png" alt="orbit_and_memgraph" title="orbit_and_memgraph"/>
+    <img src="https://public-assets.memgraph.com/github-readme-images/orbicon-01.png" alt="orbit_and_memgraph" title="orbit_and_memgraph"/>
   </a>
 </p>
 
@@ -45,7 +45,7 @@ Orbit provides the **Love** metric, which indicates how much a given community m
 * The demo application - **[orbit.memgraph.com](http://orbit.memgraph.com/)**
 * The Memgraph instance - **bolt://orbit.memgraph.com:7687**
 
-To explore the data, please download [Memgraph Lab](https://memgraph.com/product/lab) or visit [lab.memgraph.com](https://lab.memgraph.com/login). The endpoint is `orbit.memgraph.com` and the port is '7687'.
+To explore the data, please download [Memgraph Lab](https://memgraph.com/product/lab). The endpoint is `orbit.memgraph.com` and the port is '7687'.
 
 ## 🖥️ Run the app locally
 
