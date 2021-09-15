@@ -6,7 +6,7 @@
 </h2>
 
 <p align="center">
-  <a href="https://github.com/memgraph/orbicon/LICENSE">
+  <a href="https://github.com/memgraph/orbicon/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/memgraph/orbicon" alt="license" title="license"/>
   </a>
   <a href="https://github.com/memgraph/orbicon">
@@ -65,7 +65,7 @@ this membership graph by applying the following graph algorithms:
 
 To explore the data, please download [Memgraph
 Lab](https://memgraph.com/product/lab). The endpoint is `orbit.memgraph.com` and
-the port is '7687'.
+the port is `7687`.
 
 ## 🖥️ Run the app locally
 
