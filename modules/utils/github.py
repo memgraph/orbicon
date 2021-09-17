@@ -5,15 +5,15 @@ import requests
 from typing import List
 from simplejson import JSONDecodeError
 
-from utils.util import merge_dicts
+from utils.util import merge_dicts, load_token
 from utils.load_event_history_data import ActivityHistoryItem
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, "..", "data")
 GITHUB_FILE_NAME = "memgraph_orbit_github_accounts.json"
 GITHUB_FILE_PATH = os.path.join(DATA_DIR, GITHUB_FILE_NAME)
-# TODO(gitbuda): Figure out how to pass these environment variables into the query module.
-OAUTH_TOKEN = "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"
+GITHUB_TOKEN_PATH = os.getenv('GITHUB_TOKEN_PATH', "/github_token.txt")
+OAUTH_TOKEN = load_token(GITHUB_TOKEN_PATH)
 
 
 class GithubAccount:

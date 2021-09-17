@@ -5,7 +5,7 @@ import requests
 from typing import List
 from simplejson import JSONDecodeError
 
-from utils.util import merge_dicts
+from utils.util import merge_dicts, load_token
 from utils.load_event_history_data import ActivityHistoryItem
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -13,8 +13,8 @@ DATA_DIR = os.path.join(SCRIPT_DIR, "..", "data")
 TWITTER_FILE_NAME = "memgraph_orbit_twitter_accounts.json"
 TWITTER_FILE_PATH = os.path.join(DATA_DIR, TWITTER_FILE_NAME)
 MAX_FOLLOWING_ACCOUNTS_ON_REQUEST = 20
-# TODO(gitbuda): Figure out how to pass these environment variables into the query module.
-BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAA0lTAEAAAAANrpndxI81KFXLjieXcj0ZjxhbVQ%3DrMUx9pSfeiNOW3vJbaMYkxaUMkhYsozzlYJdpw0bLx8BXqpM5v"
+TWITTER_TOKEN_PATH = os.getenv('TWITTER_TOKEN_PATH', "/twitter_token.txt")
+BEARER_TOKEN = load_token(TWITTER_TOKEN_PATH)
 
 
 class TwitterAccount:

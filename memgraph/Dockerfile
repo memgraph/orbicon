@@ -12,4 +12,7 @@ RUN apt-get update && \
 RUN python3 -m pip install -U pip setuptools wheel && \
     python3 -m pip install -U simplejson requests pandas networkx==2.5 python-Levenshtein==0.12.1 gensim==4.0.0 scikit-learn==0.24.2
 
+COPY github_token.txt /github_token.txt
+COPY twitter_token.txt /twitter_token.txt
+
 USER memgraph
