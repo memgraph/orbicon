@@ -40,10 +40,6 @@
             '--log-level=TRACE',
             '--also-log-to-stderr'
           ]
-          # TODO(gitbuda): Figure out how to pass these environment variables into the query module.
-          # environment:
-          #   - ORBIT_GRAPH_GITHUB_TOKEN=
-          #   - ORBIT_GRAPH_TWITTER_TOKEN=
           ports:
             - '7687:7687'
           networks:
