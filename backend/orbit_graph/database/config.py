@@ -1,4 +1,4 @@
-MG_HOST="orbit.memgraph.com"
+MG_HOST="memgraph"
 MG_PORT=7687
 MG_ENCRYPTED=False
 MG_USERNAME=""
