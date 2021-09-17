@@ -93,4 +93,22 @@
     project_src: /home/{{ ansible_user }}/backend
     build: yes
     nocache: yes
+
+- name: Start balancer
+  tags: balancer
+  community.docker.docker_compose:
+    project_name: orbit_graph
+    definition:
+      version: "3"
+      services:
+        balancer:
+          image: 'nginx-orbit'
+          ports:
+            - '443:443'
+          networks:
+            - orbit-graph
+      networks:
+        orbit-graph:
+          name: custom
+          driver: bridge
 ...

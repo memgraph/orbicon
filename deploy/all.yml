@@ -5,6 +5,12 @@
     - basic
     - docker
     - role: docker_upload
+      tags: balancer
+      vars:
+        docker_image_control_node_path: "{{ playbook_dir }}/../nginx/nginx-orbit.tar"
+        docker_image_host_path: "/home/{{ ansible_user }}/nginx-orbit.tar"
+        docker_image_name: "nginx-orbit"
+    - role: docker_upload
       vars:
         docker_image_control_node_path: "{{ playbook_dir }}/../memgraph/memgraph-1.6.1-orbit.tar"
         docker_image_host_path: "/home/{{ ansible_user }}/memgraph-1.6.1-orbit.tar"
