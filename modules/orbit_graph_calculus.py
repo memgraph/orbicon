@@ -15,9 +15,6 @@ def get_labels(ctx: mgp.ProcCtx, nodes: mgp.List[mgp.Vertex], embeddings: mgp.Li
     for embedding in embeddings:
         embeddings_new.append([float(e) for e in embedding])
 
-    for i in range(len(nodes_new)):
-        print(nodes_new[i], embeddings_new[i])
-
     NUMBER_OF_GROUPS = 2
 
     if len(nodes_new)>100:

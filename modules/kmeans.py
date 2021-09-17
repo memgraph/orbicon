@@ -11,7 +11,6 @@ def calculate_inertia(embeddings, clusters ):
 
     for k in clusters:
         kmeans = KMeans(n_clusters=k, random_state=0).fit(embeddings_scaled)
-        print("k:", k, " inertia:", kmeans.inertia_)
         inertia.append(kmeans.inertia_)
 
     return inertia
