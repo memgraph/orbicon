@@ -75,11 +75,8 @@ def kafka2graph_transform(
             # For some reason the payload is wrapped twice.
             event_payload = accessor.take_n("event_payload")
             if event_payload is not None:  # Event.
-                accessor = JsonDataAccessor(
-                    json.loads(payload["event_payload"])["event_payload"]
-                )
+                accessor = JsonDataAccessor(event_payload)
                 included = accessor.take_n("included")
-
                 activity_id = accessor.take_n("data", "id")
                 activity_url = accessor.take_n("data", "attributes", "orbit_url")
                 activity_time = accessor.take_n("data", "attributes", "occurred_at")
