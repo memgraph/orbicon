@@ -1,5 +1,5 @@
 ---
-- name: Start Orbit Graph Services
+- name: Start Orbit Graph Kafka and Zookeeper
   community.docker.docker_compose:
     project_name: orbit_graph
     definition:
@@ -68,6 +68,35 @@
       - "--exclude=ve3"
       - "--exclude=__pycache__"
       - "--exclude=htmlcov"
+
+- name: Start Orbit Memgraph
+  community.docker.docker_compose:
+    project_name: orbit_graph
+    restarted: yes
+    definition:
+      version: "3"
+      services:
+        memgraph:
+          image: 'memgraph-1.6.1-orbit'
+          volumes:
+            - '/home/{{ ansible_user }}/modules:/query_modules'
+          entrypoint: [
+            '/usr/lib/memgraph/memgraph',
+            '--telemetry-enabled=false',
+            '--query-modules-directory=/usr/lib/memgraph/query_modules,/query_modules',
+            '--query-execution-timeout-sec=1200',
+            '--kafka-bootstrap-servers=kafka:9092',
+            '--log-level=TRACE',
+            '--also-log-to-stderr'
+          ]
+          ports:
+            - '7687:7687'
+          networks:
+            - orbit-graph
+      networks:
+        orbit-graph:
+          name: custom
+          driver: bridge
 
 - name: Delete content & directory
   file:

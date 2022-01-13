@@ -3,6 +3,7 @@ orbit_graph
 """
 
 import json
+import logging
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flask_cors.decorator import cross_origin
@@ -49,6 +50,7 @@ def webhook():
     # https://docs.orbit.love/docs/webhooks#headers + check the digest from
     # request.headers.
     producer = KafkaProducer(bootstrap_servers=["kafka:9092"], value_serializer=lambda v: json.dumps(v).encode("utf-8"))
+    app.logger.debug("%s", request.get_json())
     producer.send(TOPIC_NAME, value=request.get_json())
     producer.flush()
     return jsonify({})
@@ -92,4 +94,5 @@ def get_legend():
 
 
 if __name__ == "__main__":
+    app.logger.setLevel(logging.DEBUG)
     app.run(host="0.0.0.0", port=3000)

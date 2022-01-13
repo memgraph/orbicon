@@ -56,6 +56,7 @@ def kafka2graph_transform(
         try:
             message_str = messages.message_at(i).payload().decode("utf-8")
             payload = json.loads(message_str)
+            print(payload)
             accessor = JsonDataAccessor(payload)
 
             # HISTORIC EVENT
