@@ -72,7 +72,7 @@
 - name: Start Orbit Memgraph
   community.docker.docker_compose:
     project_name: orbit_graph
-    restarted: yes
+    restarted: no
     definition:
       version: "3"
       services:
@@ -120,6 +120,7 @@
   community.docker.docker_compose:
     project_name: orbit_graph
     project_src: /home/{{ ansible_user }}/backend
+    restarted: yes
     build: yes
     nocache: yes
 
