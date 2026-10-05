@@ -25,7 +25,7 @@
 
 <p align="center">
   <a href="https://github.com/memgraph/orbicon">
-    <img src="https://public-assets.memgraph.com/github-readme-images/orbicon-01.png" 
+    <img src="img/orbicon-01.png" 
          alt="orbit_and_memgraph" 
          title="orbit_and_memgraph"
          style="width: 80%"/>
